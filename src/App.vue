@@ -1,32 +1,35 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
-    </div>
-    <router-view />
-  </div>
+	<b-container fluid>
+		<b-navbar toggleable="md" type="light" variant="light">
+			<!-- The logo -->
+			<b-navbar-brand href="http://solarnet.oma.be/">
+				<img src="./assets/solarnet_logo.png" alt="SolarNet logo" style="max-width:100px; vertical-align: baseline;" />
+			</b-navbar-brand>
+
+			<!-- The button to collapse -->
+			<b-navbar-toggle target="nav-collapse"></b-navbar-toggle>
+
+			<!-- The collapsible menu -->
+			<b-collapse id="nav-collapse" is-nav>
+				<!-- Left aligned menu items -->
+				<b-navbar-nav>
+					<b-nav-item to="datasets">Datasets</b-nav-item>
+					<b-nav-item to="data_selections">Data selections</b-nav-item>
+					<b-nav-item to="events">Events</b-nav-item>
+				</b-navbar-nav>
+
+				<!-- Right aligned menu items -->
+				<b-navbar-nav class="ml-auto"> </b-navbar-nav>
+			</b-collapse>
+		</b-navbar>
+		<router-view />
+	</b-container>
 </template>
 
-<style lang="scss">
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+export default {
+	name: "App"
+};
+</script>
 
-#nav {
-  padding: 30px;
-
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
-</style>
+<style lang="scss"></style>

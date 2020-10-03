@@ -1,0 +1,63 @@
+<template>
+	<b-modal ref="datasetDetail" size="xl" :title="dataset.name" hide-footer>
+		<b-card class="mb-2">
+			<b-card-text>{{ dataset.description }}</b-card-text>
+			<div class="btn-bar">
+				<b-button pill size="sm" variant="outline-info" v-b-popover="telescopePopover">{{ dataset.telescope }}</b-button>
+				<b-button pill size="sm" variant="outline-info" v-b-popover="instrumentPopover">{{ dataset.instrument }}</b-button>
+				<b-button pill size="sm" variant="outline-info" href="dataset.archive_url" target="_blank">Archive webpage</b-button>
+			</div>
+		</b-card>
+		<div><aia_lev1 :dataset="dataset" :search-filters="searchFilters"> </aia_lev1></div>
+	</b-modal>
+</template>
+
+<script>
+import { telescopes, instruments } from "@/test_data";
+// @ is an alias to /src
+// TODO just for testing, after use <component :is="aia_lev1">
+import aia_lev1 from "@/components/metadata/aia_lev1.vue";
+
+export default {
+	name: "DatasetDetail",
+	// TODO just for testing
+	components: {
+		aia_lev1
+	},
+	props: {
+		dataset: { type: Object, required: true },
+		searchFilters: { type: Object, required: true }
+	},
+	data: function() {
+		return {
+			telescope: telescopes.objects[0],
+			instrument: instruments.objects[0]
+		};
+	},
+	methods: {
+		show: function() {
+			this.$refs.datasetDetail.show();
+		}
+	},
+	computed: {
+		telescopePopover: function() {
+			return { title: this.telescope.name, content: this.telescope.description, html: true, placement: "bottom", trigger: "focus", customClass: "popover-lg" };
+		},
+		instrumentPopover: function() {
+			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: "bottom", trigger: "focus", customClass: "popover-lg" };
+		}
+	}
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss">
+.btn-bar > * {
+	margin-right: 0.5rem;
+}
+
+/* increase size of popover */
+.popover-lg {
+	max-width: 50%;
+}
+</style>
