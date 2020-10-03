@@ -42,14 +42,29 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/essential",
+      "plugin:vue/strongly-recommended",
       "eslint:recommended",
+      "plugin:prettier/recommended",
       "@vue/prettier"
     ],
     "parserOptions": {
       "parser": "babel-eslint"
     },
-    "rules": {}
+    "rules": {
+      "indent": [
+        "error",
+        "tab"
+      ],
+      "prettier/prettier": [
+        "warn",
+        {
+          "useTabs": true,
+          "printWidth": 200
+        }
+      ],
+      "vue/no-unused-components": "warn",
+      "vue/no-unused-vars": "warn"
+    }
   },
   "browserslist": [
     "> 1%",
