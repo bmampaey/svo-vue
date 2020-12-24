@@ -27,7 +27,7 @@ export default {
 		onSubmit: async function() {
 			try {
 				await this.$SDA.register(this.email, this.username, this.password);
-			} catch(error) {
+			} catch (error) {
 				// TODO check what happens if request is errored
 			}
 		}

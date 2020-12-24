@@ -1,18 +1,20 @@
 <template>
-	<data-selection-group-list> </data-selection-group-list>
+	<b-container fluid>
+		<app-menu></app-menu>
+		<data-selection-group></data-selection-group>
+	</b-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import DataSelectionGroupList from "@/components/DataSelectionGroupList.vue";
+import AppMenu from "@/components/AppMenu.vue";
+import DataSelectionGroup from "@/components/DataSelectionGroup.vue";
 
 export default {
 	name: "DataSelections",
 	components: {
-		DataSelectionGroupList
-	},
-	data: function() {
-		return {};
+		AppMenu,
+		DataSelectionGroup
 	}
 };
 </script>

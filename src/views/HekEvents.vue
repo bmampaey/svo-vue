@@ -1,30 +1,20 @@
 <template>
-	<div class="row">
-		<div class="col-4">
-			<hek-event-form v-model="searchFilter"></hek-event-form>
-		</div>
-		<div class="col-8">
-			<hek-event-list :search-filter="searchFilter"></hek-event-list>
-		</div>
-	</div>
+	<b-container fluid>
+		<app-menu></app-menu>
+		<hek-event></hek-event>
+	</b-container>
 </template>
 
 <script>
 // @ is an alias to /src
-import HekEventForm from "@/components/HekEventForm.vue";
-import HekEventList from "@/components/HekEventList.vue";
-import { HekEventSearchFilter } from "@/utils";
+import AppMenu from "@/components/AppMenu.vue";
+import HekEvent from "@/components/HekEvent.vue";
 
 export default {
-	name: "Events",
+	name: "HekEvents",
 	components: {
-		HekEventForm,
-		HekEventList
-	},
-	data: function() {
-		return {
-			searchFilter: new HekEventSearchFilter()
-		};
+		AppMenu,
+		HekEvent
 	}
 };
 </script>

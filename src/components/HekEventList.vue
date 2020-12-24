@@ -34,18 +34,22 @@
 			<b-button :disabled="selectedEventsEmpty" variant="primary" @click="searchOverlappingDatasets" title="Select one or more event to search for overlapping data">Search overlapping</b-button>
 		</div>
 		<hek-event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></hek-event-detail>
-		<dataset-modal ref="dataset" v-if="showDatasetModal" :searchFilters="datasetSearchFilters"></dataset-modal>
+		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
+			<dataset :search-filters="datasetSearchFilters"></dataset>
+		</b-modal>
 	</b-overlay>
 </template>
 
 <script>
 import HekEventDetail from "@/components/HekEventDetail.vue";
+import Dataset from "@/components/Dataset.vue";
 import { HekEventSearchFilter, DatasetSearchFilter } from "@/utils";
 
 export default {
 	name: "HekEventList",
 	components: {
-		HekEventDetail
+		HekEventDetail,
+		Dataset
 	},
 	props: {
 		searchFilter: { type: HekEventSearchFilter, required: true }
@@ -56,8 +60,8 @@ export default {
 			selectedEvents: [],
 			shownEvent: null,
 			loading: true,
-			showDatasetModal: false,
-			datasetSearchFilters: new DatasetSearchFilter()
+			datasetSearchFilters: new DatasetSearchFilter(),
+			datasetModalTitle: "Datasets"
 		};
 	},
 	computed: {
@@ -99,6 +103,10 @@ export default {
 			// 	'date_end__gte': getPropFilter(selected_events, 'event_starttime').sort().shift(),
 			// 	'date_beg__lte': getPropFilter(selected_events, 'event_endtime').sort().pop(),
 			// };
+			this.datasetSearchFilters = new DatasetSearchFilter([], [], [], null, null);
+			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
+			this.datasetModalTitle = "Datasets overlapping selected events: " + Array.from(selectedEventTypes).join(", ");
+			this.$refs.datasetModal.show();
 		}
 	}
 };

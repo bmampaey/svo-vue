@@ -1,20 +1,21 @@
 <template>
-	<div class="row">
-		<div class="col-4"><dataset-form v-model="searchFilters"></dataset-form></div>
-		<div class="col-8"><dataset-list :search-filters="searchFilters"></dataset-list></div>
-	</div>
+	<b-container fluid>
+		<app-menu></app-menu>
+		<dataset :search-filters="searchFilters"></dataset>
+	</b-container>
 </template>
 
 <script>
+// @ is an alias to /src
+import AppMenu from "@/components/AppMenu.vue";
+import Dataset from "@/components/Dataset.vue";
 import { DatasetSearchFilter } from "@/utils";
-import DatasetForm from "@/components/DatasetForm.vue";
-import DatasetList from "@/components/DatasetList.vue";
 
 export default {
 	name: "Datasets",
 	components: {
-		DatasetForm,
-		DatasetList
+		AppMenu,
+		Dataset
 	},
 	data: function() {
 		return {
