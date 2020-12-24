@@ -33,28 +33,31 @@
 		<div>
 			<b-button :disabled="selectedEventsEmpty" variant="primary" @click="searchOverlappingDatasets" title="Select one or more event to search for overlapping data">Search overlapping</b-button>
 		</div>
-		<event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></event-detail>
+		<hek-event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></hek-event-detail>
+		<dataset-modal ref="dataset" v-if="showDatasetModal" :searchFilters="datasetSearchFilters"></dataset-modal>
 	</b-overlay>
 </template>
 
 <script>
-import EventDetail from "@/components/EventDetail.vue";
-import { EventSearchFilter } from "@/utils";
+import HekEventDetail from "@/components/HekEventDetail.vue";
+import { HekEventSearchFilter, DatasetSearchFilter } from "@/utils";
 
 export default {
-	name: "EventList",
+	name: "HekEventList",
 	components: {
-		EventDetail
+		HekEventDetail
 	},
 	props: {
-		searchFilter: { type: EventSearchFilter, required: true }
+		searchFilter: { type: HekEventSearchFilter, required: true }
 	},
 	data: function() {
 		return {
 			eventList: [],
 			selectedEvents: [],
 			shownEvent: null,
-			loading: true
+			loading: true,
+			showDatasetModal: false,
+			datasetSearchFilters: new DatasetSearchFilter()
 		};
 	},
 	computed: {

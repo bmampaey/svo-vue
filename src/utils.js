@@ -21,7 +21,7 @@ export function formatDate(date) {
 	return temp.substring(0, 10) + " " + temp.substring(11, 19);
 }
 
-export class EventSearchFilter {
+export class HekEventSearchFilter {
 	constructor(eventType = [], eventStarttime = null, eventEndtime = null) {
 		this.eventType = eventType;
 		this.eventStarttime = eventStarttime;

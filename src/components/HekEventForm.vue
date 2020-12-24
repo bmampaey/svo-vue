@@ -1,7 +1,7 @@
 <template>
 	<b-form @submit.prevent="onSubmit">
-		<b-form-group label="Event types" label-for="selected-event-types">
-			<b-form-select v-model="eventType" :options="eventTypeOptions" id="selected-event-types" multiple></b-form-select>
+		<b-form-group label="Event types" label-for="event-type">
+			<b-form-select v-model="eventType" :options="eventTypeOptions" id="event-type" multiple></b-form-select>
 		</b-form-group>
 		<base-datetime-range v-model="eventTimeRange" label="Event time" min-label="Start" max-label="End"></base-datetime-range>
 		<b-button type="submit" variant="primary">Search</b-button>
@@ -10,12 +10,12 @@
 
 <script>
 import { HEK_EVENT_TYPE_NAMES } from "@/constants";
-import { EventSearchFilter } from "@/utils";
+import { HekEventSearchFilter } from "@/utils";
 
 export default {
-	name: "EventForm",
+	name: "HekEventForm",
 	props: {
-		value: { type: EventSearchFilter, required: true }
+		value: { type: HekEventSearchFilter, required: true }
 	},
 	data: function() {
 		return {
@@ -26,7 +26,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", new EventSearchFilter(this.eventType, this.eventTimeRange.min, this.eventTimeRange.max));
+			this.$emit("input", new HekEventSearchFilter(this.eventType, this.eventTimeRange.min, this.eventTimeRange.max));
 		}
 	},
 	created: function() {

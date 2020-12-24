@@ -29,7 +29,6 @@ class HekApi {
 	constructor(apiUrl, timeout = 15000) {
 		this.apiUrl = apiUrl;
 		this.timeout = timeout;
-		this.templateEventDetailUrl = new URL(apiUrl);
 	}
 
 	async searchEvents(searchParams) {

@@ -20,9 +20,9 @@ const routes = [
 		component: () => import("../views/DataSelections.vue")
 	},
 	{
-		path: "/events",
-		name: "Events",
-		component: () => import("../views/Events.vue")
+		path: "/hek_events",
+		name: "HekEvents",
+		component: () => import("../views/HekEvents.vue")
 	},
 	// redirect all other routes to dataset
 	{ path: "*", redirect: "/datasets" }

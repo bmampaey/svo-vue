@@ -15,7 +15,7 @@
 				<b-navbar-nav>
 					<b-nav-item to="datasets">Datasets</b-nav-item>
 					<b-nav-item to="data_selections">Data selections</b-nav-item>
-					<b-nav-item to="events">Events</b-nav-item>
+					<b-nav-item to="hek_events">HEK Events</b-nav-item>
 				</b-navbar-nav>
 
 				<!-- Right aligned menu items -->

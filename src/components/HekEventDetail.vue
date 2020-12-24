@@ -17,7 +17,7 @@
 
 <script>
 export default {
-	name: "EventDetail",
+	name: "HekEventDetail",
 	props: {
 		event: { type: Object, required: true }
 	},

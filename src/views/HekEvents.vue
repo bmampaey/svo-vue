@@ -1,0 +1,32 @@
+<template>
+	<div class="row">
+		<div class="col-4">
+			<hek-event-form v-model="searchFilter"></hek-event-form>
+		</div>
+		<div class="col-8">
+			<hek-event-list :search-filter="searchFilter"></hek-event-list>
+		</div>
+	</div>
+</template>
+
+<script>
+// @ is an alias to /src
+import HekEventForm from "@/components/HekEventForm.vue";
+import HekEventList from "@/components/HekEventList.vue";
+import { HekEventSearchFilter } from "@/utils";
+
+export default {
+	name: "Events",
+	components: {
+		HekEventForm,
+		HekEventList
+	},
+	data: function() {
+		return {
+			searchFilter: new HekEventSearchFilter()
+		};
+	}
+};
+</script>
+
+<style lang="scss"></style>
