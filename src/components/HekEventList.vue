@@ -35,7 +35,7 @@
 		</div>
 		<hek-event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></hek-event-detail>
 		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
-			<dataset :search-filters="datasetSearchFilters"></dataset>
+			<dataset :search-filter="datasetSearchFilters"></dataset>
 		</b-modal>
 	</b-overlay>
 </template>

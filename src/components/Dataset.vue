@@ -1,7 +1,7 @@
 <template>
 	<div class="row">
-		<div class="col-4"><dataset-form v-model="searchFilters"></dataset-form></div>
-		<div class="col-8"><dataset-list :search-filters="searchFilters"></dataset-list></div>
+		<div class="col-4"><dataset-form v-model="searchFilter"></dataset-form></div>
+		<div class="col-8"><dataset-list :search-filter="searchFilter"></dataset-list></div>
 	</div>
 </template>
 
@@ -17,7 +17,7 @@ export default {
 		DatasetList
 	},
 	props: {
-		searchFilters: { type: DatasetSearchFilter, required: true }
+		searchFilter: { type: DatasetSearchFilter, required: true }
 	}
 };
 </script>

@@ -34,7 +34,7 @@
 				</tr>
 			</tbody>
 		</b-table-simple>
-		<dataset-detail ref="datasetDetail" v-if="shownDataset" :dataset="shownDataset" :search-filters="searchFilters"></dataset-detail>
+		<dataset-detail ref="datasetDetail" v-if="shownDataset" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
 	</div>
 </template>
 
@@ -50,7 +50,7 @@ export default {
 		DatasetDetail
 	},
 	props: {
-		searchFilters: { type: DatasetSearchFilter, required: true }
+		searchFilter: { type: DatasetSearchFilter, required: true }
 	},
 	data: function() {
 		return {

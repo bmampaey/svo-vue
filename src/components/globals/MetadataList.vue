@@ -50,7 +50,7 @@ export default {
 	},
 	props: {
 		dataset: { type: Object, required: true },
-		searchFilters: { type: Object, required: true },
+		searchFilter: { type: Object, required: true },
 		columns: { type: Array, required: true }
 	},
 	data: function() {

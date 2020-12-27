@@ -1,7 +1,7 @@
 <template>
 	<b-container fluid>
 		<app-menu></app-menu>
-		<dataset :search-filters="searchFilters"></dataset>
+		<dataset :search-filter="searchFilter"></dataset>
 	</b-container>
 </template>
 
@@ -19,7 +19,7 @@ export default {
 	},
 	data: function() {
 		return {
-			searchFilters: new DatasetSearchFilter()
+			searchFilter: new DatasetSearchFilter()
 		};
 	}
 };

@@ -8,7 +8,7 @@
 				<b-button pill size="sm" variant="outline-info" href="dataset.archive_url" target="_blank">Archive webpage</b-button>
 			</div>
 		</b-card>
-		<div><aia_lev1 :dataset="dataset" :search-filters="searchFilters"> </aia_lev1></div>
+		<div><aia_lev1 :dataset="dataset" :search-filter="searchFilter"> </aia_lev1></div>
 	</b-modal>
 </template>
 
@@ -26,7 +26,7 @@ export default {
 	},
 	props: {
 		dataset: { type: Object, required: true },
-		searchFilters: { type: Object, required: true }
+		searchFilter: { type: Object, required: true }
 	},
 	data: function() {
 		return {

@@ -13,7 +13,7 @@
 			</b-form>
 		</div>
 		<div class="col-8">
-			<metadata-list :dataset="dataset" :columns="columns" :search-filters="searchFilters"></metadata-list>
+			<metadata-list :dataset="dataset" :columns="columns" :search-filter="searchFilter"></metadata-list>
 		</div>
 	</div>
 </template>
@@ -23,7 +23,7 @@ export default {
 	name: "AiaLev1",
 	props: {
 		dataset: { type: Object, required: true },
-		searchFilters: { type: Object, required: true }
+		searchFilter: { type: Object, required: true }
 	},
 	data: function() {
 		return {

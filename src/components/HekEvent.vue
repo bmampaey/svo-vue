@@ -20,10 +20,8 @@ export default {
 		HekEventForm,
 		HekEventList
 	},
-	data: function() {
-		return {
-			searchFilter: new HekEventSearchFilter()
-		};
+	props: {
+		searchFilter: { type: HekEventSearchFilter, required: true }
 	}
 };
 </script>
