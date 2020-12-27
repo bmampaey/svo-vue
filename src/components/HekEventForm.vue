@@ -26,7 +26,12 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", new HekEventSearchFilter(this.eventType, this.eventTimeRange.min, this.eventTimeRange.max));
+			let searchFilter = new HekEventSearchFilter({
+				eventType: this.eventType,
+				eventStarttime: this.eventTimeRange.min,
+				eventEndtime: this.eventTimeRange.max
+			});
+			this.$emit("input", searchFilter);
 		}
 	},
 	created: function() {

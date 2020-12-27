@@ -22,7 +22,7 @@ export function formatDate(date) {
 }
 
 export class HekEventSearchFilter {
-	constructor(eventType = [], eventStarttime = null, eventEndtime = null) {
+	constructor({ eventType = [], eventStarttime = null, eventEndtime = null } = {}) {
 		this.eventType = eventType;
 		this.eventStarttime = eventStarttime;
 		this.eventEndtime = eventEndtime;

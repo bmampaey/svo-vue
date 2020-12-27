@@ -21,7 +21,12 @@ export default {
 		HekEventList
 	},
 	props: {
-		searchFilter: { type: HekEventSearchFilter, required: true }
+		initialSearchFilter: { type: HekEventSearchFilter, required: true }
+	},
+	data: function() {
+		return {
+			searchFilter: this.initialSearchFilter
+		};
 	}
 };
 </script>
