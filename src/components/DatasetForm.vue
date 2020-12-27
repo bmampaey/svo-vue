@@ -40,7 +40,16 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", new DatasetSearchFilter(this.telescopes, this.characteristics, this.tags, this.dateRange.min, this.dateRange.max, this.wavelengthRange.min, this.wavelengthRange.max));
+			let searchFilter = new DatasetSearchFilter({
+				telescopes: this.telescopes,
+				characteristics: this.characteristics,
+				tags: this.tags,
+				minDate: this.dateRange.min,
+				maxDate: this.dateRange.max,
+				minWavelength: this.wavelengthRange.min,
+				maxWavelength: this.wavelengthRange.max
+			});
+			this.$emit("input", searchFilter);
 		}
 	},
 	created: async function() {

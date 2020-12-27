@@ -2,12 +2,12 @@
 	<div class="row">
 		<div class="col-4">
 			<b-form @submit.prevent="onSubmit">
-				<base-datetime-range v-model="localSearchFilters.observationDateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
+				<base-datetime-range v-model="localSearchFilter.observationDateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
 				<b-form-group label="Wavelength" label-for="selected-wavelengths">
-					<b-form-select v-model="localSearchFilters.wavelnth__in" :options="wavelnthOptions" id="selected-wavelengths" multiple></b-form-select>
+					<b-form-select v-model="localSearchFilter.wavelnth__in" :options="wavelnthOptions" id="selected-wavelengths" multiple></b-form-select>
 				</b-form-group>
 				<b-form-group description="Only display data with a quality of 0">
-					<b-form-checkbox v-model="localSearchFilters.quality" :value="bestQuality" :unchecked-value="null">Best quality only</b-form-checkbox>
+					<b-form-checkbox v-model="localSearchFilter.quality" :value="bestQuality" :unchecked-value="null">Best quality only</b-form-checkbox>
 				</b-form-group>
 				<b-button type="submit" variant="primary">Search</b-button>
 			</b-form>
@@ -27,7 +27,7 @@ export default {
 	},
 	data: function() {
 		return {
-			localSearchFilters: {
+			localSearchFilter: {
 				observationDateRange: { min: null, max: null },
 				wavelnth__in: [],
 				quality: null

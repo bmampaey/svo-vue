@@ -20,7 +20,7 @@ export default {
 	data: function() {
 		return {
 			eventType: [...this.value.eventType],
-			eventTimeRange: { min: this.value.eventStarttime, max: this.value.eventEndtime },
+			eventTimeRange: { min: this.value.eventStartTime, max: this.value.eventEndTime },
 			eventTypeOptions: []
 		};
 	},
@@ -28,8 +28,8 @@ export default {
 		onSubmit: function() {
 			let searchFilter = new HekEventSearchFilter({
 				eventType: this.eventType,
-				eventStarttime: this.eventTimeRange.min,
-				eventEndtime: this.eventTimeRange.max
+				eventStartTime: this.eventTimeRange.min,
+				eventEndTime: this.eventTimeRange.max
 			});
 			this.$emit("input", searchFilter);
 		}

@@ -1,7 +1,7 @@
 <template>
 	<b-container fluid>
 		<app-menu></app-menu>
-		<dataset :search-filter="searchFilter"></dataset>
+		<dataset :initial-search-filter="searchFilter"></dataset>
 	</b-container>
 </template>
 

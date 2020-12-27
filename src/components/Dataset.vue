@@ -17,7 +17,12 @@ export default {
 		DatasetList
 	},
 	props: {
-		searchFilter: { type: DatasetSearchFilter, required: true }
+		initialSearchFilter: { type: DatasetSearchFilter, required: true }
+	},
+	data: function() {
+		return {
+			searchFilter: this.initialSearchFilter
+		};
 	}
 };
 </script>

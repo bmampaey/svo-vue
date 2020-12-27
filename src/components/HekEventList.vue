@@ -35,7 +35,7 @@
 		</div>
 		<hek-event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></hek-event-detail>
 		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
-			<dataset :search-filter="datasetSearchFilters"></dataset>
+			<dataset :initial-search-filter="datasetSearchFilter"></dataset>
 		</b-modal>
 	</b-overlay>
 </template>
@@ -60,7 +60,7 @@ export default {
 			selectedEvents: [],
 			shownEvent: null,
 			loading: true,
-			datasetSearchFilters: new DatasetSearchFilter(),
+			datasetSearchFilter: new DatasetSearchFilter(),
 			datasetModalTitle: "Datasets"
 		};
 	},
@@ -95,16 +95,13 @@ export default {
 			}
 		},
 		searchOverlappingDatasets: function() {
-			console.log("TODO searchOverlappingDatasets");
-			// 			var query_dict = {
-			// 	'search': selected_events.map(function(e){
-			// 		return '(date_beg__lt = ' + e.event_endtime + ' and date_end__gt = ' + e.event_starttime + ')';
-			// 	}).join(' or '),
-			// 	'date_end__gte': getPropFilter(selected_events, 'event_starttime').sort().shift(),
-			// 	'date_beg__lte': getPropFilter(selected_events, 'event_endtime').sort().pop(),
-			// };
-			this.datasetSearchFilters = new DatasetSearchFilter([], [], [], null, null);
+			let selectedEventsTimes = this.selectedEvents.map(event => ({startTime: new Date(event.event_starttime), endTime: new Date(event.event_endtime)}));
 			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
+			this.datasetSearchFilter = new DatasetSearchFilter({
+				minDate: new Date(Math.min(...selectedEventsTimes.map(e => e.startTime))),
+				maxDate: new Date(Math.max(...selectedEventsTimes.map(e => e.endTime))),
+				search: selectedEventsTimes.map(e => '(date_beg__lt = ' + e.endTime.toISOString() + ' and date_end__gt = ' + e.startTime.toISOString() + ')').join(' or ')
+			});
 			this.datasetModalTitle = "Datasets overlapping selected events: " + Array.from(selectedEventTypes).join(", ");
 			this.$refs.datasetModal.show();
 		}

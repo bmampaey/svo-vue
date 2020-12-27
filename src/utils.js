@@ -22,10 +22,10 @@ export function formatDate(date) {
 }
 
 export class HekEventSearchFilter {
-	constructor({ eventType = [], eventStarttime = null, eventEndtime = null } = {}) {
+	constructor({ eventType = [], eventStartTime = null, eventEndTime = null } = {}) {
 		this.eventType = eventType;
-		this.eventStarttime = eventStarttime;
-		this.eventEndtime = eventEndtime;
+		this.eventStartTime = eventStartTime;
+		this.eventEndTime = eventEndTime;
 	}
 
 	getSearchParams() {
@@ -35,12 +35,12 @@ export class HekEventSearchFilter {
 			searchParams.event_type = this.eventType.join(",");
 		}
 
-		if (this.eventStarttime) {
-			searchParams.event_starttime = new Date(this.eventStarttime).toISOString();
+		if (this.eventStartTime) {
+			searchParams.event_starttime = new Date(this.eventStartTime).toISOString();
 		}
 
-		if (this.eventEndtime) {
-			searchParams.event_endtime = new Date(this.eventEndtime).toISOString();
+		if (this.eventEndTime) {
+			searchParams.event_endtime = new Date(this.eventEndTime).toISOString();
 		}
 
 		return searchParams;
@@ -48,7 +48,7 @@ export class HekEventSearchFilter {
 }
 
 export class DatasetSearchFilter {
-	constructor(telescopes = [], characteristics = [], tags = [], minDate = null, maxDate = null, minWavelength = null, maxWavelength = null) {
+	constructor({ telescopes = [], characteristics = [], tags = [], minDate = null, maxDate = null, minWavelength = null, maxWavelength = null, search = null } = {}) {
 		this.telescopes = telescopes;
 		this.characteristics = characteristics;
 		this.tags = tags;
@@ -56,6 +56,7 @@ export class DatasetSearchFilter {
 		this.maxDate = maxDate;
 		this.minWavelength = minWavelength;
 		this.maxWavelength = maxWavelength;
+		this.search = search;
 	}
 
 	getSearchParams() {
@@ -87,6 +88,10 @@ export class DatasetSearchFilter {
 
 		if (this.maxWavelength) {
 			searchParams.wavemin__lte = this.maxWavelength;
+		}
+
+		if (this.search) {
+			searchParams.search = this.search;
 		}
 
 		return searchParams;
