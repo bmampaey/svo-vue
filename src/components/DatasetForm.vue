@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { DatasetSearchFilter } from "@/utils";
+import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
 
 export default {
 	name: "DatasetForm",

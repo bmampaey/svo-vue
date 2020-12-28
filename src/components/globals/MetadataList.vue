@@ -30,7 +30,7 @@
 						</b-button>
 					</td>
 					<td v-for="column in columns" :key="column.field">{{ metadata[column.field] }}</td>
-					<td>{{ metadata.tags | tagsAsList }}</td>
+					<td>{{ tagsAsList(metadata.tags) }}</td>
 				</tr>
 			</tbody>
 		</b-table-simple>
@@ -71,11 +71,11 @@ export default {
 				});
 			}
 		},
+		//TODO should this be defined on a Metadata object ?
 		getDataDownloadUrl: function(metadata) {
+			// TODO could we return null
 			return metadata.data_location.offline ? "#" : metadata.data_location.file_url;
-		}
-	},
-	filters: {
+		},
 		tagsAsList: function(tags) {
 			return tags.map(tag => tag.name).join(", ");
 		}

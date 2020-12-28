@@ -47,8 +47,6 @@
 </template>
 
 <script>
-import { parseDate } from "../../utils";
-
 let baseInputIdCounter = 0;
 
 export default {
@@ -107,7 +105,7 @@ export default {
 	methods: {
 		checkInput: function() {
 			// Check that the minValue is a valid date
-			let minDate = parseDate(this.minValue);
+			let minDate = this.$utils.parseDate(this.minValue);
 			if (this.minValue && minDate == null) {
 				this.minInputState = false;
 				this.minInputFeedback = "Invalid date, format is YYYY-MM-DD";
@@ -115,7 +113,7 @@ export default {
 				this.minInputState = null;
 			}
 			// Check that the maxValue is a valid date
-			let maxDate = parseDate(this.maxValue);
+			let maxDate = this.$utils.parseDate(this.maxValue);
 			if (this.maxValue && maxDate == null) {
 				this.maxInputState = false;
 				this.maxInputFeedback = "Invalid date, format is YYYY-MM-DD";

@@ -1,11 +1,11 @@
 <template>
 	<b-modal ref="eventDetail" size="md" :title="event.type" hide-footer>
-		<b-img center fluid v-if="event.gs_thumburl" :src="event.gs_thumburl" alt="Image of the event"></b-img>
+		<b-img center fluid :src="event.thumbnailUrl" alt="Event thumbnail"></b-img>
 		<dl class="dl-horizontal">
 			<dt>Start time</dt>
-			<dd>{{ event.event_starttime | dateFormat }}</dd>
+			<dd>{{ $utils.formatDate(event.startTime) }}</dd>
 			<dt>End time</dt>
-			<dd>{{ event.event_endtime | dateFormat }}</dd>
+			<dd>{{ $utils.formatDate(event.endTime) }}</dd>
 			<dt>Recognition method</dt>
 			<dd>{{ event.frm_name }}</dd>
 			<dt>Identifier name</dt>

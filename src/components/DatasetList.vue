@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<b-overlay :show="loading" rounded="sm">
 		<b-table-simple small hover>
 			<thead>
 				<tr>
@@ -30,17 +30,17 @@
 					<td>{{ dataset.metadata.number_items }}</td>
 					<td>{{ dataset.instrument }}</td>
 					<td>{{ dataset.telescope }}</td>
-					<td>{{ dataset.characteristics | characteristicsAsList }}</td>
+					<td>{{ characteristicsAsList(dataset.characteristics) }}</td>
 				</tr>
 			</tbody>
 		</b-table-simple>
 		<dataset-detail ref="datasetDetail" v-if="shownDataset" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
-	</div>
+	</b-overlay>
 </template>
 
 <script>
 import { datasets } from "@/test_data";
-import { DatasetSearchFilter } from "@/utils";
+import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
 
 import DatasetDetail from "@/components/DatasetDetail.vue";
 
@@ -56,7 +56,8 @@ export default {
 		return {
 			datasets: datasets.objects,
 			selectedDatasets: [],
-			shownDataset: null
+			shownDataset: null,
+			loading: true
 		};
 	},
 	computed: {
@@ -64,7 +65,22 @@ export default {
 			return this.datasets.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
 		}
 	},
+	watch: {
+		searchFilter: {
+			handler: "updateDatasetList",
+			immediate: true
+		}
+	},
 	methods: {
+		updateDatasetList: async function(searchFilter) {
+			this.loading = true;
+			try {
+				this.datasets = await this.$SDA.datasets.all(searchFilter.getSearchParams());
+			} catch (error) {
+				console.log("TODO show error");
+			}
+			this.loading = false;
+		},
 		showDatasetDetail: function(dataset, event) {
 			if (event.target instanceof HTMLTableCellElement) {
 				// replace by this.shownDatasetId = getDataset(dataset.id).then(this.$refs.datasetDetail.show())
@@ -74,9 +90,7 @@ export default {
 					this.$refs.datasetDetail.show();
 				});
 			}
-		}
-	},
-	filters: {
+		},
 		characteristicsAsList: function(characteristics) {
 			return characteristics.map(characteristic => characteristic.name).join(", ");
 		}

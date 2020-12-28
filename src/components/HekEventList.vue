@@ -25,8 +25,8 @@
 						<b-form-checkbox v-model="selectedEvents" :value="event" size="lg"></b-form-checkbox>
 					</td>
 					<td>{{ event.type }}</td>
-					<td>{{ event.event_starttime | dateFormat }}</td>
-					<td>{{ event.event_endtime | dateFormat }}</td>
+					<td>{{ $utils.formatDate(event.startTime) }}</td>
+					<td>{{ $utils.formatDate(event.endTime) }}</td>
 				</tr>
 			</tbody>
 		</b-table-simple>
@@ -43,7 +43,8 @@
 <script>
 import HekEventDetail from "@/components/HekEventDetail.vue";
 import Dataset from "@/components/Dataset.vue";
-import { HekEventSearchFilter, DatasetSearchFilter } from "@/utils";
+import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
+import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
 
 export default {
 	name: "HekEventList",
@@ -95,14 +96,15 @@ export default {
 			}
 		},
 		searchOverlappingDatasets: function() {
-			let selectedEventsTimes = this.selectedEvents.map(event => ({startTime: new Date(event.event_starttime), endTime: new Date(event.event_endtime)}));
 			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
-			this.datasetSearchFilter = new DatasetSearchFilter({
-				minDate: new Date(Math.min(...selectedEventsTimes.map(e => e.startTime))),
-				maxDate: new Date(Math.max(...selectedEventsTimes.map(e => e.endTime))),
-				search: selectedEventsTimes.map(e => '(date_beg__lt = ' + e.endTime.toISOString() + ' and date_end__gt = ' + e.startTime.toISOString() + ')').join(' or ')
-			});
 			this.datasetModalTitle = "Datasets overlapping selected events: " + Array.from(selectedEventTypes).join(", ");
+
+			this.datasetSearchFilter = new DatasetSearchFilter({
+				minDate: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
+				maxDate: new Date(Math.max(...this.selectedEvents.map(e => e.endTime))),
+				search: this.selectedEvents.map(e => "(date_beg__lt = " + e.endTime.toISOString() + " and date_end__gt = " + e.startTime.toISOString() + ")").join(" or ")
+			});
+
 			this.$refs.datasetModal.show();
 		}
 	}

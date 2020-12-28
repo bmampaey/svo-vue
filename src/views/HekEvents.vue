@@ -9,7 +9,7 @@
 // @ is an alias to /src
 import AppMenu from "@/components/AppMenu.vue";
 import HekEvent from "@/components/HekEvent.vue";
-import { HekEventSearchFilter } from "@/utils";
+import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
 
 export default {
 	name: "HekEvents",

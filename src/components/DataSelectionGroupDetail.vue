@@ -30,7 +30,7 @@
 					</td>
 					<td>{{ dataSelection.number_items }}</td>
 					<td>{{ dataSelection.dataset.name }}</td>
-					<td>{{ dataSelection.created | dateFormat }}</td>
+					<td>{{ $utils.formatDate(dataSelection.created) }}</td>
 					<td>
 						<b-button @click="deleteDataSelection(dataSelection)" size="sm" variant="danger" title="Delete data selection"><b-icon icon="trash"></b-icon></b-button>
 					</td>

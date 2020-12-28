@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import { DatasetSearchFilter } from "@/utils";
+import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
 import DatasetForm from "@/components/DatasetForm.vue";
 import DatasetList from "@/components/DatasetList.vue";
 

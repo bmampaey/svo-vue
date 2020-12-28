@@ -1,103 +1,36 @@
-// TODO
-// - add an update prototype method that does put/patch?
-// - save should check if resource_uri is set
-// - save static should do patch instead of post with {'objects: [array of resources]}
-// - replace $save by create ? no we want $resource like
-/* eslint-disable */
-import Vue from "vue";
 import axios from "axios";
-import { SDA_SERVER, SDA_API_URL } from "@/constants";
+import Service from "./Service";
+import User from "./User";
 
-function parseError(error) {
-	if (error.response) {
-		// The request was made and the server responded with a status code
-		// that falls out of the range of 2xx
-		return error.response.data;
-	} else if (error.request) {
-		// The request was made but no response was received
-		return "No response received";
-	} else {
-		// Something happened in setting up the request that triggered an Error
-		return error.message;
-	}
-}
+// function parseError(error) {
+// 	if (error.response) {
+// 		// The request was made and the server responded with a status code
+// 		// that falls out of the range of 2xx
+// 		return error.response.data;
+// 	} else if (error.request) {
+// 		// The request was made but no response was received
+// 		return "No response received";
+// 	} else {
+// 		// Something happened in setting up the request that triggered an Error
+// 		return error.message;
+// 	}
+// }
 
-class User {
-	constructor(userName, userApiKey) {
-		this.userName = userName;
-		this.userApiKey = userApiKey;
-	}
-}
-
-class Paginator {
-	constructor(service, searchParams, data) {
-		this.service = service;
-		this.searchParams = searchParams;
-		this.objects = data.objects;
-		this.meta = data.meta;
-	}
-	get has_next() {
-		return this.meta.next != null;
-	}
-	get has_previous() {
-		return this.meta.previous != null;
-	}
-	get page_number() {
-		return this.meta.limit > 0 ? Math.floor(this.meta.offset / this.meta.limit) + 1 : 1;
-	}
-	get page_count() {
-		return this.meta.limit > 0 ? Math.ceil(this.meta.total_count / this.meta.limit) : 1;
-	}
-	load_next_page() {
-		if (this.has_next) {
-			return this.service;
-		}
-	}
-	load_previous_page() {
-		if (this.has_previous) {
-			return this.service;
-		}
-	}
-}
-
-class Service {
-	constructor(api, url) {
-		this.api = api;
-		this.url = url;
-	}
-	
-	async all() {
-		let params = new URLSearchParams({"limit": 0});
-		let response = await this.api.axios.get(this.url, {params: params});
-		return response.data;
-	}
-	
-	async paginator(searchParams = {}) {
-		let response = await this.api.axios.get(this.url, {params: searchParams});
-		return new Paginator(this, searchParams, response.data);
-	}
-	get(id) {}
-	create(data) {}
-	update(data) {}
-	delete(id) {}
-}
-
-class TastypieAPI {
-	
+export default class Api {
 	constructor(server, apiUrl, timeout = 15000) {
 		this.axios = axios.create({
 			baseURL: server,
 			timeout: timeout,
 			headers: this.headers
-		})
+		});
 		this.apiUrl = apiUrl;
 		this.user = this.getUser();
 		this.isSetup = false;
 		this.setup();
 	}
-	
+
 	async setup() {
-		if(! this.isSetup) {
+		if (!this.isSetup) {
 			let response = await this.axios.get(this.apiUrl);
 			for (let service in response.data) {
 				this[service] = new Service(this, response.data[service]["list_endpoint"]);
@@ -105,7 +38,7 @@ class TastypieAPI {
 			this.isSetup = true;
 		}
 	}
-	
+
 	get headers() {
 		if (this.user) {
 			return { ApiKey: this.user.userName + ":" + this.user.userApiKey };
@@ -113,41 +46,44 @@ class TastypieAPI {
 			return {};
 		}
 	}
-	
-	async login(email, password){
-		// TODO do the actual login
-		let response = await this.axios.post('/SDA/api/v1/user/login/', {email: email, password: password});
-		
+
+	async login(email, password) {
+		// TODO put login url in constants or introspect user service
+		let response = await this.axios.post("/SDA/api/v1/user/login/", { email: email, password: password });
+
 		window.localStorage.setItem("userName", response.data.name);
 		window.localStorage.setItem("userApiKey", response.data.api_key);
 		this.user = this.getUser();
 	}
-	
+
 	async register(email, username, password) {
 		// TODO do proper registration
 		await this.login(email, password);
 	}
-	
-	logout(){
+
+	logout() {
 		window.localStorage.removeItem("userName");
 		window.localStorage.removeItem("userApiKey");
 		this.user = null;
 	}
-	
+
 	getUser() {
 		let userName = window.localStorage.getItem("userName");
 		let userApiKey = window.localStorage.getItem("userApiKey");
-		
-		if (userName && userApiKey){
+
+		if (userName && userApiKey) {
 			return new User(userName, userApiKey);
 		} else {
 			return null;
 		}
 	}
-	
 }
 
-Vue.prototype.$SDA = new TastypieAPI(SDA_SERVER, SDA_API_URL);
+// TODO
+// - add an update prototype method that does put/patch?
+// - save should check if resource_uri is set
+// - save static should do patch instead of post with {'objects: [array of resources]}
+// - replace $save by create ? no we want $resource like
 
 //class Model {}
 
@@ -161,7 +97,6 @@ Vue.prototype.$SDA = new TastypieAPI(SDA_SERVER, SDA_API_URL);
 // 			paramDefaults: {
 // 				limit: 0
 // 			},
-
 
 //
 // 			// cache request

@@ -1,16 +1,15 @@
 <template>
 	<b-form @submit.prevent="onSubmit">
 		<b-form-group label="Event types" label-for="event-type">
-			<b-form-select v-model="eventType" :options="eventTypeOptions" id="event-type" multiple></b-form-select>
+			<b-form-select v-model="searchFilter.eventType" :options="searchFilter.eventTypeOptions" id="event-type" multiple></b-form-select>
 		</b-form-group>
-		<base-datetime-range v-model="eventTimeRange" label="Event time" min-label="Start" max-label="End"></base-datetime-range>
+		<base-datetime-range v-model="searchFilter.eventTimeRange" label="Event time" min-label="Start" max-label="End"></base-datetime-range>
 		<b-button type="submit" variant="primary">Search</b-button>
 	</b-form>
 </template>
 
 <script>
-import { HEK_EVENT_TYPE_NAMES } from "@/constants";
-import { HekEventSearchFilter } from "@/utils";
+import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
 
 export default {
 	name: "HekEventForm",
@@ -19,23 +18,14 @@ export default {
 	},
 	data: function() {
 		return {
-			eventType: [...this.value.eventType],
-			eventTimeRange: { min: this.value.eventStartTime, max: this.value.eventEndTime },
-			eventTypeOptions: []
+			// TODO shouyld this be a deepCopy
+			searchFilter: this.value
 		};
 	},
 	methods: {
 		onSubmit: function() {
-			let searchFilter = new HekEventSearchFilter({
-				eventType: this.eventType,
-				eventStartTime: this.eventTimeRange.min,
-				eventEndTime: this.eventTimeRange.max
-			});
-			this.$emit("input", searchFilter);
+			this.$emit("input", new HekEventSearchFilter(this.searchFilter));
 		}
-	},
-	created: function() {
-		this.eventTypeOptions = Object.entries(HEK_EVENT_TYPE_NAMES).map(([key, value]) => ({ value: key, text: value }));
 	}
 };
 </script>

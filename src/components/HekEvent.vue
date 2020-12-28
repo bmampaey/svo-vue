@@ -12,7 +12,7 @@
 <script>
 import HekEventForm from "@/components/HekEventForm.vue";
 import HekEventList from "@/components/HekEventList.vue";
-import { HekEventSearchFilter } from "@/utils";
+import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
 
 export default {
 	name: "HekEvent",

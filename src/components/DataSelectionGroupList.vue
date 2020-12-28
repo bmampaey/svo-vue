@@ -40,8 +40,8 @@
 					</td>
 					<td>{{ dataSelectionGroup.number_items }}</td>
 					<td>{{ dataSelectionGroup.name }}</td>
-					<td>{{ dataSelectionGroup.created | dateFormat }}</td>
-					<td>{{ dataSelectionGroup.updated | dateFormat }}</td>
+					<td>{{ $utils.formatDate(dataSelectionGroup.created) }}</td>
+					<td>{{ $utils.formatDate(dataSelectionGroup.updated) }}</td>
 					<td>
 						<b-button @click="deleteDataSelectionGroup(dataSelectionGroup)" size="sm" variant="danger" title="Delete data selection"><b-icon icon="trash"></b-icon></b-button>
 					</td>

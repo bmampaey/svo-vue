@@ -1,19 +1,15 @@
 <template>
 	<b-modal ref="metadataDetail" :title="dataset.name" hide-footer>
-		<b-img :src="imageURL" fluid-grow alt="Data thumbnail"></b-img>
-
-		<b-table :items="cards" :fields="fields" :filter="searchFilter" :filter-included-fields="filterIncludedFields" primary-key="id" sticky-header show-empty small>
-			<template #head(text)="data">
-				<b-form-group>
-					<b-input-group>
-						<b-form-input v-model="searchFilter" type="search" placeholder="Filter metadata" debounce="500"></b-form-input>
-						<b-input-group-append>
-							<b-button :disabled="!searchFilter" @click="clearSearchFilter">Clear</b-button>
-						</b-input-group-append>
-					</b-input-group>
-				</b-form-group>
-			</template>
-		</b-table>
+		<b-img :src="imageURL" center fluid-grow alt="Data thumbnail"></b-img>
+		<b-form-group>
+			<b-input-group>
+				<b-form-input v-model="searchFilter" type="search" placeholder="Filter metadata" debounce="250"></b-form-input>
+				<b-input-group-append>
+					<b-button :disabled="!searchFilter" @click="clearSearchFilter">Clear</b-button>
+				</b-input-group-append>
+			</b-input-group>
+		</b-form-group>
+		<b-table :items="cards" :fields="fields" :filter="searchFilter" :filter-included-fields="filterIncludedFields" primary-key="id" sticky-header show-empty small> </b-table>
 	</b-modal>
 </template>
 
@@ -26,9 +22,7 @@ export default {
 	},
 	data: function() {
 		return {
-			searchFilter: "",
-			fields: ["text"],
-			filterIncludedFields: ["text"]
+			searchFilter: ""
 		};
 	},
 	methods: {
@@ -43,11 +37,25 @@ export default {
 		imageURL: function() {
 			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require("@/assets/no_preview_available.jpg");
 		},
+		fitsHeader: function() {
+			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : "";
+		},
+		fields: function() {
+			return [
+				{
+					key: "text",
+					label: this.fitsHeader.length > 0 ? "FITS header" : "Metadata"
+				}
+			];
+		},
+		filterIncludedFields: function() {
+			return ["text"];
+		},
 		cards: function() {
 			let cards = [];
-			let fits_header = this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : null;
-			if (fits_header) {
-				cards = fits_header.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
+
+			if (this.fitsHeader.length > 0) {
+				cards = this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
 			} else {
 				cards = Object.entries(this.metadata)
 					.filter(([, value]) => !(value instanceof Object))
