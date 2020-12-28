@@ -1,11 +1,11 @@
 <template>
 	<b-modal ref="datasetDetail" size="xl" :title="dataset.name" hide-footer>
 		<b-card class="mb-2">
-			<b-card-text>{{ dataset.description }}</b-card-text>
+			<b-card-text v-html="dataset.description"></b-card-text>
 			<div class="btn-bar">
 				<b-button pill size="sm" variant="outline-info" v-b-popover="telescopePopover">{{ dataset.telescope }}</b-button>
 				<b-button pill size="sm" variant="outline-info" v-b-popover="instrumentPopover">{{ dataset.instrument }}</b-button>
-				<b-button pill size="sm" variant="outline-info" href="dataset.archive_url" target="_blank">Archive webpage</b-button>
+				<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
 			</div>
 		</b-card>
 		<div><aia_lev1 :dataset="dataset" :search-filter="searchFilter"> </aia_lev1></div>

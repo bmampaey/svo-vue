@@ -10,18 +10,18 @@ export default class EventSearchFilter {
 	}
 
 	getSearchParams() {
-		let searchParams = { ...HEK_EVENT_LIST_SEARCH_PARAMS };
+		let searchParams = new URLSearchParams(HEK_EVENT_LIST_SEARCH_PARAMS);
 
 		if (this.eventType && this.eventType.length > 0) {
-			searchParams.event_type = this.eventType.join(",");
+			searchParams.set("event_type", this.eventType.join(","));
 		}
 
 		if (this.eventTimeRange.min) {
-			searchParams.event_starttime = new Date(this.eventTimeRange.min).toISOString();
+			searchParams.set("event_starttime", this.eventTimeRange.min.toISOString());
 		}
 
 		if (this.eventTimeRange.max) {
-			searchParams.event_endtime = new Date(this.eventTimeRange.max).toISOString();
+			searchParams.set("event_endtime", this.eventTimeRange.max.toISOString());
 		}
 
 		return searchParams;

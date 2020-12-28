@@ -7,9 +7,10 @@ export default class Service {
 	}
 
 	async all(searchParams = {}) {
-		let params = new URLSearchParams({ ...searchParams, limit: 0 });
-		let response = await this.api.axios.get(this.url, { params: params });
-		return response.data;
+		searchParams = new URLSearchParams(searchParams);
+		searchParams.set("limit", 0);
+		let response = await this.api.axios.get(this.url, { params: searchParams });
+		return response.data.objects;
 	}
 
 	async paginator(searchParams = {}) {

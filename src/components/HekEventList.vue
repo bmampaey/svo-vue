@@ -77,10 +77,10 @@ export default {
 		}
 	},
 	methods: {
-		updateEventList: async function(searchFilter) {
+		updateEventList: async function(searchFilter, pageNumber = null) {
 			this.loading = true;
 			try {
-				this.eventList = await this.$HEK.searchEvents(searchFilter.getSearchParams());
+				this.eventList = await this.$HEK.searchEvents(searchFilter.getSearchParams(), pageNumber);
 			} catch (error) {
 				console.log("TODO show error");
 			}
@@ -98,10 +98,11 @@ export default {
 		searchOverlappingDatasets: function() {
 			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
 			this.datasetModalTitle = "Datasets overlapping selected events: " + Array.from(selectedEventTypes).join(", ");
-
 			this.datasetSearchFilter = new DatasetSearchFilter({
-				minDate: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
-				maxDate: new Date(Math.max(...this.selectedEvents.map(e => e.endTime))),
+				dateRange: {
+					min: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
+					max: new Date(Math.max(...this.selectedEvents.map(e => e.endTime)))
+				},
 				search: this.selectedEvents.map(e => "(date_beg__lt = " + e.endTime.toISOString() + " and date_end__gt = " + e.startTime.toISOString() + ")").join(" or ")
 			});
 

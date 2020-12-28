@@ -10,7 +10,6 @@ export default class Api {
 	async searchEvents(searchParams, pageNumber = null) {
 		let url = new URL(this.apiUrl);
 		if (pageNumber) {
-			searchParams = new URLSearchParams(searchParams);
 			searchParams.set("page", pageNumber);
 		}
 		url.search = searchParams;

@@ -88,8 +88,8 @@ export default {
 			baseInputIdCounter += 1;
 		}
 		return {
-			minValue: null,
-			maxValue: null,
+			minValue: (this.value.min instanceof Date) ? this.value.min.toISOString().substring(0, 10) : "",
+			maxValue: (this.value.max instanceof Date) ? this.value.max.toISOString().substring(0, 10) : "",
 			minInputId: baseInputId + "-min",
 			maxInputId: baseInputId + "-max",
 			minInputFeedback: "",

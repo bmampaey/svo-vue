@@ -34,14 +34,15 @@
 				</tr>
 			</tbody>
 		</b-table-simple>
+		<div>
+			<b-button :disabled="selectedDatasetsEmpty" variant="primary" @click="saveSelection" title="Select one or more dataset to create or update a data selection">Save selection</b-button>
+		</div>
 		<dataset-detail ref="datasetDetail" v-if="shownDataset" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
 	</b-overlay>
 </template>
 
 <script>
-import { datasets } from "@/test_data";
 import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
-
 import DatasetDetail from "@/components/DatasetDetail.vue";
 
 export default {
@@ -54,7 +55,7 @@ export default {
 	},
 	data: function() {
 		return {
-			datasets: datasets.objects,
+			datasetList: [],
 			selectedDatasets: [],
 			shownDataset: null,
 			loading: true
@@ -62,9 +63,13 @@ export default {
 	},
 	computed: {
 		nonEmptyDatasets: function() {
-			return this.datasets.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
+			return this.datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
+		},
+		selectedDatasetsEmpty: function() {
+			return this.selectedDatasets.length == 0;
 		}
 	},
+
 	watch: {
 		searchFilter: {
 			handler: "updateDatasetList",
@@ -75,7 +80,7 @@ export default {
 		updateDatasetList: async function(searchFilter) {
 			this.loading = true;
 			try {
-				this.datasets = await this.$SDA.datasets.all(searchFilter.getSearchParams());
+				this.datasetList = await this.$SDA.dataset.all(searchFilter.getSearchParams());
 			} catch (error) {
 				console.log("TODO show error");
 			}
@@ -90,6 +95,9 @@ export default {
 					this.$refs.datasetDetail.show();
 				});
 			}
+		},
+		saveSelection: function() {
+			console.log("TODO save selection");
 		},
 		characteristicsAsList: function(characteristics) {
 			return characteristics.map(characteristic => characteristic.name).join(", ");

@@ -1,7 +1,7 @@
 <template>
 	<b-modal ref="metadataDetail" :title="dataset.name" hide-footer>
 		<b-img :src="imageURL" center fluid-grow alt="Data thumbnail"></b-img>
-		<b-form-group>
+		<b-form-group class="my-2">
 			<b-input-group>
 				<b-form-input v-model="searchFilter" type="search" placeholder="Filter metadata" debounce="250"></b-form-input>
 				<b-input-group-append>
@@ -52,24 +52,17 @@ export default {
 			return ["text"];
 		},
 		cards: function() {
-			let cards = [];
-
 			if (this.fitsHeader.length > 0) {
-				cards = this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
+				return this.fitsHeader.match(/[^]{1,80}/g).map((text, id) => ({ id, text }));
 			} else {
-				cards = Object.entries(this.metadata)
+				return Object.entries(this.metadata)
 					.filter(([, value]) => !(value instanceof Object))
 					.map(([key, value], id) => ({ id, text: `${key} = ${value}` }));
 			}
-			return cards;
 		}
 	}
 };
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.btn-bar > * {
-	margin-right: 0.5rem;
-}
-</style>
+<style scoped lang="scss"></style>

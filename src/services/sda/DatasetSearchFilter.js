@@ -9,38 +9,38 @@ export default class DatasetSearchFilter {
 	}
 
 	getSearchParams() {
-		let searchParams = {};
+		let searchParams = new URLSearchParams();
 
-		if (this.telescopes && this.telescopes.length > 0) {
-			searchParams.telescope__in = this.telescopes;
+		for (const telescope of this.telescopes){
+			searchParams.append("telescope__in", telescope);
 		}
 
-		if (this.characteristics && this.characteristics.length > 0) {
-			searchParams.characteristics__in = this.characteristics;
+		for (const characteristic of this.characteristics){
+			searchParams.append("characteristics__in", characteristic);
 		}
 
-		if (this.tags && this.tags.length > 0) {
-			searchParams.tags__in = this.tags;
+		for (const tag of this.tags){
+			searchParams.append("tags__in", tag);
 		}
 
 		if (this.dateRange.min) {
-			searchParams.date_end__gte = new Date(this.dateRange.min).toISOString();
+			searchParams.set("date_end__gte", this.dateRange.min.toISOString());
 		}
 
 		if (this.dateRange.max) {
-			searchParams.date_beg__lte = new Date(this.dateRange.max).toISOString();
+			searchParams.set("date_beg__lte", this.dateRange.max.toISOString());
 		}
 
 		if (this.wavelengthRange.min) {
-			searchParams.wavemax__gte = this.wavelengthRange.min;
+			searchParams.set("wavemax__gte", this.wavelengthRange.min);
 		}
 
 		if (this.wavelengthRange.max) {
-			searchParams.wavemin__lte = this.wavelengthRange.max;
+			searchParams.set("wavemin__lte", this.wavelengthRange.max);
 		}
 
 		if (this.search) {
-			searchParams.search = this.search;
+			searchParams.set("search", this.search);
 		}
 
 		return searchParams;

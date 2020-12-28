@@ -18,13 +18,12 @@ export default {
 	},
 	data: function() {
 		return {
-			// TODO shouyld this be a deepCopy
-			searchFilter: this.value
+			searchFilter: this.value.deepCopy()
 		};
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", new HekEventSearchFilter(this.searchFilter));
+			this.$emit("input", this.searchFilter.deepCopy());
 		}
 	}
 };
