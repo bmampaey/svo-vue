@@ -83,7 +83,7 @@ export default {
 			try {
 				this.eventList = await this.$HEK.searchEvents(searchFilter.getSearchParams(), pageNumber);
 			} catch (error) {
-				console.log("TODO show error");
+				console.log("TODO updateEventList error");
 			}
 			this.loading = false;
 		},

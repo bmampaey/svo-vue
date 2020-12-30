@@ -5,9 +5,9 @@ Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: "/authentication",
-		name: "Authentication",
-		component: () => import("@/views/Authentication.vue")
+		path: "/",
+		name: "Root",
+		redirect: { name: "Datasets" }
 	},
 	{
 		path: "/datasets",
@@ -24,7 +24,17 @@ const routes = [
 		name: "HekEvents",
 		component: () => import("@/views/HekEvents.vue")
 	},
-	// redirect all other routes to dataset
+	{
+		path: "/authentication",
+		name: "Authentication",
+		component: () => import("@/views/Authentication.vue")
+	},
+	{
+		path: "/delete_account",
+		name: "DeleteAccount",
+		component: () => import("@/views/DeleteAccount.vue")
+	},
+	// Display a not found message for all other routes
 	{
 		path: "*",
 		name: "NotFound",
@@ -38,12 +48,20 @@ const router = new VueRouter({
 	routes
 });
 
-// TODO remove
-var isAuthenticated = true;
-
 router.beforeEach((to, from, next) => {
-	if (to.name !== "Authentication" && !isAuthenticated) next({ name: "Authentication" });
-	else next();
+	router.app.$SDA
+		.setup()
+		.then(function() {
+			if (to.name == "Authentication" || router.app.$SDA.loggedUser) {
+				next();
+			} else {
+				next({ name: "Authentication" });
+			}
+		})
+		.catch(error => {
+			alert("Error contacting the server, please refresh the page or contact the administrator of the website");
+			console.log(error);
+		});
 });
 
 export default router;

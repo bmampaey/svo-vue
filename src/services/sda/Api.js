@@ -2,20 +2,6 @@ import axios from "axios";
 import Service from "./Service";
 import User from "./User";
 
-// function parseError(error) {
-// 	if (error.response) {
-// 		// The request was made and the server responded with a status code
-// 		// that falls out of the range of 2xx
-// 		return error.response.data;
-// 	} else if (error.request) {
-// 		// The request was made but no response was received
-// 		return "No response received";
-// 	} else {
-// 		// Something happened in setting up the request that triggered an Error
-// 		return error.message;
-// 	}
-// }
-
 export default class Api {
 	constructor(server, apiUrl, timeout = 15000) {
 		this.axios = axios.create({
@@ -24,9 +10,8 @@ export default class Api {
 			headers: this.headers
 		});
 		this.apiUrl = apiUrl;
-		this.user = this.getUser();
+		this.loggedUser = this.getUser();
 		this.isSetup = false;
-		this.setup();
 	}
 
 	async setup() {
@@ -40,20 +25,19 @@ export default class Api {
 	}
 
 	get headers() {
-		if (this.user) {
-			return { ApiKey: this.user.userName + ":" + this.user.userApiKey };
+		if (this.loggedUser) {
+			return { ApiKey: this.loggedUser.userName + ":" + this.loggedUser.userApiKey };
 		} else {
 			return {};
 		}
 	}
 
 	async login(email, password) {
-		// TODO put login url in constants or introspect user service
+		// TODO put login url in constants
 		let response = await this.axios.post("/SDA/api/v1/user/login/", { email: email, password: password });
-
 		window.localStorage.setItem("userName", response.data.name);
 		window.localStorage.setItem("userApiKey", response.data.api_key);
-		this.user = this.getUser();
+		this.loggedUser = this.getUser();
 	}
 
 	async register(email, username, password) {
@@ -61,10 +45,14 @@ export default class Api {
 		await this.login(email, password);
 	}
 
+	async deleteAccount() {
+		console.log("TODO deleteAccount");
+	}
+
 	logout() {
 		window.localStorage.removeItem("userName");
 		window.localStorage.removeItem("userApiKey");
-		this.user = null;
+		this.loggedUser = null;
 	}
 
 	getUser() {
@@ -75,6 +63,20 @@ export default class Api {
 			return new User(userName, userApiKey);
 		} else {
 			return null;
+		}
+	}
+
+	parseError(error) {
+		if (error.response) {
+			// The request was made and the server responded with a status code
+			// that falls out of the range of 2xx
+			return error.response.data;
+		} else if (error.request) {
+			// The request was made but no response was received
+			return "No response received";
+		} else {
+			// Something happened in setting up the request that triggered an Error
+			return error.message;
 		}
 	}
 }

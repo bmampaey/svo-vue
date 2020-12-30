@@ -82,7 +82,7 @@ export default {
 			try {
 				this.datasetList = await this.$SDA.dataset.all(searchFilter.getSearchParams());
 			} catch (error) {
-				console.log("TODO show error");
+				console.log("TODO updateDatasetList error");
 			}
 			this.loading = false;
 		},

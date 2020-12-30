@@ -27,7 +27,7 @@ export default {
 			try {
 				this.passwordValid = null;
 				await this.$SDA.login(this.email, this.password);
-				this.$router.push({ name: "Datasets" });
+				this.$router.push({ name: "Root" });
 			} catch (error) {
 				this.passwordValid = false;
 			}

@@ -41,15 +41,17 @@ export default {
 	},
 	created: async function() {
 		this.loading = true;
-		// TODO put this in routeur
-		await this.$SDA.setup();
-		// TODO Parralelize this and manage errors
-		let telescopes = await this.$SDA.telescope.all();
-		let characteristics = await this.$SDA.characteristic.all();
-		let tags = await this.$SDA.tag.all();
-		this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
-		this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
-		this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
+		try {
+			// TODO Parralelize this and manage errors
+			let telescopes = await this.$SDA.telescope.all();
+			let characteristics = await this.$SDA.characteristic.all();
+			let tags = await this.$SDA.tag.all();
+			this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+			this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+			this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
+		} catch (error) {
+			console.log("TODO DatasetForm created error");
+		}
 		this.loading = false;
 	}
 };
