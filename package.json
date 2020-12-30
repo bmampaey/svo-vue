@@ -42,7 +42,7 @@
       "node": true
     },
     "extends": [
-      "plugin:vue/strongly-recommended",
+      "plugin:vue/recommended",
       "eslint:recommended",
       "plugin:prettier/recommended",
       "@vue/prettier"

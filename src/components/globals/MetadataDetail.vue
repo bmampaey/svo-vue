@@ -25,14 +25,6 @@ export default {
 			searchFilter: ''
 		};
 	},
-	methods: {
-		show: function() {
-			this.$refs.metadataDetail.show();
-		},
-		clearSearchFilter: function() {
-			this.searchFilter = '';
-		}
-	},
 	computed: {
 		imageURL: function() {
 			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require('@/assets/no_preview_available.jpg');
@@ -59,6 +51,14 @@ export default {
 					.filter(([, value]) => !(value instanceof Object))
 					.map(([key, value], id) => ({ id, text: `${key} = ${value}` }));
 			}
+		}
+	},
+	methods: {
+		show: function() {
+			this.$refs.metadataDetail.show();
+		},
+		clearSearchFilter: function() {
+			this.searchFilter = '';
 		}
 	}
 };

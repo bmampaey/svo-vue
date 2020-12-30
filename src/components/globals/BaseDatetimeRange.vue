@@ -4,7 +4,7 @@
 			<b-col>
 				<b-form-group :label="minLabel" :label-for="minInputId" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback">
 					<b-input-group>
-						<b-form-input :id="minInputId" v-model="minValue" @change="checkInput" :state="minInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off"></b-form-input>
+						<b-form-input :id="minInputId" v-model="minValue" :state="minInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>
 						<b-input-group-append>
 							<b-form-datepicker
 								v-model="minValue"
@@ -25,7 +25,7 @@
 			<b-col>
 				<b-form-group :label="maxLabel" :label-for="maxInputId" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback">
 					<b-input-group>
-						<b-form-input :id="maxInputId" v-model="maxValue" @change="checkInput" :state="maxInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off"></b-form-input>
+						<b-form-input :id="maxInputId" v-model="maxValue" :state="maxInputState" lazy type="text" placeholder="YYYY-MM-DD" autocomplete="off" @change="checkInput"></b-form-input>
 						<b-input-group-append>
 							<b-form-datepicker
 								v-model="maxValue"

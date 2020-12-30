@@ -4,7 +4,7 @@
 			<b-form @submit.prevent="onSubmit">
 				<base-datetime-range v-model="localSearchFilter.observationDateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
 				<b-form-group label="Wavelength" label-for="selected-wavelengths">
-					<b-form-select v-model="localSearchFilter.wavelnth__in" :options="wavelnthOptions" id="selected-wavelengths" multiple></b-form-select>
+					<b-form-select id="selected-wavelengths" v-model="localSearchFilter.wavelnth__in" :options="wavelnthOptions" multiple></b-form-select>
 				</b-form-group>
 				<b-form-group description="Only display data with a quality of 0">
 					<b-form-checkbox v-model="localSearchFilter.quality" :value="bestQuality" :unchecked-value="null">Best quality only</b-form-checkbox>

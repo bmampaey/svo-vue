@@ -22,7 +22,7 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr v-for="dataset in nonEmptyDatasets" :key="dataset.id" @click="showDatasetDetail(dataset, $event)" role="button">
+				<tr v-for="dataset in nonEmptyDatasets" :key="dataset.id" role="button" @click="showDatasetDetail(dataset, $event)">
 					<td>
 						<b-form-checkbox v-model="selectedDatasets" :value="dataset.id" size="lg"></b-form-checkbox>
 					</td>
@@ -35,9 +35,9 @@
 			</tbody>
 		</b-table-simple>
 		<div>
-			<b-button :disabled="selectedDatasetsEmpty" variant="primary" @click="saveSelection" title="Select one or more dataset to create or update a data selection">Save selection</b-button>
+			<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
 		</div>
-		<dataset-detail ref="datasetDetail" v-if="shownDataset" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
+		<dataset-detail v-if="shownDataset" ref="datasetDetail" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
 	</b-overlay>
 </template>
 

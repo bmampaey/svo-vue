@@ -19,8 +19,8 @@
 
 			<!-- Right aligned menu items -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item-dropdown :text="userName" right id="app-menu-user">
-					<b-dropdown-item @click="logout" aria-describedby="app-menu-user">Logout</b-dropdown-item>
+				<b-nav-item-dropdown id="app-menu-user" :text="userName" right>
+					<b-dropdown-item aria-describedby="app-menu-user" @click="logout">Logout</b-dropdown-item>
 					<b-dropdown-item :to="{ name: 'DeleteAccount' }" aria-describedby="app-menu-user">Delete account</b-dropdown-item>
 				</b-nav-item-dropdown>
 			</b-navbar-nav>

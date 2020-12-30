@@ -1,6 +1,6 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-table-simple small hover id="hek-event-list-table">
+		<b-table-simple id="hek-event-list-table" small hover>
 			<thead>
 				<tr>
 					<th></th>
@@ -20,7 +20,7 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr v-for="event in eventList" :key="event.kb_archivid" @click="showEventDetail(event, $event)" role="button">
+				<tr v-for="event in eventList" :key="event.kb_archivid" role="button" @click="showEventDetail(event, $event)">
 					<td>
 						<b-form-checkbox v-model="selectedEvents" :value="event" size="lg"></b-form-checkbox>
 					</td>
@@ -32,9 +32,9 @@
 		</b-table-simple>
 		<b-pagination v-model="pageNumber" :total-rows="rows" :per-page="perPage" aria-controls="hek-event-list-table" limit="3" hide-goto-end-buttons size="sm" @change="loadPage"></b-pagination>
 		<div>
-			<b-button :disabled="selectedEventsEmpty" variant="primary" @click="searchOverlappingDatasets" title="Select one or more event to search for overlapping data">Search overlapping</b-button>
+			<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 		</div>
-		<hek-event-detail ref="eventDetail" v-if="shownEvent" :event="shownEvent"></hek-event-detail>
+		<hek-event-detail v-if="shownEvent" ref="eventDetail" :event="shownEvent"></hek-event-detail>
 		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
 			<dataset :initial-search-filter="datasetSearchFilter"></dataset>
 		</b-modal>

@@ -23,7 +23,7 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr v-for="dataSelectionGroup in dataSelectionGroups" :key="dataSelectionGroup.id" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)" role="button">
+				<tr v-for="dataSelectionGroup in dataSelectionGroups" :key="dataSelectionGroup.id" role="button" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)">
 					<td>
 						<b-button :href="dataSelectionGroup.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp"><b-icon icon="folder-symlink"></b-icon></b-button>
 					</td>
@@ -43,12 +43,12 @@
 					<td>{{ $utils.formatDate(dataSelectionGroup.created) }}</td>
 					<td>{{ $utils.formatDate(dataSelectionGroup.updated) }}</td>
 					<td>
-						<b-button @click="deleteDataSelectionGroup(dataSelectionGroup)" size="sm" variant="danger" title="Delete data selection"><b-icon icon="trash"></b-icon></b-button>
+						<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelectionGroup(dataSelectionGroup)"><b-icon icon="trash"></b-icon></b-button>
 					</td>
 				</tr>
 			</tbody>
 		</b-table-simple>
-		<data-selection-group-detail ref="dataSelectionGroupDetail" v-if="shownDataSelectionGroup" :data-selection-group="shownDataSelectionGroup"></data-selection-group-detail>
+		<data-selection-group-detail v-if="shownDataSelectionGroup" ref="dataSelectionGroupDetail" :data-selection-group="shownDataSelectionGroup"></data-selection-group-detail>
 	</div>
 </template>
 

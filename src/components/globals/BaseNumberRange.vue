@@ -4,7 +4,7 @@
 			<b-col>
 				<b-form-group :label="minLabel" :label-for="minInputId" label-size="sm" :state="minInputState" :invalid-feedback="minInputFeedback">
 					<b-input-group :append="unit">
-						<b-form-input :id="minInputId" v-model="minValue" @change="checkInput" :state="minInputState" no-wheel type="number" number autocomplete="off"></b-form-input>
+						<b-form-input :id="minInputId" v-model="minValue" :state="minInputState" no-wheel type="number" number autocomplete="off" @change="checkInput"></b-form-input>
 					</b-input-group>
 				</b-form-group>
 			</b-col>
@@ -12,7 +12,7 @@
 			<b-col>
 				<b-form-group :label="maxLabel" :label-for="maxInputId" label-size="sm" :state="maxInputState" :invalid-feedback="maxInputFeedback">
 					<b-input-group :append="unit">
-						<b-form-input :id="maxInputId" v-model="maxValue" @change="checkInput" :state="maxInputState" no-wheel type="number" number autocomplete="off"></b-form-input>
+						<b-form-input :id="maxInputId" v-model="maxValue" :state="maxInputState" no-wheel type="number" number autocomplete="off" @change="checkInput"></b-form-input>
 					</b-input-group>
 				</b-form-group>
 			</b-col>

@@ -32,7 +32,7 @@
 					<td>{{ dataSelection.dataset.name }}</td>
 					<td>{{ $utils.formatDate(dataSelection.created) }}</td>
 					<td>
-						<b-button @click="deleteDataSelection(dataSelection)" size="sm" variant="danger" title="Delete data selection"><b-icon icon="trash"></b-icon></b-button>
+						<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelection(dataSelection)"><b-icon icon="trash"></b-icon></b-button>
 					</td>
 				</tr>
 			</tbody>
@@ -49,6 +49,11 @@ export default {
 	data: function() {
 		return {};
 	},
+	computed: {
+		dataSelections: function() {
+			return this.dataSelectionGroup.data_selections ? this.dataSelectionGroup.data_selections : [];
+		}
+	},
 	methods: {
 		show: function() {
 			this.$refs.dataSelectionGroupDetail.show();
@@ -63,11 +68,6 @@ export default {
 		},
 		deleteDataSelection: function(dataSelection) {
 			console.log('TODO: delete', dataSelection);
-		}
-	},
-	computed: {
-		dataSelections: function() {
-			return this.dataSelectionGroup.data_selections ? this.dataSelectionGroup.data_selections : [];
 		}
 	}
 };

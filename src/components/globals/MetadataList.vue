@@ -20,7 +20,7 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr v-for="metadata in metadataList" :key="metadata.oid" @click="showMetadataDetail(metadata, $event)" role="button">
+				<tr v-for="metadata in metadataList" :key="metadata.oid" role="button" @click="showMetadataDetail(metadata, $event)">
 					<td>
 						<b-form-checkbox v-model="selectedMetadata" :value="metadata.oid" no-click size="lg"></b-form-checkbox>
 					</td>
@@ -34,7 +34,7 @@
 				</tr>
 			</tbody>
 		</b-table-simple>
-		<metadata-detail ref="metadataDetail" v-if="shownMetadata" :metadata="shownMetadata" :dataset="dataset"></metadata-detail>
+		<metadata-detail v-if="shownMetadata" ref="metadataDetail" :metadata="shownMetadata" :dataset="dataset"></metadata-detail>
 	</div>
 </template>
 

@@ -3,8 +3,8 @@
 		<b-card class="mb-2">
 			<b-card-text v-html="dataset.description"></b-card-text>
 			<div class="btn-bar">
-				<b-button pill size="sm" variant="outline-info" v-b-popover="telescopePopover">{{ dataset.telescope }}</b-button>
-				<b-button pill size="sm" variant="outline-info" v-b-popover="instrumentPopover">{{ dataset.instrument }}</b-button>
+				<b-button v-b-popover="telescopePopover" pill size="sm" variant="outline-info">{{ dataset.telescope }}</b-button>
+				<b-button v-b-popover="instrumentPopover" pill size="sm" variant="outline-info">{{ dataset.instrument }}</b-button>
 				<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
 			</div>
 		</b-card>
@@ -34,17 +34,17 @@ export default {
 			instrument: instruments.objects[0]
 		};
 	},
-	methods: {
-		show: function() {
-			this.$refs.datasetDetail.show();
-		}
-	},
 	computed: {
 		telescopePopover: function() {
 			return { title: this.telescope.name, content: this.telescope.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
 		},
 		instrumentPopover: function() {
 			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
+		}
+	},
+	methods: {
+		show: function() {
+			this.$refs.datasetDetail.show();
 		}
 	}
 };
