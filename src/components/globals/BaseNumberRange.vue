@@ -39,11 +39,11 @@ export default {
 		},
 		minLabel: {
 			type: String,
-			default: "Min"
+			default: 'Min'
 		},
 		maxLabel: {
 			type: String,
-			default: "Max"
+			default: 'Max'
 		},
 		unit: {
 			type: String,
@@ -54,16 +54,16 @@ export default {
 		// if inputId has not been specified explicitly, we generate one with an increasing counter to avoid duplicates
 		let baseInputId = this.inputId;
 		if (baseInputId == null) {
-			baseInputId = "base-number-range-" + baseInputIdCounter.toString();
+			baseInputId = 'base-number-range-' + baseInputIdCounter.toString();
 			baseInputIdCounter += 1;
 		}
 		return {
 			minValue: null,
 			maxValue: null,
-			minInputId: baseInputId + "-min",
-			maxInputId: baseInputId + "-max",
-			minInputFeedback: "",
-			maxInputFeedback: "",
+			minInputId: baseInputId + '-min',
+			maxInputId: baseInputId + '-max',
+			minInputFeedback: '',
+			maxInputFeedback: '',
 			minInputState: null,
 			maxInputState: null
 		};
@@ -71,15 +71,15 @@ export default {
 	methods: {
 		checkInput: function() {
 			// Check that minValue < maxValue
-			if (typeof this.minValue == "number" && typeof this.maxValue == "number" && this.minValue > this.maxValue) {
+			if (typeof this.minValue == 'number' && typeof this.maxValue == 'number' && this.minValue > this.maxValue) {
 				this.maxInputState = false;
-				this.maxInputFeedback = this.maxLabel + " must be larger than " + this.minLabel;
+				this.maxInputFeedback = this.maxLabel + ' must be larger than ' + this.minLabel;
 			} else {
 				this.maxInputState = null;
 			}
 		},
 		onChange: function() {
-			this.$emit("input", { min: this.minValue, max: this.maxValue });
+			this.$emit('input', { min: this.minValue, max: this.maxValue });
 		}
 	}
 };

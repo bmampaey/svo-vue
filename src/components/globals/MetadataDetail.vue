@@ -15,14 +15,14 @@
 
 <script>
 export default {
-	name: "MetadataDetail",
+	name: 'MetadataDetail',
 	props: {
 		dataset: { type: Object, required: true },
 		metadata: { type: Object, required: true }
 	},
 	data: function() {
 		return {
-			searchFilter: ""
+			searchFilter: ''
 		};
 	},
 	methods: {
@@ -30,26 +30,26 @@ export default {
 			this.$refs.metadataDetail.show();
 		},
 		clearSearchFilter: function() {
-			this.searchFilter = "";
+			this.searchFilter = '';
 		}
 	},
 	computed: {
 		imageURL: function() {
-			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require("@/assets/no_preview_available.jpg");
+			return this.metadata.data_location.thumbnail_url ? this.metadata.data_location.thumbnail_url : require('@/assets/no_preview_available.jpg');
 		},
 		fitsHeader: function() {
-			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : "";
+			return this.metadata.fits_header ? this.metadata.fits_header.trimEnd() : '';
 		},
 		fields: function() {
 			return [
 				{
-					key: "text",
-					label: this.fitsHeader.length > 0 ? "FITS header" : "Metadata"
+					key: 'text',
+					label: this.fitsHeader.length > 0 ? 'FITS header' : 'Metadata'
 				}
 			];
 		},
 		filterIncludedFields: function() {
-			return ["text"];
+			return ['text'];
 		},
 		cards: function() {
 			if (this.fitsHeader.length > 0) {

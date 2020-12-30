@@ -20,7 +20,7 @@
 
 <script>
 export default {
-	name: "AiaLev1",
+	name: 'AiaLev1',
 	props: {
 		dataset: { type: Object, required: true },
 		searchFilter: { type: Object, required: true }
@@ -34,16 +34,16 @@ export default {
 			},
 			columns: [
 				{
-					header: "Observation date",
-					field: "date_obs"
+					header: 'Observation date',
+					field: 'date_obs'
 				},
 				{
-					header: "Wavelength (Å)",
-					field: "wavelnth"
+					header: 'Wavelength (Å)',
+					field: 'wavelnth'
 				},
 				{
-					header: "Quality",
-					field: "quality"
+					header: 'Quality',
+					field: 'quality'
 				}
 			],
 			wavelnth: [94, 131, 171, 193, 211, 304, 335, 1600, 1700, 4500],
@@ -57,7 +57,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			console.log("TODO update list");
+			console.log('TODO update list');
 		}
 	}
 };

@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
 
 export default {
-	name: "DatasetForm",
+	name: 'DatasetForm',
 	props: {
 		value: { type: DatasetSearchFilter, required: true }
 	},
@@ -36,7 +36,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", this.searchFilter.deepCopy());
+			this.$emit('input', this.searchFilter.deepCopy());
 		}
 	},
 	created: async function() {
@@ -50,7 +50,7 @@ export default {
 			this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
 			this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
 		} catch (error) {
-			console.log("TODO DatasetForm created error");
+			console.log('TODO DatasetForm created error');
 		}
 		this.loading = false;
 	}

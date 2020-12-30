@@ -9,13 +9,13 @@
 
 <script>
 export default {
-	name: "NotFound",
+	name: 'NotFound',
 	methods: {
 		deleteAccount: async function() {
 			await this.$SDA.deleteAccount();
-			this.$router.push({ name: "Authentication" });
+			this.$router.push({ name: 'Authentication' });
 		}
-	},
+	}
 };
 </script>
 

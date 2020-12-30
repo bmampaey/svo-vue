@@ -1,6 +1,6 @@
-import axios from "axios";
-import Service from "./Service";
-import User from "./User";
+import axios from 'axios';
+import Service from './Service';
+import User from './User';
 
 export default class Api {
 	constructor(server, apiUrl, timeout = 15000) {
@@ -18,7 +18,7 @@ export default class Api {
 		if (!this.isSetup) {
 			let response = await this.axios.get(this.apiUrl);
 			for (let service in response.data) {
-				this[service] = new Service(this, response.data[service]["list_endpoint"]);
+				this[service] = new Service(this, response.data[service]['list_endpoint']);
 			}
 			this.isSetup = true;
 		}
@@ -26,7 +26,7 @@ export default class Api {
 
 	get headers() {
 		if (this.loggedUser) {
-			return { ApiKey: this.loggedUser.userName + ":" + this.loggedUser.userApiKey };
+			return { ApiKey: this.loggedUser.userName + ':' + this.loggedUser.userApiKey };
 		} else {
 			return {};
 		}
@@ -34,9 +34,9 @@ export default class Api {
 
 	async login(email, password) {
 		// TODO put login url in constants
-		let response = await this.axios.post("/SDA/api/v1/user/login/", { email: email, password: password });
-		window.localStorage.setItem("userName", response.data.name);
-		window.localStorage.setItem("userApiKey", response.data.api_key);
+		let response = await this.axios.post('/SDA/api/v1/user/login/', { email: email, password: password });
+		window.localStorage.setItem('userName', response.data.name);
+		window.localStorage.setItem('userApiKey', response.data.api_key);
 		this.loggedUser = this.getUser();
 	}
 
@@ -46,18 +46,18 @@ export default class Api {
 	}
 
 	async deleteAccount() {
-		console.log("TODO deleteAccount");
+		console.log('TODO deleteAccount');
 	}
 
 	logout() {
-		window.localStorage.removeItem("userName");
-		window.localStorage.removeItem("userApiKey");
+		window.localStorage.removeItem('userName');
+		window.localStorage.removeItem('userApiKey');
 		this.loggedUser = null;
 	}
 
 	getUser() {
-		let userName = window.localStorage.getItem("userName");
-		let userApiKey = window.localStorage.getItem("userApiKey");
+		let userName = window.localStorage.getItem('userName');
+		let userApiKey = window.localStorage.getItem('userApiKey');
 
 		if (userName && userApiKey) {
 			return new User(userName, userApiKey);
@@ -73,7 +73,7 @@ export default class Api {
 			return error.response.data;
 		} else if (error.request) {
 			// The request was made but no response was received
-			return "No response received";
+			return 'No response received';
 		} else {
 			// Something happened in setting up the request that triggered an Error
 			return error.message;

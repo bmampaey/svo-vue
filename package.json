@@ -59,6 +59,8 @@
         "warn",
         {
           "useTabs": true,
+          "singleQuote": true,
+          "semi": true,
           "printWidth": 200
         }
       ],

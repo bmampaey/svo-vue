@@ -42,11 +42,11 @@
 </template>
 
 <script>
-import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
-import DatasetDetail from "@/components/DatasetDetail.vue";
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetDetail from '@/components/DatasetDetail.vue';
 
 export default {
-	name: "DatasetList",
+	name: 'DatasetList',
 	components: {
 		DatasetDetail
 	},
@@ -72,7 +72,7 @@ export default {
 
 	watch: {
 		searchFilter: {
-			handler: "updateDatasetList",
+			handler: 'updateDatasetList',
 			immediate: true
 		}
 	},
@@ -82,7 +82,7 @@ export default {
 			try {
 				this.datasetList = await this.$SDA.dataset.all(searchFilter.getSearchParams());
 			} catch (error) {
-				console.log("TODO updateDatasetList error");
+				console.log('TODO updateDatasetList error');
 			}
 			this.loading = false;
 		},
@@ -97,10 +97,10 @@ export default {
 			}
 		},
 		saveSelection: function() {
-			console.log("TODO save selection");
+			console.log('TODO save selection');
 		},
 		characteristicsAsList: function(characteristics) {
-			return characteristics.map(characteristic => characteristic.name).join(", ");
+			return characteristics.map(characteristic => characteristic.name).join(', ');
 		}
 	}
 };

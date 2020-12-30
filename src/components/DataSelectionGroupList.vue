@@ -53,12 +53,12 @@
 </template>
 
 <script>
-import { data_selection_groups } from "@/test_data";
+import { data_selection_groups } from '@/test_data';
 
-import DataSelectionGroupDetail from "@/components/DataSelectionGroupDetail.vue";
+import DataSelectionGroupDetail from '@/components/DataSelectionGroupDetail.vue';
 
 export default {
-	name: "DataSelectionGroupList",
+	name: 'DataSelectionGroupList',
 	components: {
 		DataSelectionGroupDetail
 	},
@@ -79,11 +79,11 @@ export default {
 			}
 		},
 		deleteDataSelectionGroup: function(dataSelectionGroup) {
-			console.log("TODO: delete", dataSelectionGroup);
+			console.log('TODO: delete', dataSelectionGroup);
 		},
 		getZipDownloadUrl: function(dataSelectionGroup) {
 			// TODO make proper
-			return "/SDA/data_selection/data_selection_group/download_zip/" + dataSelectionGroup.id;
+			return '/SDA/data_selection/data_selection_group/download_zip/' + dataSelectionGroup.id;
 		}
 	}
 };

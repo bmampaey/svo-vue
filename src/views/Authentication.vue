@@ -23,11 +23,11 @@
 </template>
 
 <script>
-import LoginForm from "@/components/LoginForm.vue";
-import RegisterForm from "@/components/RegisterForm.vue";
+import LoginForm from '@/components/LoginForm.vue';
+import RegisterForm from '@/components/RegisterForm.vue';
 
 export default {
-	name: "Login",
+	name: 'Login',
 	components: {
 		LoginForm,
 		RegisterForm

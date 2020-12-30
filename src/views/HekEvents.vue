@@ -7,12 +7,12 @@
 
 <script>
 // @ is an alias to /src
-import AppMenu from "@/components/AppMenu.vue";
-import HekEvent from "@/components/HekEvent.vue";
-import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
+import AppMenu from '@/components/AppMenu.vue';
+import HekEvent from '@/components/HekEvent.vue';
+import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 
 export default {
-	name: "HekEvents",
+	name: 'HekEvents',
 	components: {
 		AppMenu,
 		HekEvent

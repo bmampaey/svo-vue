@@ -12,13 +12,13 @@
 
 <script>
 export default {
-	name: "LoginForm",
+	name: 'LoginForm',
 	data: function() {
 		return {
 			email: null,
 			password: null,
 			passwordValid: null,
-			passwordFeedback: "The password is invalid! If you have forgotten your password, please send an email to solsysadm@oma.be"
+			passwordFeedback: 'The password is invalid! If you have forgotten your password, please send an email to solsysadm@oma.be'
 		};
 	},
 	methods: {
@@ -27,7 +27,7 @@ export default {
 			try {
 				this.passwordValid = null;
 				await this.$SDA.login(this.email, this.password);
-				this.$router.push({ name: "Root" });
+				this.$router.push({ name: 'Root' });
 			} catch (error) {
 				this.passwordValid = false;
 			}

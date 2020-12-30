@@ -13,13 +13,13 @@
 </template>
 
 <script>
-import { telescopes, instruments } from "@/test_data";
+import { telescopes, instruments } from '@/test_data';
 // @ is an alias to /src
 // TODO just for testing, after use <component :is="aia_lev1">
-import aia_lev1 from "@/components/metadata/aia_lev1.vue";
+import aia_lev1 from '@/components/metadata/aia_lev1.vue';
 
 export default {
-	name: "DatasetDetail",
+	name: 'DatasetDetail',
 	// TODO just for testing
 	components: {
 		aia_lev1
@@ -41,10 +41,10 @@ export default {
 	},
 	computed: {
 		telescopePopover: function() {
-			return { title: this.telescope.name, content: this.telescope.description, html: true, placement: "bottom", trigger: "focus", customClass: "popover-lg" };
+			return { title: this.telescope.name, content: this.telescope.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
 		},
 		instrumentPopover: function() {
-			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: "bottom", trigger: "focus", customClass: "popover-lg" };
+			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
 		}
 	}
 };

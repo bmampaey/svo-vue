@@ -12,16 +12,16 @@
 		<b-collapse id="nav-collapse" is-nav>
 			<!-- Left aligned menu items -->
 			<b-navbar-nav>
-				<b-nav-item :to="{name: 'Datasets'}" active-class="active">Datasets</b-nav-item>
-				<b-nav-item :to="{name: 'DataSelections'}" active-class="active">Data selections</b-nav-item>
-				<b-nav-item :to="{name: 'HekEvents'}" active-class="active">HEK Events</b-nav-item>
+				<b-nav-item :to="{ name: 'Datasets' }" active-class="active">Datasets</b-nav-item>
+				<b-nav-item :to="{ name: 'DataSelections' }" active-class="active">Data selections</b-nav-item>
+				<b-nav-item :to="{ name: 'HekEvents' }" active-class="active">HEK Events</b-nav-item>
 			</b-navbar-nav>
 
 			<!-- Right aligned menu items -->
 			<b-navbar-nav class="ml-auto">
 				<b-nav-item-dropdown :text="userName" right id="app-menu-user">
 					<b-dropdown-item @click="logout" aria-describedby="app-menu-user">Logout</b-dropdown-item>
-					<b-dropdown-item :to="{name: 'DeleteAccount'}" aria-describedby="app-menu-user">Delete account</b-dropdown-item>
+					<b-dropdown-item :to="{ name: 'DeleteAccount' }" aria-describedby="app-menu-user">Delete account</b-dropdown-item>
 				</b-nav-item-dropdown>
 			</b-navbar-nav>
 		</b-collapse>
@@ -30,7 +30,7 @@
 
 <script>
 export default {
-	name: "AppMenu",
+	name: 'AppMenu',
 	computed: {
 		userName: function() {
 			return this.$SDA.loggedUser.userName;
@@ -39,7 +39,7 @@ export default {
 	methods: {
 		logout: function() {
 			this.$SDA.logout();
-			this.$router.push({ name: "Authentication" });
+			this.$router.push({ name: 'Authentication' });
 		}
 	}
 };

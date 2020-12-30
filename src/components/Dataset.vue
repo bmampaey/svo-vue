@@ -6,12 +6,12 @@
 </template>
 
 <script>
-import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
-import DatasetForm from "@/components/DatasetForm.vue";
-import DatasetList from "@/components/DatasetList.vue";
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetForm from '@/components/DatasetForm.vue';
+import DatasetList from '@/components/DatasetList.vue';
 
 export default {
-	name: "Dataset",
+	name: 'Dataset',
 	components: {
 		DatasetForm,
 		DatasetList

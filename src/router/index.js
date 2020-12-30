@@ -1,49 +1,49 @@
-import Vue from "vue";
-import VueRouter from "vue-router";
+import Vue from 'vue';
+import VueRouter from 'vue-router';
 
 Vue.use(VueRouter);
 
 const routes = [
 	{
-		path: "/",
-		name: "Root",
-		redirect: { name: "Datasets" }
+		path: '/',
+		name: 'Root',
+		redirect: { name: 'Datasets' }
 	},
 	{
-		path: "/datasets",
-		name: "Datasets",
-		component: () => import("@/views/Datasets.vue")
+		path: '/datasets',
+		name: 'Datasets',
+		component: () => import('@/views/Datasets.vue')
 	},
 	{
-		path: "/data_selections",
-		name: "DataSelections",
-		component: () => import("@/views/DataSelections.vue")
+		path: '/data_selections',
+		name: 'DataSelections',
+		component: () => import('@/views/DataSelections.vue')
 	},
 	{
-		path: "/hek_events",
-		name: "HekEvents",
-		component: () => import("@/views/HekEvents.vue")
+		path: '/hek_events',
+		name: 'HekEvents',
+		component: () => import('@/views/HekEvents.vue')
 	},
 	{
-		path: "/authentication",
-		name: "Authentication",
-		component: () => import("@/views/Authentication.vue")
+		path: '/authentication',
+		name: 'Authentication',
+		component: () => import('@/views/Authentication.vue')
 	},
 	{
-		path: "/delete_account",
-		name: "DeleteAccount",
-		component: () => import("@/views/DeleteAccount.vue")
+		path: '/delete_account',
+		name: 'DeleteAccount',
+		component: () => import('@/views/DeleteAccount.vue')
 	},
 	// Display a not found message for all other routes
 	{
-		path: "*",
-		name: "NotFound",
-		component: () => import("@/views/NotFound.vue")
+		path: '*',
+		name: 'NotFound',
+		component: () => import('@/views/NotFound.vue')
 	}
 ];
 
 const router = new VueRouter({
-	mode: "history",
+	mode: 'history',
 	base: process.env.BASE_URL,
 	routes
 });
@@ -52,14 +52,14 @@ router.beforeEach((to, from, next) => {
 	router.app.$SDA
 		.setup()
 		.then(function() {
-			if (to.name == "Authentication" || router.app.$SDA.loggedUser) {
+			if (to.name == 'Authentication' || router.app.$SDA.loggedUser) {
 				next();
 			} else {
-				next({ name: "Authentication" });
+				next({ name: 'Authentication' });
 			}
 		})
 		.catch(error => {
-			alert("Error contacting the server, please refresh the page or contact the administrator of the website");
+			alert('Error contacting the server, please refresh the page or contact the administrator of the website');
 			console.log(error);
 		});
 });

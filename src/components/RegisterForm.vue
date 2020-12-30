@@ -15,7 +15,7 @@
 
 <script>
 export default {
-	name: "RegisterForm",
+	name: 'RegisterForm',
 	data: function() {
 		return {
 			email: null,

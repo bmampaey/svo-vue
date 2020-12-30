@@ -1,4 +1,4 @@
-import Paginator from "./Paginator";
+import Paginator from './Paginator';
 
 export default class Service {
 	constructor(api, url) {
@@ -8,7 +8,7 @@ export default class Service {
 
 	async all(searchParams = {}) {
 		searchParams = new URLSearchParams(searchParams);
-		searchParams.set("limit", 0);
+		searchParams.set('limit', 0);
 		let response = await this.api.axios.get(this.url, { params: searchParams });
 		return response.data.objects;
 	}

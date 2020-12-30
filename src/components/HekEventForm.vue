@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
+import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 
 export default {
-	name: "HekEventForm",
+	name: 'HekEventForm',
 	props: {
 		value: { type: HekEventSearchFilter, required: true }
 	},
@@ -23,7 +23,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			this.$emit("input", this.searchFilter.deepCopy());
+			this.$emit('input', this.searchFilter.deepCopy());
 		}
 	}
 };

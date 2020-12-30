@@ -39,12 +39,12 @@
 </template>
 
 <script>
-import { metadataList } from "@/test_data";
+import { metadataList } from '@/test_data';
 
-import MetadataDetail from "./MetadataDetail.vue";
+import MetadataDetail from './MetadataDetail.vue';
 
 export default {
-	name: "MetadataList",
+	name: 'MetadataList',
 	components: {
 		MetadataDetail
 	},
@@ -74,10 +74,10 @@ export default {
 		//TODO should this be defined on a Metadata object ?
 		getDataDownloadUrl: function(metadata) {
 			// TODO could we return null
-			return metadata.data_location.offline ? "#" : metadata.data_location.file_url;
+			return metadata.data_location.offline ? '#' : metadata.data_location.file_url;
 		},
 		tagsAsList: function(tags) {
-			return tags.map(tag => tag.name).join(", ");
+			return tags.map(tag => tag.name).join(', ');
 		}
 	}
 };

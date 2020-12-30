@@ -65,11 +65,11 @@ export default {
 		},
 		minLabel: {
 			type: String,
-			default: "Min"
+			default: 'Min'
 		},
 		maxLabel: {
 			type: String,
-			default: "Max"
+			default: 'Max'
 		},
 		minDate: {
 			type: [String, Date],
@@ -84,22 +84,22 @@ export default {
 		// if inputId has not been specified explicitly, we generate one with an increasing counter to avoid duplicates
 		let baseInputId = this.inputId;
 		if (baseInputId == null) {
-			baseInputId = "base-datetime-range-" + baseInputIdCounter.toString();
+			baseInputId = 'base-datetime-range-' + baseInputIdCounter.toString();
 			baseInputIdCounter += 1;
 		}
 		return {
-			minValue: this.value.min instanceof Date ? this.value.min.toISOString().substring(0, 10) : "",
-			maxValue: this.value.max instanceof Date ? this.value.max.toISOString().substring(0, 10) : "",
-			minInputId: baseInputId + "-min",
-			maxInputId: baseInputId + "-max",
-			minInputFeedback: "",
-			maxInputFeedback: "",
+			minValue: this.value.min instanceof Date ? this.value.min.toISOString().substring(0, 10) : '',
+			maxValue: this.value.max instanceof Date ? this.value.max.toISOString().substring(0, 10) : '',
+			minInputId: baseInputId + '-min',
+			maxInputId: baseInputId + '-max',
+			minInputFeedback: '',
+			maxInputFeedback: '',
 			minInputState: null,
 			maxInputState: null,
 			hideHeader: true,
 			startWeekday: 1, // Start calendar on monday
 			showDecadeNav: true, // Add decades arrow navigation
-			locale: "en"
+			locale: 'en'
 		};
 	},
 	methods: {
@@ -108,7 +108,7 @@ export default {
 			let minDate = this.$utils.parseDate(this.minValue);
 			if (this.minValue && minDate == null) {
 				this.minInputState = false;
-				this.minInputFeedback = "Invalid date, format is YYYY-MM-DD";
+				this.minInputFeedback = 'Invalid date, format is YYYY-MM-DD';
 			} else {
 				this.minInputState = null;
 			}
@@ -116,7 +116,7 @@ export default {
 			let maxDate = this.$utils.parseDate(this.maxValue);
 			if (this.maxValue && maxDate == null) {
 				this.maxInputState = false;
-				this.maxInputFeedback = "Invalid date, format is YYYY-MM-DD";
+				this.maxInputFeedback = 'Invalid date, format is YYYY-MM-DD';
 			} else {
 				this.maxInputState = null;
 			}
@@ -124,10 +124,10 @@ export default {
 			if (this.minInputState != false && this.maxInputState != false) {
 				if (minDate != null && maxDate != null && minDate > maxDate) {
 					this.maxInputState = false;
-					this.maxInputFeedback = this.maxLabel + " must be larger than " + this.minLabel;
+					this.maxInputFeedback = this.maxLabel + ' must be larger than ' + this.minLabel;
 				}
 			}
-			this.$emit("input", { min: minDate, max: maxDate });
+			this.$emit('input', { min: minDate, max: maxDate });
 		}
 	}
 };

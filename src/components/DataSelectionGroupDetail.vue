@@ -42,7 +42,7 @@
 
 <script>
 export default {
-	name: "DataSelectionDetail",
+	name: 'DataSelectionDetail',
 	props: {
 		dataSelectionGroup: { type: Object, required: true }
 	},
@@ -55,14 +55,14 @@ export default {
 		},
 		getZipDownloadUrl: function(dataSelection) {
 			// TODO make proper (redundant with data selection group)
-			return "/SDA/data_selection/data_selection_group/download_zip/" + dataSelection.id;
+			return '/SDA/data_selection/data_selection_group/download_zip/' + dataSelection.id;
 		},
 		getFtpDownloadUrl: function(dataSelection) {
 			// TODO make proper (redundant with data selection group)
 			return this.dataSelectionGroup.ftp_link + dataSelection.name;
 		},
 		deleteDataSelection: function(dataSelection) {
-			console.log("TODO: delete", dataSelection);
+			console.log('TODO: delete', dataSelection);
 		}
 	},
 	computed: {

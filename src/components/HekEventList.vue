@@ -42,13 +42,13 @@
 </template>
 
 <script>
-import HekEventDetail from "@/components/HekEventDetail.vue";
-import Dataset from "@/components/Dataset.vue";
-import DatasetSearchFilter from "@/services/sda/DatasetSearchFilter";
-import HekEventSearchFilter from "@/services/hek/EventSearchFilter";
+import HekEventDetail from '@/components/HekEventDetail.vue';
+import Dataset from '@/components/Dataset.vue';
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 
 export default {
-	name: "HekEventList",
+	name: 'HekEventList',
 	components: {
 		HekEventDetail,
 		Dataset
@@ -63,7 +63,7 @@ export default {
 			shownEvent: null,
 			loading: true,
 			datasetSearchFilter: new DatasetSearchFilter(),
-			datasetModalTitle: "Datasets"
+			datasetModalTitle: 'Datasets'
 		};
 	},
 	computed: {
@@ -73,7 +73,7 @@ export default {
 	},
 	watch: {
 		searchFilter: {
-			handler: "updateEventList",
+			handler: 'updateEventList',
 			immediate: true
 		}
 	},
@@ -83,7 +83,7 @@ export default {
 			try {
 				this.eventList = await this.$HEK.searchEvents(searchFilter.getSearchParams(), pageNumber);
 			} catch (error) {
-				console.log("TODO updateEventList error");
+				console.log('TODO updateEventList error');
 			}
 			this.loading = false;
 		},
@@ -98,13 +98,13 @@ export default {
 		},
 		searchOverlappingDatasets: function() {
 			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
-			this.datasetModalTitle = "Datasets overlapping selected events: " + Array.from(selectedEventTypes).join(", ");
+			this.datasetModalTitle = 'Datasets overlapping selected events: ' + Array.from(selectedEventTypes).join(', ');
 			this.datasetSearchFilter = new DatasetSearchFilter({
 				dateRange: {
 					min: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
 					max: new Date(Math.max(...this.selectedEvents.map(e => e.endTime)))
 				},
-				search: this.selectedEvents.map(e => "(date_beg__lt = " + e.endTime.toISOString() + " and date_end__gt = " + e.startTime.toISOString() + ")").join(" or ")
+				search: this.selectedEvents.map(e => '(date_beg__lt = ' + e.endTime.toISOString() + ' and date_end__gt = ' + e.startTime.toISOString() + ')').join(' or ')
 			});
 
 			this.$refs.datasetModal.show();

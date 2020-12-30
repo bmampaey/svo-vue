@@ -12,35 +12,35 @@ export default class DatasetSearchFilter {
 		let searchParams = new URLSearchParams();
 
 		for (const telescope of this.telescopes) {
-			searchParams.append("telescope__in", telescope);
+			searchParams.append('telescope__in', telescope);
 		}
 
 		for (const characteristic of this.characteristics) {
-			searchParams.append("characteristics__in", characteristic);
+			searchParams.append('characteristics__in', characteristic);
 		}
 
 		for (const tag of this.tags) {
-			searchParams.append("tags__in", tag);
+			searchParams.append('tags__in', tag);
 		}
 
 		if (this.dateRange.min) {
-			searchParams.set("date_end__gte", this.dateRange.min.toISOString());
+			searchParams.set('date_end__gte', this.dateRange.min.toISOString());
 		}
 
 		if (this.dateRange.max) {
-			searchParams.set("date_beg__lte", this.dateRange.max.toISOString());
+			searchParams.set('date_beg__lte', this.dateRange.max.toISOString());
 		}
 
 		if (this.wavelengthRange.min) {
-			searchParams.set("wavemax__gte", this.wavelengthRange.min);
+			searchParams.set('wavemax__gte', this.wavelengthRange.min);
 		}
 
 		if (this.wavelengthRange.max) {
-			searchParams.set("wavemin__lte", this.wavelengthRange.max);
+			searchParams.set('wavemin__lte', this.wavelengthRange.max);
 		}
 
 		if (this.search) {
-			searchParams.set("search", this.search);
+			searchParams.set('search', this.search);
 		}
 
 		return searchParams;

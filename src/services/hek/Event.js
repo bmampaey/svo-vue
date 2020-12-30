@@ -1,4 +1,4 @@
-import { HEK_API_URL, HEK_EVENT_DETAIL_SEARCH_PARAMS, HEK_EVENT_TYPE_NAMES } from "@/constants.js";
+import { HEK_API_URL, HEK_EVENT_DETAIL_SEARCH_PARAMS, HEK_EVENT_TYPE_NAMES } from '@/constants.js';
 
 export default class Event {
 	constructor(data) {
@@ -10,15 +10,15 @@ export default class Event {
 	}
 
 	get startTime() {
-		return this.event_starttime && new Date(this.event_starttime + "Z");
+		return this.event_starttime && new Date(this.event_starttime + 'Z');
 	}
 
 	get endTime() {
-		return this.event_endtime && new Date(this.event_endtime + "Z");
+		return this.event_endtime && new Date(this.event_endtime + 'Z');
 	}
 
 	get thumbnailUrl() {
-		return this.gs_thumburl || require("@/assets/no_preview_available.jpg");
+		return this.gs_thumburl || require('@/assets/no_preview_available.jpg');
 	}
 
 	get detailUrl() {

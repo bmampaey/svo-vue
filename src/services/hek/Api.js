@@ -1,5 +1,5 @@
-import jsonp from "jsonp-promise";
-import Event from "./Event";
+import jsonp from 'jsonp-promise';
+import Event from './Event';
 
 export default class Api {
 	constructor(apiUrl, timeout = 15000) {
@@ -10,7 +10,7 @@ export default class Api {
 	async searchEvents(searchParams, pageNumber = null) {
 		let url = new URL(this.apiUrl);
 		if (pageNumber) {
-			searchParams.set("page", pageNumber);
+			searchParams.set('page', pageNumber);
 		}
 		url.search = searchParams;
 
@@ -19,7 +19,7 @@ export default class Api {
 		if (data.result instanceof Array) {
 			return data.result.map(item => new Event(item));
 		} else {
-			throw Error("Could not retrieve events");
+			throw Error('Could not retrieve events');
 		}
 	}
 }
