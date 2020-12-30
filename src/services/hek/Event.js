@@ -10,11 +10,11 @@ export default class Event {
 	}
 
 	get startTime() {
-		return this.event_starttime && new Date(this.event_starttime + 'Z');
+		return this.event_starttime && new Date(this.event_starttime + "Z");
 	}
 
 	get endTime() {
-		return this.event_endtime && new Date(this.event_endtime + 'Z');
+		return this.event_endtime && new Date(this.event_endtime + "Z");
 	}
 
 	get thumbnailUrl() {

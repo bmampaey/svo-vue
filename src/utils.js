@@ -18,7 +18,7 @@ Vue.prototype.$utils = {
 		} else if (!(date instanceof Date)) {
 			date = new Date(date);
 		}
-		
+
 		let temp = date.toISOString();
 		return temp.substring(0, 10) + " " + temp.substring(11, 19);
 	}

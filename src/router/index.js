@@ -7,25 +7,29 @@ const routes = [
 	{
 		path: "/authentication",
 		name: "Authentication",
-		component: () => import("../views/Authentication.vue")
+		component: () => import("@/views/Authentication.vue")
 	},
 	{
 		path: "/datasets",
 		name: "Datasets",
-		component: () => import("../views/Datasets.vue")
+		component: () => import("@/views/Datasets.vue")
 	},
 	{
 		path: "/data_selections",
 		name: "DataSelections",
-		component: () => import("../views/DataSelections.vue")
+		component: () => import("@/views/DataSelections.vue")
 	},
 	{
 		path: "/hek_events",
 		name: "HekEvents",
-		component: () => import("../views/HekEvents.vue")
+		component: () => import("@/views/HekEvents.vue")
 	},
 	// redirect all other routes to dataset
-	{ path: "*", redirect: "/datasets" }
+	{
+		path: "*",
+		name: "NotFound",
+		component: () => import("@/views/NotFound.vue")
+	}
 ];
 
 const router = new VueRouter({

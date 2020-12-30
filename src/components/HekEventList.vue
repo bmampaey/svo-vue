@@ -1,6 +1,6 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-table-simple small hover>
+		<b-table-simple small hover id="hek-event-list-table">
 			<thead>
 				<tr>
 					<th></th>
@@ -30,6 +30,7 @@
 				</tr>
 			</tbody>
 		</b-table-simple>
+		<b-pagination v-model="pageNumber" :total-rows="rows" :per-page="perPage" aria-controls="hek-event-list-table" limit="3" hide-goto-end-buttons size="sm" @change="loadPage"></b-pagination>
 		<div>
 			<b-button :disabled="selectedEventsEmpty" variant="primary" @click="searchOverlappingDatasets" title="Select one or more event to search for overlapping data">Search overlapping</b-button>
 		</div>

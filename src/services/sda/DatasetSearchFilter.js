@@ -11,15 +11,15 @@ export default class DatasetSearchFilter {
 	getSearchParams() {
 		let searchParams = new URLSearchParams();
 
-		for (const telescope of this.telescopes){
+		for (const telescope of this.telescopes) {
 			searchParams.append("telescope__in", telescope);
 		}
 
-		for (const characteristic of this.characteristics){
+		for (const characteristic of this.characteristics) {
 			searchParams.append("characteristics__in", characteristic);
 		}
 
-		for (const tag of this.tags){
+		for (const tag of this.tags) {
 			searchParams.append("tags__in", tag);
 		}
 

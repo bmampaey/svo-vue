@@ -18,7 +18,12 @@
 			</b-navbar-nav>
 
 			<!-- Right aligned menu items -->
-			<b-navbar-nav class="ml-auto"> </b-navbar-nav>
+			<b-navbar-nav class="ml-auto">
+				<b-nav-item-dropdown :text="$SDA.user.userName" right id="app-menu-user">
+					<b-dropdown-item @click="$SDA.logout" aria-describedby="app-menu-user">Logout</b-dropdown-item>
+					<b-dropdown-item to="delete_account" aria-describedby="app-menu-user">Delete account</b-dropdown-item>
+				</b-nav-item-dropdown>
+			</b-navbar-nav>
 		</b-collapse>
 	</b-navbar>
 </template>
