@@ -1,49 +1,36 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-table-simple small hover>
-			<thead>
-				<tr>
-					<th>FTP</th>
-					<th>ZIP</th>
-					<th># Items</th>
-					<th>Name</th>
-					<th>Date of creation</th>
-					<th>Last update</th>
-					<th>Delete</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td v-if="dataSelectionGroupList.length > 0" class="text-center small" colspan="100">
-						Click on any row to see data selection details
-					</td>
-					<td v-else class="text-center text-warning" colspan="100">
-						You have not saved any data selection yet
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr v-for="dataSelectionGroup in dataSelectionGroupList" :key="dataSelectionGroup.id" role="button" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)">
-					<td>
-						<b-button :href="dataSelectionGroup.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
-							<b-icon icon="folder-symlink"></b-icon>
-						</b-button>
-					</td>
-					<td>
-						<b-button :href="getZipDownloadUrl(dataSelectionGroup)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
-							<b-icon icon="file-earmark-zip"></b-icon>
-						</b-button>
-					</td>
-					<td>{{ dataSelectionGroup.number_items }}</td>
-					<td>{{ dataSelectionGroup.name }}</td>
-					<td>{{ $utils.formatDate(dataSelectionGroup.created) }}</td>
-					<td>{{ $utils.formatDate(dataSelectionGroup.updated) }}</td>
-					<td>
-						<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelectionGroup(dataSelectionGroup)"><b-icon icon="trash"></b-icon></b-button>
-					</td>
-				</tr>
-			</tbody>
-		</b-table-simple>
+		<b-table
+			ref="dataSelectionGroupListTable"
+			:items="dataSelectionGroupList"
+			:fields="fields"
+			primary-key="id"
+			select-mode="single"
+			caption="Click on any row to see data selection details"
+			empty-text="You have not saved any data selection yet"
+			small
+			hover
+			show-empty
+			selectable
+			@row-selected="onRowSelected"
+		>
+			<template #cell(ftp_button)="data">
+				<b-button :href="data.item.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
+					<b-icon icon="folder-symlink"></b-icon>
+				</b-button>
+			</template>
+			<template #cell(zip_button)="data">
+				<b-button :href="getZipDownloadUrl(data.item)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
+					<b-icon icon="file-earmark-zip"></b-icon>
+				</b-button>
+			</template>
+			<template #cell(delete_button)="data">
+				<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelectionGroup(data.item)">
+					<b-icon icon="trash"></b-icon>
+				</b-button>
+			</template>
+		</b-table>
+
 		<data-selection-group-detail v-if="shownDataSelectionGroup" ref="dataSelectionGroupDetail" :data-selection-group="shownDataSelectionGroup"></data-selection-group-detail>
 	</b-overlay>
 </template>
@@ -63,6 +50,19 @@ export default {
 			loading: true
 		};
 	},
+	computed: {
+		fields: function() {
+			return [
+				{ key: 'ftp_button', label: 'FTP' },
+				{ key: 'zip_button', label: 'ZIP' },
+				{ key: 'number_items', label: '# Items' },
+				{ key: 'name', label: 'Name' },
+				{ key: 'created', label: 'Date of creation', formatter: this.$utils.formatDate },
+				{ key: 'updated', label: 'Last update', formatter: this.$utils.formatDate },
+				{ key: 'delete_button', label: 'Delete' }
+			];
+		}
+	},
 	activated: async function() {
 		await this.updatedataSelectionGroupList();
 	},
@@ -76,9 +76,11 @@ export default {
 			}
 			this.loading = false;
 		},
-		showDataSelectionGroupDetail: function(dataSelectionGroup, $event) {
-			if ($event.target instanceof HTMLTableCellElement) {
-				this.shownDataSelectionGroup = dataSelectionGroup;
+		onRowSelected: function(selectedRows) {
+			if (selectedRows.length > 0) {
+				this.shownDataSelectionGroup = selectedRows[0];
+				// Clear the selection so that the row can be selected again
+				this.$refs.dataSelectionGroupListTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
 					this.$refs.dataSelectionGroupDetail.show();

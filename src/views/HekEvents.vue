@@ -1,7 +1,7 @@
 <template>
 	<b-container fluid>
 		<app-menu></app-menu>
-		<hek-event :initial-search-filter="searchFilter"></hek-event>
+		<hek-event :initial-search-filter="searchFilter" class="mt-3"></hek-event>
 	</b-container>
 </template>
 

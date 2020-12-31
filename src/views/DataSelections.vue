@@ -1,7 +1,7 @@
 <template>
 	<b-container fluid>
 		<app-menu></app-menu>
-		<data-selection-group></data-selection-group>
+		<data-selection-group class="mt-3"></data-selection-group>
 	</b-container>
 </template>
 

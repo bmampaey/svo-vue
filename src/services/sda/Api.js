@@ -17,7 +17,6 @@ export default class Api {
 	}
 
 	setHeaders(config) {
-		console.log('config', config);
 		if (this.currentUser) {
 			// TODO auth should be done by user.name not user.email
 			config.headers.common['Authorization'] = 'ApiKey ' + this.currentUser.email + ':' + this.currentUser.apiKey;
@@ -52,7 +51,7 @@ export default class Api {
 	}
 
 	logout() {
-		this.currentUser.delFromLocalStorage();
+		User.delFromLocalStorage();
 		this.currentUser = null;
 	}
 
