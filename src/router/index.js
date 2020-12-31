@@ -52,7 +52,7 @@ router.beforeEach((to, from, next) => {
 	router.app.$SDA
 		.setup()
 		.then(function() {
-			if (to.name == 'Authentication' || router.app.$SDA.loggedUser) {
+			if (to.name == 'Authentication' || router.app.$SDA.currentUser) {
 				next();
 			} else {
 				next({ name: 'Authentication' });

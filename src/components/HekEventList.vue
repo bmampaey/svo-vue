@@ -30,21 +30,34 @@
 				</tr>
 			</tbody>
 		</b-table-simple>
-		<b-pagination v-model="pageNumber" :total-rows="rows" :per-page="perPage" aria-controls="hek-event-list-table" limit="3" hide-goto-end-buttons size="sm" @change="loadPage"></b-pagination>
-		<div>
-			<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
-		</div>
+
+		<b-button-toolbar key-nav justify>
+			<b-button :disabled="selectedEventsEmpty"  variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+			<b-pagination
+				v-model="pageNumber"
+				:total-rows="eventTotalCount"
+				:per-page="pageSize"
+				aria-controls="hek-event-list-table"
+				limit="3"
+				class="mb-0"
+				hide-goto-end-buttons
+				@change="loadPage"
+			></b-pagination>
+		</b-button-toolbar>
+
 		<hek-event-detail v-if="shownEvent" ref="eventDetail" :event="shownEvent"></hek-event-detail>
+
 		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
 			<dataset :initial-search-filter="datasetSearchFilter"></dataset>
 		</b-modal>
+
 	</b-overlay>
 </template>
 
 <script>
-import HekEventDetail from '@/components/HekEventDetail.vue';
 import Dataset from '@/components/Dataset.vue';
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import HekEventDetail from '@/components/HekEventDetail.vue';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 
 export default {
@@ -59,6 +72,7 @@ export default {
 	data: function() {
 		return {
 			eventList: [],
+			pageNumber: 1,
 			selectedEvents: [],
 			shownEvent: null,
 			loading: true,
@@ -69,6 +83,19 @@ export default {
 	computed: {
 		selectedEventsEmpty: function() {
 			return this.selectedEvents.length == 0;
+		},
+		eventTotalCount: function() {
+			// We don't know how many events there is, so
+			// if we received less events than requested, it is the last page
+			// Else there is maybe 1 or more page left
+			if (this.eventList.length < this.pageSize) {
+				return this.pageNumber * this.pageSize - 1;
+			} else {
+				return this.pageNumber * this.pageSize + 1;
+			}
+		},
+		pageSize: function() {
+			return this.searchFilter.pageSize;
 		}
 	},
 	watch: {
@@ -86,6 +113,9 @@ export default {
 				console.log('TODO updateEventList error');
 			}
 			this.loading = false;
+		},
+		loadPage: function() {
+			this.updateEventList(this.searchFilter, this.pageNumber);
 		},
 		showEventDetail: function(event, $event) {
 			if ($event.target instanceof HTMLTableCellElement) {

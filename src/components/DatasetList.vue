@@ -69,7 +69,6 @@ export default {
 			return this.selectedDatasets.length == 0;
 		}
 	},
-
 	watch: {
 		searchFilter: {
 			handler: 'updateDatasetList',

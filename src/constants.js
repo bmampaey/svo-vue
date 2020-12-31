@@ -50,3 +50,4 @@ export const HEK_EVENT_DETAIL_SEARCH_PARAMS = Object.freeze({
 
 export const SDA_SERVER = 'http://solarnet.oma.be';
 export const SDA_API_URL = '/SDA/api/v1';
+export const SDA_LOGIN_URL = '/SDA/api/v1/user/login/';

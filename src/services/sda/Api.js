@@ -3,14 +3,15 @@ import Service from './Service';
 import User from './User';
 
 export default class Api {
-	constructor(server, apiUrl, timeout = 15000) {
+	constructor(server, apiUrl, loginUrl, timeout = 15000) {
 		this.axios = axios.create({
 			baseURL: server,
 			timeout: timeout,
 			headers: this.headers
 		});
 		this.apiUrl = apiUrl;
-		this.loggedUser = this.getUser();
+		this.loginUrl = loginUrl;
+		this.currentUser = User.getFromLocalStorage();
 		this.isSetup = false;
 	}
 
@@ -25,8 +26,9 @@ export default class Api {
 	}
 
 	get headers() {
-		if (this.loggedUser) {
-			return { ApiKey: this.loggedUser.userName + ':' + this.loggedUser.userApiKey };
+		if (this.currentUser) {
+			// TODO auth should be done by user.name not user.email
+			return { ApiKey: this.currentUser.email + ':' + this.currentUser.apiKey };
 		} else {
 			return {};
 		}
@@ -34,10 +36,9 @@ export default class Api {
 
 	async login(email, password) {
 		// TODO put login url in constants
-		let response = await this.axios.post('/SDA/api/v1/user/login/', { email: email, password: password });
-		window.localStorage.setItem('userName', response.data.name);
-		window.localStorage.setItem('userApiKey', response.data.api_key);
-		this.loggedUser = this.getUser();
+		let response = await this.axios.post(this.loginUrl, { email: email, password: password });
+		this.currentUser = new User(response.data.name, email, response.data.api_key);
+		this.currentUser.saveToLocalStorage();
 	}
 
 	async register(email, username, password) {
@@ -50,20 +51,8 @@ export default class Api {
 	}
 
 	logout() {
-		window.localStorage.removeItem('userName');
-		window.localStorage.removeItem('userApiKey');
-		this.loggedUser = null;
-	}
-
-	getUser() {
-		let userName = window.localStorage.getItem('userName');
-		let userApiKey = window.localStorage.getItem('userApiKey');
-
-		if (userName && userApiKey) {
-			return new User(userName, userApiKey);
-		} else {
-			return null;
-		}
+		this.currentUser.delFromLocalStorage();
+		this.currentUser = null;
 	}
 
 	parseError(error) {

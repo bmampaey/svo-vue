@@ -33,4 +33,8 @@ export default class EventSearchFilter {
 			eventTimeRange: { ...this.eventTimeRange }
 		});
 	}
+
+	get pageSize() {
+		return HEK_EVENT_LIST_SEARCH_PARAMS.result_limit;
+	}
 }

@@ -33,7 +33,7 @@ export default {
 	name: 'AppMenu',
 	computed: {
 		userName: function() {
-			return this.$SDA.loggedUser.userName;
+			return this.$SDA.currentUser.name;
 		}
 	},
 	methods: {

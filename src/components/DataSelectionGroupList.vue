@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<b-overlay :show="loading" rounded="sm">
 		<b-table-simple small hover>
 			<thead>
 				<tr>
@@ -14,7 +14,7 @@
 			</thead>
 			<tfoot>
 				<tr>
-					<td v-if="dataSelectionGroups.length > 0" class="text-center small" colspan="100">
+					<td v-if="dataSelectionGroupList.length > 0" class="text-center small" colspan="100">
 						Click on any row to see data selection details
 					</td>
 					<td v-else class="text-center text-warning" colspan="100">
@@ -23,7 +23,7 @@
 				</tr>
 			</tfoot>
 			<tbody>
-				<tr v-for="dataSelectionGroup in dataSelectionGroups" :key="dataSelectionGroup.id" role="button" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)">
+				<tr v-for="dataSelectionGroup in dataSelectionGroupList" :key="dataSelectionGroup.id" role="button" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)">
 					<td>
 						<b-button :href="dataSelectionGroup.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp"><b-icon icon="folder-symlink"></b-icon></b-button>
 					</td>
@@ -49,12 +49,10 @@
 			</tbody>
 		</b-table-simple>
 		<data-selection-group-detail v-if="shownDataSelectionGroup" ref="dataSelectionGroupDetail" :data-selection-group="shownDataSelectionGroup"></data-selection-group-detail>
-	</div>
+	</b-overlay>
 </template>
 
 <script>
-import { data_selection_groups } from '@/test_data';
-
 import DataSelectionGroupDetail from '@/components/DataSelectionGroupDetail.vue';
 
 export default {
@@ -64,11 +62,24 @@ export default {
 	},
 	data: function() {
 		return {
-			dataSelectionGroups: data_selection_groups.objects,
-			shownDataSelectionGroup: null
+			dataSelectionGroupList: [],
+			shownDataSelectionGroup: null,
+			loading: true
 		};
 	},
+	activated: async function() {
+		await this.updatedataSelectionGroupList();
+	},
 	methods: {
+		updatedataSelectionGroupList: async function() {
+			this.loading = true;
+			try {
+				this.dataSelectionGroupList = await this.$SDA.data_selection_group.all();
+			} catch (error) {
+				console.log('TODO updatedataSelectionGroupList error');
+			}
+			this.loading = false;
+		},
 		showDataSelectionGroupDetail: function(dataSelectionGroup, $event) {
 			if ($event.target instanceof HTMLTableCellElement) {
 				this.shownDataSelectionGroup = dataSelectionGroup;
