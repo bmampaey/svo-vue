@@ -1,0 +1,33 @@
+<template>
+	<b-modal ref="eventDetail" size="md" :title="event.type" hide-footer>
+		<b-img center fluid :src="event.thumbnailUrl" alt="Event thumbnail"></b-img>
+		<dl class="dl-horizontal">
+			<dt>Start time</dt>
+			<dd>{{ $utils.formatDate(event.startTime) }}</dd>
+			<dt>End time</dt>
+			<dd>{{ $utils.formatDate(event.endTime) }}</dd>
+			<dt>Recognition method</dt>
+			<dd>{{ event.frm_name }}</dd>
+			<dt>Identifier name</dt>
+			<dd>{{ event.frm_identifier }}</dd>
+		</dl>
+		<a :href="event.detailUrl" target="_blank">See more details</a>
+	</b-modal>
+</template>
+
+<script>
+export default {
+	name: 'HekEventDetail',
+	props: {
+		event: { type: Object, required: true }
+	},
+	methods: {
+		show: function() {
+			this.$refs.eventDetail.show();
+		}
+	}
+};
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped lang="scss"></style>
