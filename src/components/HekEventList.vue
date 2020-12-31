@@ -32,7 +32,7 @@
 		</b-table-simple>
 
 		<b-button-toolbar key-nav justify>
-			<b-button :disabled="selectedEventsEmpty"  variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+			<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 			<b-pagination
 				v-model="pageNumber"
 				:total-rows="eventTotalCount"
@@ -50,7 +50,6 @@
 		<b-modal ref="datasetModal" size="xl" :title="datasetModalTitle" hide-footer>
 			<dataset :initial-search-filter="datasetSearchFilter"></dataset>
 		</b-modal>
-
 	</b-overlay>
 </template>
 

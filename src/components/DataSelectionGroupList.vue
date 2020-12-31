@@ -25,18 +25,14 @@
 			<tbody>
 				<tr v-for="dataSelectionGroup in dataSelectionGroupList" :key="dataSelectionGroup.id" role="button" @click="showDataSelectionGroupDetail(dataSelectionGroup, $event)">
 					<td>
-						<b-button :href="dataSelectionGroup.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp"><b-icon icon="folder-symlink"></b-icon></b-button>
+						<b-button :href="dataSelectionGroup.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
+							<b-icon icon="folder-symlink"></b-icon>
+						</b-button>
 					</td>
 					<td>
-						<b-button
-							:href="getZipDownloadUrl(dataSelectionGroup)"
-							target="_blank"
-							size="sm"
-							variant="primary"
-							title="Download selection as zip file"
-							:disabled="dataSelectionGroup.number_items <= 100"
-							><b-icon icon="file-earmark-zip"></b-icon
-						></b-button>
+						<b-button :href="getZipDownloadUrl(dataSelectionGroup)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
+							<b-icon icon="file-earmark-zip"></b-icon>
+						</b-button>
 					</td>
 					<td>{{ dataSelectionGroup.number_items }}</td>
 					<td>{{ dataSelectionGroup.name }}</td>
