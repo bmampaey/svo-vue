@@ -1,38 +1,17 @@
 <template>
 	<b-modal ref="dataSelectionGroupDetail" size="xl" :title="dataSelectionGroup.name" hide-footer>
-		<b-table-simple small>
-			<thead>
-				<tr>
-					<th>ZIP</th>
-					<th># Items</th>
-					<th>Name</th>
-					<th>Date of creation</th>
-					<th>Delete</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td v-if="dataSelections.length > 0" class="text-center text-warning small" colspan="100">
-						The data selection is empty
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr v-for="dataSelection in dataSelections" :key="dataSelection.id" role="button">
-					<td>
-						<b-button :href="getZipDownloadUrl(dataSelection)" target="_blank" title="Download selection as zip file" size="sm" variant="primary">
-							<b-icon icon="file-earmark-zip"></b-icon>
-						</b-button>
-					</td>
-					<td>{{ dataSelection.number_items }}</td>
-					<td>{{ dataSelection.dataset.name }}</td>
-					<td>{{ $utils.formatDate(dataSelection.created) }}</td>
-					<td>
-						<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelection(dataSelection)"><b-icon icon="trash"></b-icon></b-button>
-					</td>
-				</tr>
-			</tbody>
-		</b-table-simple>
+		<b-table ref="dataSelectionListTable" :items="dataSelectionList" :fields="fields" primary-key="id" empty-text="The data selection is empty" small show-empty>
+			<template #cell(zip_button)="data">
+				<b-button :href="getZipDownloadUrl(data.item)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
+					<b-icon icon="file-earmark-zip"></b-icon>
+				</b-button>
+			</template>
+			<template #cell(delete_button)="data">
+				<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelection(data.item)">
+					<b-icon icon="trash"></b-icon>
+				</b-button>
+			</template>
+		</b-table>
 	</b-modal>
 </template>
 
@@ -42,12 +21,18 @@ export default {
 	props: {
 		dataSelectionGroup: { type: Object, required: true }
 	},
-	data: function() {
-		return {};
-	},
 	computed: {
-		dataSelections: function() {
+		dataSelectionList: function() {
 			return this.dataSelectionGroup.data_selections ? this.dataSelectionGroup.data_selections : [];
+		},
+		fields: function() {
+			return [
+				{ key: 'zip_button', label: 'ZIP' },
+				{ key: 'number_items', label: '# Items' },
+				{ key: 'dataset', label: 'Dataset', formatter: dataset => dataset.name },
+				{ key: 'created', label: 'Date of creation', formatter: this.$utils.formatDate },
+				{ key: 'delete_button', label: 'Delete' }
+			];
 		}
 	},
 	methods: {

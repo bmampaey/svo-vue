@@ -6,7 +6,7 @@
 			:fields="fields"
 			primary-key="id"
 			select-mode="single"
-			caption="Click on any row to see data selection details"
+			:caption="caption"
 			empty-text="You have not saved any data selection yet"
 			small
 			hover
@@ -61,6 +61,9 @@ export default {
 				{ key: 'updated', label: 'Last update', formatter: this.$utils.formatDate },
 				{ key: 'delete_button', label: 'Delete' }
 			];
+		},
+		caption: function() {
+			return this.dataSelectionGroupList.length > 0 ? 'Click on any row to see data selection details' : null;
 		}
 	},
 	activated: async function() {

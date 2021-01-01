@@ -1,42 +1,28 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-table-simple small hover>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Dataset</th>
-					<th># Items</th>
-					<th>Instrument</th>
-					<th>Telescope</th>
-					<th>Characteristics</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td v-if="nonEmptyDatasets.length > 0" class="text-center small" colspan="100">
-						Click on any row to see dataset content or refine search
-					</td>
-					<td v-else class="text-center text-warning" colspan="100">
-						No dataset correspond to your search criteria
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr v-for="dataset in nonEmptyDatasets" :key="dataset.id" role="button" @click="showDatasetDetail(dataset, $event)">
-					<td>
-						<b-form-checkbox v-model="selectedDatasets" :value="dataset.id" size="lg"></b-form-checkbox>
-					</td>
-					<td>{{ dataset.name }}</td>
-					<td>{{ dataset.metadata.number_items }}</td>
-					<td>{{ dataset.instrument }}</td>
-					<td>{{ dataset.telescope }}</td>
-					<td>{{ characteristicsAsList(dataset.characteristics) }}</td>
-				</tr>
-			</tbody>
-		</b-table-simple>
+		<b-table
+			ref="datasetListTable"
+			:items="nonEmptyDatasets"
+			:fields="fields"
+			primary-key="id"
+			select-mode="single"
+			:caption="caption"
+			empty-text="No dataset correspond to your search criteria"
+			small
+			hover
+			show-empty
+			selectable
+			@row-selected="onRowSelected"
+		>
+			<template #cell(checkbox)="data">
+				<b-form-checkbox v-model="selectedDatasets" :value="data.item.id" size="lg"></b-form-checkbox>
+			</template>
+		</b-table>
+
 		<div>
 			<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
 		</div>
+
 		<dataset-detail v-if="shownDataset" ref="datasetDetail" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
 	</b-overlay>
 </template>
@@ -65,6 +51,19 @@ export default {
 		nonEmptyDatasets: function() {
 			return this.datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
 		},
+		fields: function() {
+			return [
+				{ key: 'checkbox', label: '' },
+				{ key: 'name', label: 'Dataset' },
+				{ key: 'metadata', label: '# Items', formatter: metadata => metadata.number_items },
+				{ key: 'instrument', label: 'Instrument' },
+				{ key: 'telescope', label: 'Telescope' },
+				{ key: 'characteristics', label: 'Characteristics', formatter: characteristics => characteristics.map(characteristic => characteristic.name).join(', ') }
+			];
+		},
+		caption: function() {
+			return this.nonEmptyDatasets.length > 0 ? 'Click on any row to see dataset content or refine search' : null;
+		},
 		selectedDatasetsEmpty: function() {
 			return this.selectedDatasets.length == 0;
 		}
@@ -85,10 +84,11 @@ export default {
 			}
 			this.loading = false;
 		},
-		showDatasetDetail: function(dataset, event) {
-			if (event.target instanceof HTMLTableCellElement) {
-				// replace by this.shownDatasetId = getDataset(dataset.id).then(this.$refs.datasetDetail.show())
-				this.shownDataset = dataset;
+		onRowSelected: function(selectedRows) {
+			if (selectedRows.length > 0) {
+				this.shownDataset = selectedRows[0];
+				// Clear the selection so that the row can be selected again
+				this.$refs.datasetListTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
 					this.$refs.datasetDetail.show();
@@ -97,9 +97,6 @@ export default {
 		},
 		saveSelection: function() {
 			console.log('TODO save selection');
-		},
-		characteristicsAsList: function(characteristics) {
-			return characteristics.map(characteristic => characteristic.name).join(', ');
 		}
 	}
 };

@@ -1,35 +1,23 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-table-simple id="hek-event-list-table" small hover>
-			<thead>
-				<tr>
-					<th></th>
-					<th>Type</th>
-					<th>Start date</th>
-					<th>End date</th>
-				</tr>
-			</thead>
-			<tfoot>
-				<tr>
-					<td v-if="eventList.length > 0" class="text-center small" colspan="100">
-						Click on any row to see the event details
-					</td>
-					<td v-else class="text-center text-warning" colspan="100">
-						No event correspond to your search criteria
-					</td>
-				</tr>
-			</tfoot>
-			<tbody>
-				<tr v-for="event in eventList" :key="event.kb_archivid" role="button" @click="showEventDetail(event, $event)">
-					<td>
-						<b-form-checkbox v-model="selectedEvents" :value="event" size="lg"></b-form-checkbox>
-					</td>
-					<td>{{ event.type }}</td>
-					<td>{{ $utils.formatDate(event.startTime) }}</td>
-					<td>{{ $utils.formatDate(event.endTime) }}</td>
-				</tr>
-			</tbody>
-		</b-table-simple>
+		<b-table
+			ref="eventListTable"
+			:items="eventList"
+			:fields="fields"
+			primary-key="kb_archivid"
+			select-mode="single"
+			:caption="caption"
+			empty-text="No event correspond to your search criteria"
+			small
+			hover
+			show-empty
+			selectable
+			@row-selected="onRowSelected"
+		>
+			<template #cell(checkbox)="data">
+				<b-form-checkbox v-model="selectedEvents" :value="data.item" size="lg"></b-form-checkbox>
+			</template>
+		</b-table>
 
 		<b-button-toolbar key-nav justify>
 			<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
@@ -80,6 +68,17 @@ export default {
 		};
 	},
 	computed: {
+		fields: function() {
+			return [
+				{ key: 'checkbox', label: '' },
+				{ key: 'type', label: 'Type' },
+				{ key: 'startTime', label: 'Start time', formatter: this.$utils.formatDate },
+				{ key: 'endTime', label: 'End time', formatter: this.$utils.formatDate }
+			];
+		},
+		caption: function() {
+			return this.eventList.length > 0 ? 'Click on any row to see the event details' : null;
+		},
 		selectedEventsEmpty: function() {
 			return this.selectedEvents.length == 0;
 		},
@@ -116,9 +115,11 @@ export default {
 		loadPage: function() {
 			this.updateEventList(this.searchFilter, this.pageNumber);
 		},
-		showEventDetail: function(event, $event) {
-			if ($event.target instanceof HTMLTableCellElement) {
-				this.shownEvent = event;
+		onRowSelected: function(selectedRows) {
+			if (selectedRows.length > 0) {
+				this.shownEvent = selectedRows[0];
+				// Clear the selection so that the row can be selected again
+				this.$refs.eventListTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
 					this.$refs.eventDetail.show();
