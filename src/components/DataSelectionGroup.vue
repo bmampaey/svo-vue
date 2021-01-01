@@ -10,9 +10,6 @@ export default {
 	name: 'DataSelectionGroup',
 	components: {
 		DataSelectionGroupList
-	},
-	data: function() {
-		return {};
 	}
 };
 </script>

@@ -9,7 +9,7 @@
 
 <script>
 export default {
-	name: 'NotFound',
+	name: 'DeleteAccount',
 	methods: {
 		deleteAccount: async function() {
 			await this.$SDA.deleteAccount();

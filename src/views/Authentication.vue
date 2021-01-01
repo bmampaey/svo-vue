@@ -31,9 +31,6 @@ export default {
 	components: {
 		LoginForm,
 		RegisterForm
-	},
-	data: function() {
-		return {};
 	}
 };
 </script>
