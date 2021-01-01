@@ -19,9 +19,9 @@
 			</template>
 		</b-table>
 
-		<div>
+		<b-button-toolbar key-nav>
 			<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
-		</div>
+		</b-button-toolbar>
 
 		<dataset-detail v-if="shownDataset" ref="datasetDetail" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
 	</b-overlay>

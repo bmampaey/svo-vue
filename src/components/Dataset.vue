@@ -1,8 +1,12 @@
 <template>
-	<div class="row">
-		<div class="col-4"><dataset-form v-model="searchFilter"></dataset-form></div>
-		<div class="col-8"><dataset-list :search-filter="searchFilter"></dataset-list></div>
-	</div>
+	<b-row>
+		<b-col cols="4">
+			<dataset-form v-model="searchFilter"></dataset-form>
+		</b-col>
+		<b-col cols="8">
+			<dataset-list :search-filter="searchFilter"></dataset-list>
+		</b-col>
+	</b-row>
 </template>
 
 <script>

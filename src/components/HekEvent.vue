@@ -1,12 +1,12 @@
 <template>
-	<div class="row">
-		<div class="col-4">
+	<b-row>
+		<b-col cols="4">
 			<hek-event-form v-model="searchFilter"></hek-event-form>
-		</div>
-		<div class="col-8">
+		</b-col>
+		<b-col cols="8">
 			<hek-event-list :search-filter="searchFilter"></hek-event-list>
-		</div>
-	</div>
+		</b-col>
+	</b-row>
 </template>
 
 <script>
