@@ -8,13 +8,12 @@
 				<b-button pill size="sm" variant="outline-info" :href="dataset.archive_url" target="_blank">Archive webpage</b-button>
 			</b-button-toolbar>
 		</b-card>
-		<component :is="metadata" :dataset="dataset" :search-filter="searchFilter" class="mt-3"> </component>
+		<component :is="metadataComponent" :dataset="dataset" :initial-search-filter="searchFilter" class="mt-3"></component>
 	</b-modal>
 </template>
 
 <script>
-// TODO just for testing, after use <component :is="aia_lev1">
-import aia_lev1 from '@/components/metadata/aia_lev1';
+import metadataComponents from '@/components/metadata';
 
 export default {
 	name: 'DatasetDetail',
@@ -25,8 +24,7 @@ export default {
 	data: function() {
 		return {
 			telescope: this.dataset.telescope,
-			instrument: this.dataset.instrument,
-			metadata: aia_lev1
+			instrument: this.dataset.instrument
 		};
 	},
 	computed: {
@@ -35,6 +33,9 @@ export default {
 		},
 		instrumentPopover: function() {
 			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
+		},
+		metadataComponent: function() {
+			return metadataComponents[this.dataset.id] || metadataComponents.generic;
 		}
 	},
 	methods: {

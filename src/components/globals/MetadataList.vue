@@ -35,8 +35,6 @@
 </template>
 
 <script>
-import { metadataList } from '@/test_data';
-
 import MetadataDetail from './MetadataDetail.vue';
 
 export default {
@@ -51,7 +49,7 @@ export default {
 	},
 	data: function() {
 		return {
-			metadataList: metadataList.objects,
+			metadataList: [],
 			selectedMetadata: [],
 			shownMetadata: null,
 			loading: false // TODO change to true
@@ -61,7 +59,7 @@ export default {
 		fields: function() {
 			return [
 				{ key: 'checkbox', label: '' },
-				{ key: 'download_button', label: 'Download', formatter: (value, index ,metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url) },
+				{ key: 'download_button', label: 'Download', formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url) },
 				...this.columns,
 				{ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') }
 			];
