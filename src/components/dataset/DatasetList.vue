@@ -29,7 +29,7 @@
 
 <script>
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
-import DatasetDetail from '@/components/DatasetDetail.vue';
+import DatasetDetail from './DatasetDetail.vue';
 
 export default {
 	name: 'DatasetList',

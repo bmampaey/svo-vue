@@ -4,7 +4,7 @@
 
 <script>
 // @ is an alias to /src
-import DataSelectionGroupList from '@/components/DataSelectionGroupList.vue';
+import DataSelectionGroupList from './DataSelectionGroupList';
 
 export default {
 	name: 'DataSelectionGroup',

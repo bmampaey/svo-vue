@@ -36,7 +36,7 @@
 </template>
 
 <script>
-import DataSelectionGroupDetail from '@/components/DataSelectionGroupDetail.vue';
+import DataSelectionGroupDetail from './DataSelectionGroupDetail';
 
 export default {
 	name: 'DataSelectionGroupList',

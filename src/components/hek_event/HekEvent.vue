@@ -10,8 +10,8 @@
 </template>
 
 <script>
-import HekEventForm from '@/components/HekEventForm.vue';
-import HekEventList from '@/components/HekEventList.vue';
+import HekEventForm from './HekEventForm';
+import HekEventList from './HekEventList';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 
 export default {

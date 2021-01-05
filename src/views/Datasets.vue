@@ -7,14 +7,12 @@
 
 <script>
 // @ is an alias to /src
-import AppMenu from '@/components/AppMenu.vue';
-import Dataset from '@/components/Dataset.vue';
+import Dataset from '@/components/dataset/Dataset';
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
 
 export default {
 	name: 'Datasets',
 	components: {
-		AppMenu,
 		Dataset
 	},
 	data: function() {

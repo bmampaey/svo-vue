@@ -6,14 +6,11 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import AppMenu from '@/components/AppMenu.vue';
-import DataSelectionGroup from '@/components/DataSelectionGroup.vue';
+import DataSelectionGroup from '@/components/data_selection/DataSelectionGroup';
 
 export default {
 	name: 'DataSelections',
 	components: {
-		AppMenu,
 		DataSelectionGroup
 	}
 };

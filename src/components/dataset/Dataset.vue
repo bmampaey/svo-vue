@@ -11,8 +11,8 @@
 
 <script>
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
-import DatasetForm from '@/components/DatasetForm.vue';
-import DatasetList from '@/components/DatasetList.vue';
+import DatasetForm from './DatasetForm';
+import DatasetList from './DatasetList';
 
 export default {
 	name: 'Dataset',

@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import MetadataDetail from './MetadataDetail.vue';
+import MetadataDetail from './MetadataDetail';
 
 export default {
 	name: 'MetadataList',

@@ -42,10 +42,12 @@
 </template>
 
 <script>
-import Dataset from '@/components/Dataset.vue';
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
-import HekEventDetail from '@/components/HekEventDetail.vue';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
+import HekEventDetail from './HekEventDetail';
+
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import Dataset from '@/components/dataset/Dataset';
+
 
 export default {
 	name: 'HekEventList',
