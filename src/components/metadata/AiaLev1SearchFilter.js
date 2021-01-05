@@ -22,7 +22,7 @@ export default class AiALev1SearchFilter {
 		}
 
 		for (const wavelength of this.wavelengths) {
-			searchParams.append('wavelength__in', wavelength);
+			searchParams.append('wavelnth__in', wavelength);
 		}
 
 		if (this.bestQuality) {
@@ -46,7 +46,7 @@ export default class AiALev1SearchFilter {
 	}
 
 	static fromDatasetSearchFilter(datasetSearchFilter) {
-		let z =  new AiALev1SearchFilter({
+		let z = new AiALev1SearchFilter({
 			dateRange: { ...datasetSearchFilter.dateRange },
 			wavelengths: AiALev1SearchFilter.walengthsInRange(datasetSearchFilter.wavelengthRange),
 			search: datasetSearchFilter.search

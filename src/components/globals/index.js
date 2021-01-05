@@ -8,6 +8,3 @@ Vue.component('base-datetime-range', BaseDatetimeRange);
 
 import BaseNumberRange from './BaseNumberRange';
 Vue.component('base-number-range', BaseNumberRange);
-
-import MetadataList from './MetadataList.vue';
-Vue.component('metadata-list', MetadataList);

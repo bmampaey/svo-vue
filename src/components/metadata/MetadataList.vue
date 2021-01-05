@@ -52,7 +52,7 @@ export default {
 			metadataList: [],
 			selectedMetadata: [],
 			shownMetadata: null,
-			loading: false // TODO change to true
+			loading: true
 		};
 	},
 	computed: {
@@ -71,7 +71,22 @@ export default {
 			return this.selectedMetadata.length == 0;
 		}
 	},
+	watch: {
+		searchFilter: {
+			handler: 'updateMetadataList',
+			immediate: true
+		}
+	},
 	methods: {
+		updateMetadataList: async function(searchFilter) {
+			this.loading = true;
+			try {
+				this.metadataList = await this.$SDA[this.dataset.id].all(searchFilter.getSearchParams());
+			} catch (error) {
+				console.log('TODO updateMetadataList error');
+			}
+			this.loading = false;
+		},
 		onRowSelected: function(selectedRows) {
 			if (selectedRows.length > 0) {
 				this.shownMetadata = selectedRows[0];

@@ -7,23 +7,29 @@
 			</b-form>
 		</b-col>
 		<b-col cols="8">
-			<metadata-list :dataset="dataset" :columns="columns" :search-filter="searchFilter"></metadata-list>
+			<metadata-list :dataset="dataset" :columns="columns" :search-filter="listSearchFilter"></metadata-list>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
+import MetadataList from './MetadataList';
 import GenericSearchFilter from './GenericSearchFilter';
 
 export default {
 	name: 'GenericSearchFilter',
+	components: {
+		MetadataList
+	},
 	props: {
 		dataset: { type: Object, required: true },
 		initialSearchFilter: { type: Object, required: true }
 	},
 	data: function() {
+		let searchFilter = GenericSearchFilter.fromDatasetSearchFilter(this.initialSearchFilter);
 		return {
-			searchFilter: GenericSearchFilter.fromDatasetSearchFilter(this.initialSearchFilter),
+			searchFilter: searchFilter,
+			listSearchFilter: searchFilter.deepCopy(),
 			columns: [
 				{ label: 'Observation date', key: 'date_beg', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength', key: 'wavemin' }
@@ -32,7 +38,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			console.log('TODO update list');
+			this.listSearchFilter = this.searchFilter.deepCopy();
 		}
 	}
 };

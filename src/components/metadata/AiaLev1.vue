@@ -13,23 +13,29 @@
 			</b-form>
 		</b-col>
 		<b-col cols="8">
-			<metadata-list :dataset="dataset" :columns="columns" :search-filter="searchFilter"></metadata-list>
+			<metadata-list :dataset="dataset" :columns="columns" :search-filter="listSearchFilter"></metadata-list>
 		</b-col>
 	</b-row>
 </template>
 
 <script>
+import MetadataList from './MetadataList';
 import AiALev1SearchFilter from './AiaLev1SearchFilter';
 
 export default {
 	name: 'AiaLev1',
+	components: {
+		MetadataList
+	},
 	props: {
 		dataset: { type: Object, required: true },
 		initialSearchFilter: { type: Object, required: true }
 	},
 	data: function() {
+		let searchFilter = AiALev1SearchFilter.fromDatasetSearchFilter(this.initialSearchFilter);
 		return {
-			searchFilter: AiALev1SearchFilter.fromDatasetSearchFilter(this.initialSearchFilter),
+			searchFilter: searchFilter,
+			listSearchFilter: searchFilter.deepCopy(),
 			columns: [
 				{ label: 'Observation date', key: 'date_obs', formatter: this.$utils.formatDate },
 				{ label: 'Wavelength (Å)', key: 'wavelnth' },
@@ -39,7 +45,7 @@ export default {
 	},
 	methods: {
 		onSubmit: function() {
-			console.log('TODO onSubmit');
+			this.listSearchFilter = this.searchFilter.deepCopy();
 		}
 	}
 };
