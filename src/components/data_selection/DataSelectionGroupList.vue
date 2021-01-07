@@ -73,7 +73,7 @@ export default {
 		updatedataSelectionGroupList: async function() {
 			this.loading = true;
 			try {
-				this.dataSelectionGroupList = await this.$SDA.data_selection_group.all();
+				this.dataSelectionGroupList = await this.$SDA.data_selection_group.getAll();
 			} catch (error) {
 				console.log('TODO updatedataSelectionGroupList error');
 			}

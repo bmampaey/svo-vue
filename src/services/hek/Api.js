@@ -1,4 +1,5 @@
 import jsonp from 'jsonp-promise';
+import { HEK_EVENT_LIST_SEARCH_PARAMS } from '@/constants';
 import Event from './Event';
 
 export default class Api {
@@ -7,12 +8,24 @@ export default class Api {
 		this.timeout = timeout;
 	}
 
-	async searchEvents(searchParams, pageNumber = null) {
-		let url = new URL(this.apiUrl);
-		if (pageNumber) {
-			searchParams.set('page', pageNumber);
+	async getPaginated(searchParams = null, resultLimit = null, pageNumber = null) {
+		searchParams = new URLSearchParams(searchParams);
+
+		let fullSearchParams = new URLSearchParams(HEK_EVENT_LIST_SEARCH_PARAMS);
+
+		for (const [key, value] of searchParams.entries()) {
+			fullSearchParams.set(key, value);
 		}
-		url.search = searchParams;
+
+		if (resultLimit) {
+			fullSearchParams.set('result_limit', resultLimit);
+		}
+		if (pageNumber) {
+			fullSearchParams.set('page', pageNumber);
+		}
+
+		let url = new URL(this.apiUrl);
+		url.search = fullSearchParams;
 
 		let data = await jsonp(url.href, { timeout: this.timeout }).promise;
 

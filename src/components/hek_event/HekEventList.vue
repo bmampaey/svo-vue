@@ -1,10 +1,10 @@
 <template>
-	<b-overlay :show="loading" rounded="sm">
+	<b-overlay :show="paginator.loading" rounded="sm">
 		<b-table
 			ref="eventListTable"
-			:items="eventList"
+			:items="paginator.items"
 			:fields="fields"
-			primary-key="kb_archivid"
+			primary-key="id"
 			select-mode="single"
 			:caption="caption"
 			empty-text="No event correspond to your search criteria"
@@ -19,17 +19,17 @@
 			</template>
 		</b-table>
 
-		<b-button-toolbar key-nav justify>
+		<b-button-toolbar key-nav>
 			<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+			<span class="button-toolbar-spacer"></span>
 			<b-pagination
-				v-model="pageNumber"
-				:total-rows="eventTotalCount"
-				:per-page="pageSize"
-				aria-controls="hek-event-list-table"
+				v-model="paginator.pageNumber"
+				:total-rows="paginator.totalRows"
+				:per-page="paginator.perPage"
+				:aria-controls="eventListTableId"
 				limit="3"
 				class="mb-0"
 				hide-goto-end-buttons
-				@change="loadPage"
 			></b-pagination>
 		</b-button-toolbar>
 
@@ -42,12 +42,11 @@
 </template>
 
 <script>
+import Paginator from '@/services/hek/Paginator';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
-import HekEventDetail from './HekEventDetail';
-
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
 import Dataset from '@/components/dataset/Dataset';
-
+import HekEventDetail from './HekEventDetail';
 
 export default {
 	name: 'HekEventList',
@@ -60,11 +59,10 @@ export default {
 	},
 	data: function() {
 		return {
-			eventList: [],
-			pageNumber: 1,
+			paginator: new Paginator(this.$HEK),
 			selectedEvents: [],
 			shownEvent: null,
-			loading: true,
+			eventListTableId: null,
 			datasetSearchFilter: new DatasetSearchFilter(),
 			datasetModalTitle: 'Datasets'
 		};
@@ -79,43 +77,29 @@ export default {
 			];
 		},
 		caption: function() {
-			return this.eventList.length > 0 ? 'Click on any row to see the event details' : null;
+			return this.paginator.items.length > 0 ? 'Click on any row to see the event details' : null;
 		},
 		selectedEventsEmpty: function() {
 			return this.selectedEvents.length == 0;
-		},
-		eventTotalCount: function() {
-			// We don't know how many events there is, so
-			// if we received less events than requested, it is the last page
-			// Else there is maybe 1 or more page left
-			if (this.eventList.length < this.pageSize) {
-				return this.pageNumber * this.pageSize - 1;
-			} else {
-				return this.pageNumber * this.pageSize + 1;
-			}
-		},
-		pageSize: function() {
-			return this.searchFilter.pageSize;
 		}
 	},
 	watch: {
 		searchFilter: {
-			handler: 'updateEventList',
+			handler: 'updatePaginator',
 			immediate: true
 		}
 	},
+	updated: function() {
+		this.eventListTableId = this.$refs.eventListTable.$el.id;
+	},
 	methods: {
-		updateEventList: async function(searchFilter, pageNumber = null) {
-			this.loading = true;
+		updatePaginator: function(searchFilter) {
+			this.paginator.searchParams = searchFilter.getSearchParams();
 			try {
-				this.eventList = await this.$HEK.searchEvents(searchFilter.getSearchParams(), pageNumber);
+				this.paginator.loadPage(1);
 			} catch (error) {
-				console.log('TODO updateEventList error');
+				console.log('TODO updatePaginator error');
 			}
-			this.loading = false;
-		},
-		loadPage: function() {
-			this.updateEventList(this.searchFilter, this.pageNumber);
 		},
 		onRowSelected: function(selectedRows) {
 			if (selectedRows.length > 0) {
@@ -146,4 +130,8 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.button-toolbar-spacer {
+	flex-grow: 1;
+}
+</style>

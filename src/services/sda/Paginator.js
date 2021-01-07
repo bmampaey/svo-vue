@@ -1,30 +1,30 @@
 export default class Paginator {
-	constructor(service, searchParams, data) {
+	#pageNumber = 1;
+
+	constructor(service, searchParams = null, perPage = 10) {
 		this.service = service;
 		this.searchParams = searchParams;
-		this.objects = data.objects;
-		this.meta = data.meta;
+		this.perPage = perPage;
+		this.totalRows = 0;
+		this.items = [];
+		this.loading = false;
 	}
-	get has_next() {
-		return this.meta.next != null;
+
+	get pageNumber() {
+		return this.#pageNumber;
 	}
-	get has_previous() {
-		return this.meta.previous != null;
+
+	set pageNumber(pageNumber) {
+		this.loadPage(pageNumber);
 	}
-	get page_number() {
-		return this.meta.limit > 0 ? Math.floor(this.meta.offset / this.meta.limit) + 1 : 1;
-	}
-	get page_count() {
-		return this.meta.limit > 0 ? Math.ceil(this.meta.total_count / this.meta.limit) : 1;
-	}
-	load_next_page() {
-		if (this.has_next) {
-			return this.service;
-		}
-	}
-	load_previous_page() {
-		if (this.has_previous) {
-			return this.service;
-		}
+
+	async loadPage(pageNumber) {
+		this.loading = true;
+		let data = await this.service.getPaginated(this.searchParams, this.perPage, (pageNumber - 1) * this.perPage);
+		this.items = data.objects;
+		this.perPage = data.meta.limit;
+		this.totalRows = data.meta.total_count;
+		this.#pageNumber = this.perPage > 0 ? Math.floor(data.meta.offset / this.perPage) + 1 : 1;
+		this.loading = false;
 	}
 }

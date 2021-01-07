@@ -46,13 +46,11 @@ export default class AiALev1SearchFilter {
 	}
 
 	static fromDatasetSearchFilter(datasetSearchFilter) {
-		let z = new AiALev1SearchFilter({
+		return new AiALev1SearchFilter({
 			dateRange: { ...datasetSearchFilter.dateRange },
 			wavelengths: AiALev1SearchFilter.walengthsInRange(datasetSearchFilter.wavelengthRange),
 			search: datasetSearchFilter.search
 		});
-		console.log(datasetSearchFilter, z);
-		return z;
 	}
 
 	static walengthsInRange({ min = null, max = null }) {

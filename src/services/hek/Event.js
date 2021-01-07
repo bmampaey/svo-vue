@@ -21,6 +21,10 @@ export default class Event {
 		return this.gs_thumburl || require('@/assets/no_preview_available.jpg');
 	}
 
+	get id() {
+		return this.kb_archivid && this.kb_archivid.split('/').pop();
+	}
+
 	get detailUrl() {
 		if (this.kb_archivid) {
 			let url = new URL(HEK_API_URL);

@@ -78,7 +78,7 @@ export default {
 		updateDatasetList: async function(searchFilter) {
 			this.loading = true;
 			try {
-				this.datasetList = await this.$SDA.dataset.all(searchFilter.getSearchParams());
+				this.datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
 			} catch (error) {
 				console.log('TODO updateDatasetList error');
 			}

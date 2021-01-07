@@ -1,21 +1,26 @@
-import Paginator from './Paginator';
-
 export default class Service {
 	constructor(api, url) {
 		this.api = api;
 		this.url = url;
 	}
 
-	async all(searchParams = {}) {
+	async getAll(searchParams = null) {
 		searchParams = new URLSearchParams(searchParams);
 		searchParams.set('limit', 0);
 		let response = await this.api.axios.get(this.url, { params: searchParams });
 		return response.data.objects;
 	}
 
-	async paginator(searchParams = {}) {
+	async getPaginated(searchParams = null, limit = null, offset = 0) {
+		searchParams = new URLSearchParams(searchParams);
+		if (limit) {
+			searchParams.set('limit', limit);
+		}
+		if (offset) {
+			searchParams.set('offset', offset);
+		}
 		let response = await this.api.axios.get(this.url, { params: searchParams });
-		return new Paginator(this, searchParams, response.data);
+		return response.data;
 	}
 	// get(id) {}
 	// create(data) {}

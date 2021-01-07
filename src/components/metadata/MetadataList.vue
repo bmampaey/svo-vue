@@ -1,8 +1,8 @@
 <template>
-	<b-overlay :show="loading" rounded="sm">
+	<b-overlay :show="paginator.loading" rounded="sm">
 		<b-table
 			ref="metadataListTable"
-			:items="metadataList"
+			:items="paginator.items"
 			:fields="fields"
 			primary-key="oid"
 			select-mode="single"
@@ -28,6 +28,8 @@
 			<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection">Save selection</b-button>
 			<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 			<b-button :disabled="selectedMetadataEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+			<span class="button-toolbar-spacer"></span>
+			<b-pagination v-model="paginator.pageNumber" :total-rows="paginator.totalRows" :per-page="paginator.perPage" :aria-controls="metadataListTableId" limit="5" class="mb-0"></b-pagination>
 		</b-button-toolbar>
 
 		<metadata-detail v-if="shownMetadata" ref="metadataDetail" :metadata="shownMetadata" :dataset="dataset"></metadata-detail>
@@ -35,6 +37,7 @@
 </template>
 
 <script>
+import Paginator from '@/services/sda/Paginator';
 import MetadataDetail from './MetadataDetail';
 
 export default {
@@ -49,10 +52,10 @@ export default {
 	},
 	data: function() {
 		return {
-			metadataList: [],
+			paginator: new Paginator(this.$SDA[this.dataset.id]),
 			selectedMetadata: [],
 			shownMetadata: null,
-			loading: true
+			metadataListTableId: null // for the aria-controls of the table pagination
 		};
 	},
 	computed: {
@@ -65,7 +68,7 @@ export default {
 			];
 		},
 		caption: function() {
-			return this.metadataList.length > 0 ? 'Click on any row to see data details' : null;
+			return this.paginator.items.length > 0 ? 'Click on any row to see data details' : null;
 		},
 		selectedMetadataEmpty: function() {
 			return this.selectedMetadata.length == 0;
@@ -73,19 +76,22 @@ export default {
 	},
 	watch: {
 		searchFilter: {
-			handler: 'updateMetadataList',
+			handler: 'updatePaginator',
 			immediate: true
 		}
 	},
+	updated: function() {
+		// $refs.metadataListTable.$el.id is only available after updated is called
+		this.metadataListTableId = this.$refs.metadataListTable.$el.id;
+	},
 	methods: {
-		updateMetadataList: async function(searchFilter) {
-			this.loading = true;
+		updatePaginator: function(searchFilter) {
+			this.paginator.searchParams = searchFilter.getSearchParams();
 			try {
-				this.metadataList = await this.$SDA[this.dataset.id].all(searchFilter.getSearchParams());
+				this.paginator.loadPage(1);
 			} catch (error) {
-				console.log('TODO updateMetadataList error');
+				console.log('TODO updatePaginator error');
 			}
-			this.loading = false;
 		},
 		onRowSelected: function(selectedRows) {
 			if (selectedRows.length > 0) {
@@ -116,5 +122,8 @@ export default {
 // TODO Should be in global
 .btn-toolbar > *:not(:last-child) {
 	margin-right: 0.5rem;
+}
+.button-toolbar-spacer {
+	flex-grow: 1;
 }
 </style>

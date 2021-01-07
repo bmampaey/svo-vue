@@ -1,4 +1,4 @@
-import { HEK_EVENT_TYPE_NAMES, HEK_EVENT_LIST_SEARCH_PARAMS } from '@/constants';
+import { HEK_EVENT_TYPE_NAMES } from '@/constants';
 
 const eventTypeOptions = Object.entries(HEK_EVENT_TYPE_NAMES).map(([key, value]) => ({ value: key, text: value }));
 
@@ -10,7 +10,7 @@ export default class EventSearchFilter {
 	}
 
 	getSearchParams() {
-		let searchParams = new URLSearchParams(HEK_EVENT_LIST_SEARCH_PARAMS);
+		let searchParams = new URLSearchParams();
 
 		if (this.eventType && this.eventType.length > 0) {
 			searchParams.set('event_type', this.eventType.join(','));
@@ -32,9 +32,5 @@ export default class EventSearchFilter {
 			eventType: [...this.eventType],
 			eventTimeRange: { ...this.eventTimeRange }
 		});
-	}
-
-	get pageSize() {
-		return HEK_EVENT_LIST_SEARCH_PARAMS.result_limit;
 	}
 }

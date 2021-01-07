@@ -27,7 +27,7 @@ export default class Api {
 	async setup() {
 		if (!this.isSetup) {
 			let response = await this.axios.get(this.apiUrl);
-			for (let service in response.data) {
+			for (const service in response.data) {
 				this[service] = new Service(this, response.data[service]['list_endpoint']);
 			}
 			this.isSetup = true;
