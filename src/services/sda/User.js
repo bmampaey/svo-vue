@@ -1,3 +1,5 @@
+/* The User manages the local storage information needed for the authentication with the SDA API */
+
 export default class User {
 	constructor(name, email, apiKey) {
 		this.name = name;

@@ -1,5 +1,5 @@
 <template>
-	<b-form @submit.prevent="onSubmit">
+	<b-form @submit.prevent="registerUser">
 		<b-form-group label="Email" label-for="email">
 			<b-form-input id="email" v-model="email" type="email" trim></b-form-input>
 		</b-form-group>
@@ -24,7 +24,8 @@ export default {
 		};
 	},
 	methods: {
-		onSubmit: async function() {
+		/* Try to register the user into the SDA API with the email and password specified in the form */
+		registerUser: async function() {
 			try {
 				await this.$SDA.register(this.email, this.username, this.password);
 			} catch (error) {

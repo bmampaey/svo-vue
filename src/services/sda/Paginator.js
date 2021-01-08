@@ -1,3 +1,5 @@
+/* The Paginator makes the link between the API, the table and the pagination buttons */
+
 export default class Paginator {
 	#pageNumber = 1;
 

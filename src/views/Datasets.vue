@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import Dataset from '@/components/dataset/Dataset';
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
 

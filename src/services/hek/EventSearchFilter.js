@@ -1,3 +1,5 @@
+/* The EventSearchFilter holds the data for the HEKEventForm and generate corresponding URLSerachParams for the HEK API */
+
 import { HEK_EVENT_TYPE_NAMES } from '@/constants';
 
 const eventTypeOptions = Object.entries(HEK_EVENT_TYPE_NAMES).map(([key, value]) => ({ value: key, text: value }));

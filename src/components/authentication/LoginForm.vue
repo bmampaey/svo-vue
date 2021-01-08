@@ -1,5 +1,5 @@
 <template>
-	<b-form @submit.prevent="onSubmit">
+	<b-form @submit.prevent="logginUser">
 		<b-form-group label="Email" label-for="email">
 			<b-form-input id="email" v-model="email" type="email" required trim></b-form-input>
 		</b-form-group>
@@ -22,7 +22,9 @@ export default {
 		};
 	},
 	methods: {
-		onSubmit: async function() {
+		/* Try to login the user into the SDA API with the email and password specified in the form
+			If successfull redirect to the Root view */
+		logginUser: async function() {
 			// TODO check what happens if password is wrong
 			try {
 				this.passwordValid = null;

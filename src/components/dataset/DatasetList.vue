@@ -12,7 +12,7 @@
 			hover
 			show-empty
 			selectable
-			@row-selected="onRowSelected"
+			@row-selected="showDatasetDetail"
 		>
 			<template #cell(checkbox)="data">
 				<b-form-checkbox v-model="selectedDatasets" :value="data.item.id" size="lg"></b-form-checkbox>
@@ -84,7 +84,8 @@ export default {
 			}
 			this.loading = false;
 		},
-		onRowSelected: function(selectedRows) {
+		showDatasetDetail: function(selectedRows) {
+			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.shownDataset = selectedRows[0];
 				// Clear the selection so that the row can be selected again

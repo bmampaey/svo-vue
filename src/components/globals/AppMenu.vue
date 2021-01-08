@@ -37,6 +37,7 @@ export default {
 		}
 	},
 	methods: {
+		/* Logout the user from the SDA API and redirect to the Authentication view */
 		logout: function() {
 			this.$SDA.logout();
 			this.$router.push({ name: 'Authentication' });

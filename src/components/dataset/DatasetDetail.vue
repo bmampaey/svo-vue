@@ -28,12 +28,15 @@ export default {
 		};
 	},
 	computed: {
+		/* Data for the popover directive when the user click on the telescope button */
 		telescopePopover: function() {
 			return { title: this.telescope.name, content: this.telescope.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
 		},
+		/* Data for the popover directive when the user click on the instrument button */
 		instrumentPopover: function() {
 			return { title: this.instrument.name, content: this.instrument.description, html: true, placement: 'bottom', trigger: 'focus', customClass: 'popover-lg' };
 		},
+		/* Component to display the Metadata for the displayed dataset */
 		metadataComponent: function() {
 			return metadataComponents[this.dataset.id] || metadataComponents.generic;
 		}

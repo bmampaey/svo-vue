@@ -1,3 +1,5 @@
+/* The DatasetSearchFilter holds the data for the DatasetForm and generate corresponding URLSerachParams for the SDA API */
+
 export default class DatasetSearchFilter {
 	constructor({ telescopes = [], characteristics = [], tags = [], dateRange = { min: null, max: null }, wavelengthRange = { min: null, max: null }, search = null } = {}) {
 		this.telescopes = telescopes;

@@ -6,7 +6,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import HekEvent from '@/components/hek_event/HekEvent';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
 

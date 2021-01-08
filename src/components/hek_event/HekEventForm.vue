@@ -1,5 +1,5 @@
 <template>
-	<b-form @submit.prevent="onSubmit">
+	<b-form @submit.prevent="updateSearchFilter">
 		<b-form-group label="Event types" label-for="event-type">
 			<b-form-select id="event-type" v-model="searchFilter.eventType" :options="searchFilter.eventTypeOptions" multiple></b-form-select>
 		</b-form-group>
@@ -22,7 +22,8 @@ export default {
 		};
 	},
 	methods: {
-		onSubmit: function() {
+		updateSearchFilter: function() {
+			// Send a copy of the searchFilter so that local modifications are not visible outside until the form is submitted
 			this.$emit('input', this.searchFilter.deepCopy());
 		}
 	}

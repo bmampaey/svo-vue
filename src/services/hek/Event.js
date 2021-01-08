@@ -1,3 +1,5 @@
+/* The Event parse the event data returned by the HEK API */
+
 import { HEK_API_URL, HEK_EVENT_DETAIL_SEARCH_PARAMS, HEK_EVENT_TYPE_NAMES } from '@/constants.js';
 
 export default class Event {

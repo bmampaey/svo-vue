@@ -12,7 +12,7 @@
 			hover
 			show-empty
 			selectable
-			@row-selected="onRowSelected"
+			@row-selected="showDataSelectionGroupDetail"
 		>
 			<template #cell(ftp_button)="data">
 				<b-button :href="data.item.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
@@ -67,6 +67,7 @@ export default {
 		}
 	},
 	activated: async function() {
+		// Refresh the dataSelectionGroupList each time the view is displayed because the User may have added or deleted dataSelectionGroup since the view was last displayed
 		await this.updatedataSelectionGroupList();
 	},
 	methods: {
@@ -79,7 +80,8 @@ export default {
 			}
 			this.loading = false;
 		},
-		onRowSelected: function(selectedRows) {
+		showDataSelectionGroupDetail: function(selectedRows) {
+			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.shownDataSelectionGroup = selectedRows[0];
 				// Clear the selection so that the row can be selected again

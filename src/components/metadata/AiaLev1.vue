@@ -1,7 +1,7 @@
 <template>
 	<b-row>
 		<b-col cols="4">
-			<b-form @submit.prevent="onSubmit">
+			<b-form @submit.prevent="updateSearchFilter">
 				<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
 				<b-form-group label="Wavelength" label-for="wavelengths">
 					<b-form-select id="wavelengths" v-model="searchFilter.wavelengths" :options="searchFilter.wavelengthOptions" multiple></b-form-select>
@@ -44,7 +44,8 @@ export default {
 		};
 	},
 	methods: {
-		onSubmit: function() {
+		updateSearchFilter: function() {
+			// Set a copy of the searchFilter so that local modifications are not visible to the list until the form is submitted
 			this.listSearchFilter = this.searchFilter.deepCopy();
 		}
 	}

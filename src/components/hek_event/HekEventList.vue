@@ -12,7 +12,7 @@
 			hover
 			show-empty
 			selectable
-			@row-selected="onRowSelected"
+			@row-selected="showEventDetail"
 		>
 			<template #cell(checkbox)="data">
 				<b-form-checkbox v-model="selectedEvents" :value="data.item" size="lg"></b-form-checkbox>
@@ -101,7 +101,8 @@ export default {
 				console.log('TODO updatePaginator error');
 			}
 		},
-		onRowSelected: function(selectedRows) {
+		showEventDetail: function(selectedRows) {
+			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
 				this.shownEvent = selectedRows[0];
 				// Clear the selection so that the row can be selected again

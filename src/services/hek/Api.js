@@ -1,3 +1,5 @@
+/* The API makes the requests to the HEK server */
+
 import jsonp from 'jsonp-promise';
 import { HEK_EVENT_LIST_SEARCH_PARAMS } from '@/constants';
 import Event from './Event';

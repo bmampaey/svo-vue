@@ -1,6 +1,6 @@
 <template>
 	<b-overlay :show="loading" rounded="sm">
-		<b-form @submit.prevent="onSubmit">
+		<b-form @submit.prevent="updateSearchFilter">
 			<b-form-group label="Telescopes" label-for="selected-telescopes">
 				<b-form-select id="selected-telescopes" v-model="searchFilter.telescopes" :options="telescopeOptions" multiple></b-form-select>
 			</b-form-group>
@@ -35,9 +35,10 @@ export default {
 		};
 	},
 	created: async function() {
+		// Fetch and create the options of the form select for the telescope, the characteristics and the tags
 		this.loading = true;
 		try {
-			// TODO Parralelize this and manage errors
+			// TODO move this to API setup ?
 			let telescopes = await this.$SDA.telescope.getAll();
 			let characteristics = await this.$SDA.characteristic.getAll();
 			let tags = await this.$SDA.tag.getAll();
@@ -50,7 +51,8 @@ export default {
 		this.loading = false;
 	},
 	methods: {
-		onSubmit: function() {
+		updateSearchFilter: function() {
+			// Send a copy of the searchFilter so that local modifications are not visible outside until the form is submitted
 			this.$emit('input', this.searchFilter.deepCopy());
 		}
 	}

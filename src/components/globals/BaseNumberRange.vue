@@ -77,8 +77,6 @@ export default {
 			} else {
 				this.maxInputState = null;
 			}
-		},
-		onChange: function() {
 			this.$emit('input', { min: this.minValue, max: this.maxValue });
 		}
 	}

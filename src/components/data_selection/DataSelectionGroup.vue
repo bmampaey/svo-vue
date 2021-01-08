@@ -3,7 +3,6 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import DataSelectionGroupList from './DataSelectionGroupList';
 
 export default {
