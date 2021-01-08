@@ -74,7 +74,11 @@ export default {
 		metadataTableFields: function() {
 			return [
 				{ key: 'checkbox', label: '' },
-				{ key: 'download_button', label: 'Download', formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url) },
+				{
+					key: 'download_button',
+					label: 'Download',
+					formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url)
+				},
 				...this.columns,
 				{ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') }
 			];

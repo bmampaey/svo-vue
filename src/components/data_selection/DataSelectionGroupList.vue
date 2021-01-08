@@ -98,7 +98,12 @@ export default {
 			}
 		},
 		deleteDataSelectionGroup: function(dataSelectionGroup) {
-			console.log('TODO: delete', dataSelectionGroup);
+			try {
+				this.$SDA.data_selection_group.delete(dataSelectionGroup.resource_uri);
+				this.dataSelectionGroupList = this.dataSelectionGroupList.filter(v => v.resource_uri != dataSelectionGroup.resource_uri);
+			} catch(error) {
+				console.log('TODO deleteDataSelectionGroup error');
+			}
 		},
 		getZipDownloadUrl: function(dataSelectionGroup) {
 			// TODO make proper

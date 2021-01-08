@@ -1,15 +1,15 @@
-/* The Service makes the requests to the SDA server for a particular ressource */
+/* The Service makes the requests to the SDA server for a particular resource */
 
 export default class Service {
-	constructor(api, ressourceUrl) {
+	constructor(api, resourceUrl) {
 		this.api = api;
-		this.ressourceUrl = ressourceUrl;
+		this.resourceUrl = resourceUrl;
 	}
 
 	async getAll(searchParams = null) {
 		searchParams = new URLSearchParams(searchParams);
 		searchParams.set('limit', 0);
-		let response = await this.api.axios.get(this.ressourceUrl, { params: searchParams });
+		let response = await this.api.axios.get(this.resourceUrl, { params: searchParams });
 		return response.data.objects;
 	}
 
@@ -21,11 +21,13 @@ export default class Service {
 		if (offset) {
 			searchParams.set('offset', offset);
 		}
-		let response = await this.api.axios.get(this.ressourceUrl, { params: searchParams });
+		let response = await this.api.axios.get(this.resourceUrl, { params: searchParams });
 		return response.data;
 	}
 	// get(id) {}
 	// create(data) {}
 	// update(data) {}
-	// delete(id) {}
+	async delete(resourceUri) {
+		return await this.api.axios.delete(resourceUri);
+	}
 }

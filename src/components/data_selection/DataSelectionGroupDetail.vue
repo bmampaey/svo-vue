@@ -37,7 +37,14 @@ export default {
 	},
 	methods: {
 		deleteDataSelection: function(dataSelection) {
-			console.log('TODO: delete', dataSelection);
+			try {
+				this.$SDA.data_selection.delete(dataSelection.resource_uri);
+				// TODO you should not change prop
+				this.dataSelectionGroup.data_selections = this.dataSelectionGroup.data_selections.filter(v => v.resource_uri != dataSelection.resource_uri);
+				this.dataSelectionGroup.number_items -= dataSelection.number_items;
+			} catch(error) {
+				console.log('TODO deleteDataSelection error');
+			}
 		},
 		getZipDownloadUrl: function(dataSelection) {
 			// TODO make proper (redundant with data selection group)

@@ -32,6 +32,12 @@ export default class Api {
 			for (const service in response.data) {
 				this[service] = new Service(this, response.data[service]['list_endpoint']);
 			}
+			let telescopes = await this.telescope.getAll();
+			let characteristics = await this.characteristic.getAll();
+			let tags = await this.tag.getAll();
+			this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+			this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+			this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
 			this.isSetup = true;
 		}
 	}

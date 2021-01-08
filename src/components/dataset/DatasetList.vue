@@ -60,7 +60,11 @@ export default {
 				{ key: 'metadata', label: '# Items', formatter: metadata => metadata.number_items },
 				{ key: 'instrument', label: 'Instrument' },
 				{ key: 'telescope', label: 'Telescope' },
-				{ key: 'characteristics', label: 'Characteristics', formatter: characteristics => characteristics.map(characteristic => characteristic.name).join(', ') }
+				{
+					key: 'characteristics',
+					label: 'Characteristics',
+					formatter: characteristics => characteristics.map(characteristic => characteristic.name).join(', ')
+				}
 			];
 		},
 		datasetTableCaption: function() {
