@@ -1,38 +1,41 @@
 <template>
-	<b-overlay :show="loading" rounded="sm">
-		<b-table
-			ref="dataSelectionGroupListTable"
-			:items="dataSelectionGroupList"
-			:fields="fields"
-			primary-key="id"
-			select-mode="single"
-			:caption="caption"
-			empty-text="You have not saved any data selection yet"
-			small
-			hover
-			show-empty
-			selectable
-			@row-selected="showDataSelectionGroupDetail"
-		>
-			<template #cell(ftp_button)="data">
-				<b-button :href="data.item.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
-					<b-icon icon="folder-symlink"></b-icon>
-				</b-button>
-			</template>
-			<template #cell(zip_button)="data">
-				<b-button :href="getZipDownloadUrl(data.item)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
-					<b-icon icon="file-earmark-zip"></b-icon>
-				</b-button>
-			</template>
-			<template #cell(delete_button)="data">
-				<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelectionGroup(data.item)">
-					<b-icon icon="trash"></b-icon>
-				</b-button>
-			</template>
-		</b-table>
-
-		<data-selection-group-detail v-if="shownDataSelectionGroup" ref="dataSelectionGroupDetail" :data-selection-group="shownDataSelectionGroup"></data-selection-group-detail>
-	</b-overlay>
+	<div>
+		<b-overlay :show="loading" rounded="sm">
+			<b-table
+				ref="dataSelectionGroupTable"
+				:items="dataSelectionGroupList"
+				:fields="dataSelectionGroupTableFields"
+				primary-key="id"
+				select-mode="single"
+				:caption="dataSelectionGroupTableCaption"
+				empty-text="You have not saved any data selection yet"
+				small
+				hover
+				show-empty
+				selectable
+				@row-selected="showDataSelectionGroupDetailModal"
+			>
+				<template #cell(ftp_button)="data">
+					<b-button :href="data.item.ftp_link" target="_blank" size="sm" variant="primary" title="Download selection via ftp">
+						<b-icon icon="folder-symlink"></b-icon>
+					</b-button>
+				</template>
+				<template #cell(zip_button)="data">
+					<b-button :href="getZipDownloadUrl(data.item)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
+						<b-icon icon="file-earmark-zip"></b-icon>
+					</b-button>
+				</template>
+				<template #cell(delete_button)="data">
+					<b-button size="sm" variant="danger" title="Delete data selection" @click="deleteDataSelectionGroup(data.item)">
+						<b-icon icon="trash"></b-icon>
+					</b-button>
+				</template>
+			</b-table>
+		</b-overlay>
+		<b-modal ref="dataSelectionGroupDetailModal" size="xl" :title="dataSelectionGroupDetailModalTitle" hide-footer>
+			<data-selection-group-detail v-if="dataSelectionGroupDetailModalDataSelectionGroup" :data-selection-group="dataSelectionGroupDetailModalDataSelectionGroup"></data-selection-group-detail>
+		</b-modal>
+	</div>
 </template>
 
 <script>
@@ -46,12 +49,13 @@ export default {
 	data: function() {
 		return {
 			dataSelectionGroupList: [],
-			shownDataSelectionGroup: null,
+			dataSelectionGroupDetailModalDataSelectionGroup: null,
+			dataSelectionGroupDetailModalTitle: '',
 			loading: true
 		};
 	},
 	computed: {
-		fields: function() {
+		dataSelectionGroupTableFields: function() {
 			return [
 				{ key: 'ftp_button', label: 'FTP' },
 				{ key: 'zip_button', label: 'ZIP' },
@@ -62,7 +66,7 @@ export default {
 				{ key: 'delete_button', label: 'Delete' }
 			];
 		},
-		caption: function() {
+		dataSelectionGroupTableCaption: function() {
 			return this.dataSelectionGroupList.length > 0 ? 'Click on any row to see data selection details' : null;
 		}
 	},
@@ -80,15 +84,16 @@ export default {
 			}
 			this.loading = false;
 		},
-		showDataSelectionGroupDetail: function(selectedRows) {
+		showDataSelectionGroupDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
-				this.shownDataSelectionGroup = selectedRows[0];
+				this.dataSelectionGroupDetailModalDataSelectionGroup = selectedRows[0];
+				this.dataSelectionGroupDetailModalTitle = this.dataSelectionGroupDetailModalDataSelectionGroup.name;
 				// Clear the selection so that the row can be selected again
-				this.$refs.dataSelectionGroupListTable.clearSelected();
+				this.$refs.dataSelectionGroupTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
-					this.$refs.dataSelectionGroupDetail.show();
+					this.$refs.dataSelectionGroupDetailModal.show();
 				});
 			}
 		},

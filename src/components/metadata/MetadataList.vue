@@ -1,39 +1,51 @@
 <template>
-	<b-overlay :show="paginator.loading" rounded="sm">
-		<b-table
-			ref="metadataListTable"
-			:items="paginator.items"
-			:fields="fields"
-			primary-key="oid"
-			select-mode="single"
-			:caption="caption"
-			empty-text="No metadata correspond to your search criteria"
-			small
-			hover
-			show-empty
-			selectable
-			@row-selected="showMetadataDetail"
-		>
-			<template #cell(checkbox)="data">
-				<b-form-checkbox v-model="selectedMetadata" :value="data.item.oid" size="lg"></b-form-checkbox>
-			</template>
-			<template #cell(download_button)="data">
-				<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="data.item.data_location.offline">
-					<b-icon icon="download"></b-icon>
-				</b-button>
-			</template>
-		</b-table>
+	<div>
+		<b-overlay :show="metadataPaginator.loading" rounded="sm">
+			<b-table
+				:id="metadataPaginator.ariaControl"
+				ref="metadataTable"
+				:items="metadataPaginator.items"
+				:fields="metadataTableFields"
+				:caption="metadataTableCaption"
+				primary-key="oid"
+				select-mode="single"
+				empty-text="No metadata correspond to your search criteria"
+				small
+				hover
+				show-empty
+				selectable
+				@row-selected="showMetadataDetailModal"
+			>
+				<template #cell(checkbox)="data">
+					<b-form-checkbox v-model="selectedMetadata" :value="data.item.oid" size="lg"></b-form-checkbox>
+				</template>
+				<template #cell(download_button)="data">
+					<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="data.item.data_location.offline">
+						<b-icon icon="download"></b-icon>
+					</b-button>
+				</template>
+			</b-table>
 
-		<b-button-toolbar key-nav>
-			<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection">Save selection</b-button>
-			<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
-			<b-button :disabled="selectedMetadataEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
-			<span class="button-toolbar-spacer"></span>
-			<b-pagination v-model="paginator.pageNumber" :total-rows="paginator.totalRows" :per-page="paginator.perPage" :aria-controls="metadataListTableId" limit="5" class="mb-0"></b-pagination>
-		</b-button-toolbar>
+			<b-button-toolbar key-nav>
+				<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection">Save selection</b-button>
+				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
+				<b-button :disabled="selectedMetadataEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
+				<span class="button-toolbar-spacer"></span>
+				<b-pagination
+					v-model="metadataPaginator.pageNumber"
+					:total-rows="metadataPaginator.totalRows"
+					:per-page="metadataPaginator.perPage"
+					:aria-controls="metadataPaginator.ariaControl"
+					limit="5"
+					class="mb-0"
+				></b-pagination>
+			</b-button-toolbar>
+		</b-overlay>
 
-		<metadata-detail v-if="shownMetadata" ref="metadataDetail" :metadata="shownMetadata" :dataset="dataset"></metadata-detail>
-	</b-overlay>
+		<b-modal ref="metadataDetailModal" :title="metadataDetailModalTitle" hide-footer>
+			<metadata-detail v-if="metadataDetailModalMetadata" :metadata="metadataDetailModalMetadata"></metadata-detail>
+		</b-modal>
+	</div>
 </template>
 
 <script>
@@ -52,14 +64,14 @@ export default {
 	},
 	data: function() {
 		return {
-			paginator: new Paginator(this.$SDA[this.dataset.id]),
+			metadataPaginator: new Paginator(this.$SDA[this.dataset.id]),
 			selectedMetadata: [],
-			shownMetadata: null,
-			metadataListTableId: null // for the aria-controls of the table pagination
+			metadataDetailModalTitle: this.dataset.name,
+			metadataDetailModalMetadata: null
 		};
 	},
 	computed: {
-		fields: function() {
+		metadataTableFields: function() {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'download_button', label: 'Download', formatter: (value, index, metadata) => (metadata.data_location.offline ? null : metadata.data_location.file_url) },
@@ -67,8 +79,8 @@ export default {
 				{ key: 'tags', label: 'Tags', formatter: tags => tags.map(tag => tag.name).join(', ') }
 			];
 		},
-		caption: function() {
-			return this.paginator.items.length > 0 ? 'Click on any row to see data details' : null;
+		metadataTableCaption: function() {
+			return this.metadataPaginator.items.length > 0 ? 'Click on any row to see data details' : null;
 		},
 		selectedMetadataEmpty: function() {
 			return this.selectedMetadata.length == 0;
@@ -76,32 +88,28 @@ export default {
 	},
 	watch: {
 		searchFilter: {
-			handler: 'updatePaginator',
+			handler: 'updateMetadataPaginator',
 			immediate: true
 		}
 	},
-	updated: function() {
-		// $refs.metadataListTable.$el.id is only available after updated is called
-		this.metadataListTableId = this.$refs.metadataListTable.$el.id;
-	},
 	methods: {
-		updatePaginator: function(searchFilter) {
-			this.paginator.searchParams = searchFilter.getSearchParams();
+		updateMetadataPaginator: function(searchFilter) {
+			this.metadataPaginator.searchParams = searchFilter.getSearchParams();
 			try {
-				this.paginator.loadPage(1);
+				this.metadataPaginator.loadPage(1);
 			} catch (error) {
-				console.log('TODO updatePaginator error');
+				console.log('TODO updateMetadataPaginator error');
 			}
 		},
-		showMetadataDetail: function(selectedRows) {
+		showMetadataDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
-				this.shownMetadata = selectedRows[0];
+				this.metadataDetailModalMetadata = selectedRows[0];
 				// Clear the selection so that the row can be selected again
-				this.$refs.metadataListTable.clearSelected();
+				this.$refs.metadataTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
-					this.$refs.metadataDetail.show();
+					this.$refs.metadataDetailModal.show();
 				});
 			}
 		},

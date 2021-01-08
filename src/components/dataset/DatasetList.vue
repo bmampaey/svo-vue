@@ -1,30 +1,34 @@
 <template>
-	<b-overlay :show="loading" rounded="sm">
-		<b-table
-			ref="datasetListTable"
-			:items="nonEmptyDatasets"
-			:fields="fields"
-			primary-key="id"
-			select-mode="single"
-			:caption="caption"
-			empty-text="No dataset correspond to your search criteria"
-			small
-			hover
-			show-empty
-			selectable
-			@row-selected="showDatasetDetail"
-		>
-			<template #cell(checkbox)="data">
-				<b-form-checkbox v-model="selectedDatasets" :value="data.item.id" size="lg"></b-form-checkbox>
-			</template>
-		</b-table>
+	<div>
+		<b-overlay :show="loading" rounded="sm">
+			<b-table
+				ref="datasetTable"
+				:items="datasetList"
+				:fields="datasetTableFields"
+				primary-key="id"
+				select-mode="single"
+				:caption="datasetTableCaption"
+				empty-text="No dataset correspond to your search criteria"
+				small
+				hover
+				show-empty
+				selectable
+				@row-selected="showDatasetDetailModal"
+			>
+				<template #cell(checkbox)="data">
+					<b-form-checkbox v-model="selectedDatasets" :value="data.item.id" size="lg"></b-form-checkbox>
+				</template>
+			</b-table>
 
-		<b-button-toolbar key-nav>
-			<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
-		</b-button-toolbar>
+			<b-button-toolbar key-nav>
+				<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
+			</b-button-toolbar>
+		</b-overlay>
 
-		<dataset-detail v-if="shownDataset" ref="datasetDetail" :dataset="shownDataset" :search-filter="searchFilter"></dataset-detail>
-	</b-overlay>
+		<b-modal ref="datasetDetailModal" size="xl" :title="datasetDetailModalTitle" hide-footer>
+			<dataset-detail v-if="datasetDetailModalDataset" :dataset="datasetDetailModalDataset" :search-filter="searchFilter"></dataset-detail>
+		</b-modal>
+	</div>
 </template>
 
 <script>
@@ -43,15 +47,13 @@ export default {
 		return {
 			datasetList: [],
 			selectedDatasets: [],
-			shownDataset: null,
+			datasetDetailModalDataset: null,
+			datasetDetailModalTitle: '',
 			loading: true
 		};
 	},
 	computed: {
-		nonEmptyDatasets: function() {
-			return this.datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
-		},
-		fields: function() {
+		datasetTableFields: function() {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'name', label: 'Dataset' },
@@ -61,8 +63,8 @@ export default {
 				{ key: 'characteristics', label: 'Characteristics', formatter: characteristics => characteristics.map(characteristic => characteristic.name).join(', ') }
 			];
 		},
-		caption: function() {
-			return this.nonEmptyDatasets.length > 0 ? 'Click on any row to see dataset content or refine search' : null;
+		datasetTableCaption: function() {
+			return this.datasetList.length > 0 ? 'Click on any row to see dataset content or refine search' : null;
 		},
 		selectedDatasetsEmpty: function() {
 			return this.selectedDatasets.length == 0;
@@ -78,21 +80,24 @@ export default {
 		updateDatasetList: async function(searchFilter) {
 			this.loading = true;
 			try {
-				this.datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
+				let datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
+				// Discard empty datasets
+				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
 			} catch (error) {
 				console.log('TODO updateDatasetList error');
 			}
 			this.loading = false;
 		},
-		showDatasetDetail: function(selectedRows) {
+		showDatasetDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows
 			if (selectedRows.length > 0) {
-				this.shownDataset = selectedRows[0];
+				this.datasetDetailModalDataset = selectedRows[0];
+				this.datasetDetailModalTitle = this.datasetDetailModalDataset.name;
 				// Clear the selection so that the row can be selected again
-				this.$refs.datasetListTable.clearSelected();
+				this.$refs.datasetTable.clearSelected();
 				// Make sure the component is rendered before calling show
 				this.$nextTick(function() {
-					this.$refs.datasetDetail.show();
+					this.$refs.datasetDetailModal.show();
 				});
 			}
 		},

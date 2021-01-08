@@ -1,5 +1,5 @@
 <template>
-	<b-modal ref="metadataDetail" :title="dataset.name" hide-footer>
+	<div>
 		<b-img :src="imageURL" center fluid-grow alt="Data thumbnail"></b-img>
 		<b-form-group class="my-2">
 			<b-input-group>
@@ -10,14 +10,13 @@
 			</b-input-group>
 		</b-form-group>
 		<b-table :items="cards" :fields="fields" :filter="searchFilter" :filter-included-fields="filterIncludedFields" primary-key="id" sticky-header show-empty small> </b-table>
-	</b-modal>
+	</div>
 </template>
 
 <script>
 export default {
 	name: 'MetadataDetail',
 	props: {
-		dataset: { type: Object, required: true },
 		metadata: { type: Object, required: true }
 	},
 	data: function() {
@@ -54,9 +53,6 @@ export default {
 		}
 	},
 	methods: {
-		show: function() {
-			this.$refs.metadataDetail.show();
-		},
 		clearSearchFilter: function() {
 			this.searchFilter = '';
 		}

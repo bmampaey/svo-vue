@@ -1,6 +1,7 @@
 /* The Paginator makes the link between the API, the table and the pagination buttons */
 
 export default class Paginator {
+	static #lastId = 0;
 	#pageNumber = 1;
 
 	constructor(api, searchParams = null, perPage = 10) {
@@ -10,6 +11,7 @@ export default class Paginator {
 		this.totalRows = 0;
 		this.items = [];
 		this.loading = false;
+		this.ariaControl = `__sda_paginator__${++Paginator.#lastId}`;
 	}
 
 	get pageNumber() {

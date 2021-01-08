@@ -1,6 +1,6 @@
 <template>
-	<b-modal ref="dataSelectionGroupDetail" size="xl" :title="dataSelectionGroup.name" hide-footer>
-		<b-table ref="dataSelectionListTable" :items="dataSelectionList" :fields="fields" primary-key="id" empty-text="The data selection is empty" small show-empty>
+	<div>
+		<b-table ref="dataSelectionTable" :items="dataSelectionList" :fields="dataSelectionTableFields" primary-key="id" empty-text="The data selection is empty" small show-empty>
 			<template #cell(zip_button)="data">
 				<b-button :href="getZipDownloadUrl(data.item)" target="_blank" size="sm" variant="primary" title="Download selection as zip file">
 					<b-icon icon="file-earmark-zip"></b-icon>
@@ -12,7 +12,7 @@
 				</b-button>
 			</template>
 		</b-table>
-	</b-modal>
+	</div>
 </template>
 
 <script>
@@ -25,7 +25,7 @@ export default {
 		dataSelectionList: function() {
 			return this.dataSelectionGroup.data_selections ? this.dataSelectionGroup.data_selections : [];
 		},
-		fields: function() {
+		dataSelectionTableFields: function() {
 			return [
 				{ key: 'zip_button', label: 'ZIP' },
 				{ key: 'number_items', label: '# Items' },
@@ -36,9 +36,6 @@ export default {
 		}
 	},
 	methods: {
-		show: function() {
-			this.$refs.dataSelectionGroupDetail.show();
-		},
 		deleteDataSelection: function(dataSelection) {
 			console.log('TODO: delete', dataSelection);
 		},

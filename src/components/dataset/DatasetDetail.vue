@@ -1,5 +1,5 @@
 <template>
-	<b-modal ref="datasetDetail" size="xl" :title="dataset.name" hide-footer>
+	<div>
 		<b-card class="mb-2">
 			<b-card-text v-html="dataset.description"></b-card-text>
 			<b-button-toolbar key-nav>
@@ -9,7 +9,7 @@
 			</b-button-toolbar>
 		</b-card>
 		<component :is="metadataComponent" :dataset="dataset" :initial-search-filter="searchFilter" class="mt-3"></component>
-	</b-modal>
+	</div>
 </template>
 
 <script>
@@ -39,11 +39,6 @@ export default {
 		/* Component to display the Metadata for the displayed dataset */
 		metadataComponent: function() {
 			return metadataComponents[this.dataset.id] || metadataComponents.generic;
-		}
-	},
-	methods: {
-		show: function() {
-			this.$refs.datasetDetail.show();
 		}
 	}
 };

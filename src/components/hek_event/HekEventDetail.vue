@@ -1,5 +1,5 @@
 <template>
-	<b-modal ref="eventDetail" size="md" :title="event.type" hide-footer>
+	<div>
 		<b-img center fluid :src="event.thumbnailUrl" alt="Event thumbnail"></b-img>
 		<dl class="dl-horizontal">
 			<dt>Start time</dt>
@@ -12,7 +12,7 @@
 			<dd>{{ event.frm_identifier }}</dd>
 		</dl>
 		<a :href="event.detailUrl" target="_blank">See more details</a>
-	</b-modal>
+	</div>
 </template>
 
 <script>
@@ -20,11 +20,6 @@ export default {
 	name: 'HekEventDetail',
 	props: {
 		event: { type: Object, required: true }
-	},
-	methods: {
-		show: function() {
-			this.$refs.eventDetail.show();
-		}
 	}
 };
 </script>
