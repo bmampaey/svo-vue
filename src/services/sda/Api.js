@@ -21,7 +21,7 @@ export default class Api {
 	setHeaders(config) {
 		if (this.currentUser) {
 			// TODO auth should be done by user.name not user.email
-			config.headers.common['Authorization'] = 'ApiKey ' + this.currentUser.email + ':' + this.currentUser.apiKey;
+			config.headers.common['Authorization'] = `ApiKey ${this.currentUser.email}:${this.currentUser.apiKey}`;
 		}
 		return config;
 	}

@@ -124,7 +124,7 @@ export default {
 			if (this.minInputState != false && this.maxInputState != false) {
 				if (minDate != null && maxDate != null && minDate > maxDate) {
 					this.maxInputState = false;
-					this.maxInputFeedback = this.maxLabel + ' must be larger than ' + this.minLabel;
+					this.maxInputFeedback = `${this.maxLabel} must be larger than ${this.minLabel}`;
 				}
 			}
 			this.$emit('input', { min: minDate, max: maxDate });

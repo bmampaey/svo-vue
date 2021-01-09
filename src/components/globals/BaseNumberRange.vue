@@ -73,7 +73,7 @@ export default {
 			// Check that minValue < maxValue
 			if (typeof this.minValue == 'number' && typeof this.maxValue == 'number' && this.minValue > this.maxValue) {
 				this.maxInputState = false;
-				this.maxInputFeedback = this.maxLabel + ' must be larger than ' + this.minLabel;
+				this.maxInputFeedback = `${this.maxLabel} must be larger than ${this.minLabel}`;
 			} else {
 				this.maxInputState = null;
 			}

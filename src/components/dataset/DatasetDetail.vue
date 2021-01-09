@@ -59,13 +59,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.btn-toolbar > *:not(:last-child) {
-	margin-right: 0.5rem;
-}
-
-/* increase size of popover */
-.popover-lg {
-	max-width: 50%;
-}
-</style>
+<style scoped lang="scss"></style>

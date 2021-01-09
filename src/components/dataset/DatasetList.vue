@@ -21,7 +21,9 @@
 			</b-table>
 
 			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection">Save selection</b-button>
+				<b-button :disabled="selectedDatasetsEmpty" variant="primary" title="Select one or more dataset to create or update a data selection" @click="saveSelection"
+					>Save selection ({{ selectedDatasets.length }})</b-button
+				>
 			</b-button-toolbar>
 		</b-overlay>
 
@@ -87,6 +89,7 @@ export default {
 				let datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
 				// Discard empty datasets
 				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
+				this.selectedDatasets = [];
 			} catch (error) {
 				console.log('TODO updateDatasetList error');
 			}

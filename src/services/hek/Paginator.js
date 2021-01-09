@@ -11,7 +11,7 @@ export default class Paginator {
 		this.totalRows = 0;
 		this.items = [];
 		this.loading = false;
-		this.ariaControl = `__sda_paginator__${++Paginator.#lastId}`;
+		this.ariaControl = `__hek_paginator__${++Paginator.#lastId}`;
 	}
 
 	get pageNumber() {

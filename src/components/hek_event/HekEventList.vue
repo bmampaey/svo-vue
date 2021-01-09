@@ -22,7 +22,9 @@
 			</b-table>
 
 			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal">Search overlapping</b-button>
+				<b-button :disabled="selectedEventsEmpty" variant="primary" title="Select one or more event to search for overlapping data" @click="showOverlappingDatasetModal"
+					>Search overlapping ({{ selectedEvents.length }})</b-button
+				>
 				<span class="button-toolbar-spacer"></span>
 				<b-pagination
 					v-model="eventPaginator.pageNumber"
@@ -99,6 +101,7 @@ export default {
 			this.eventPaginator.searchParams = searchFilter.getSearchParams();
 			try {
 				this.eventPaginator.loadPage(1);
+				this.selectedEvents = [];
 			} catch (error) {
 				console.log('TODO updateEventPaginator error');
 			}
@@ -118,13 +121,13 @@ export default {
 		},
 		showOverlappingDatasetModal: function() {
 			let selectedEventTypes = new Set(this.selectedEvents.map(event => event.type));
-			this.overlappingDatasetsModalTitle = 'Datasets overlapping selected events: ' + Array.from(selectedEventTypes).join(', ');
+			this.overlappingDatasetsModalTitle = `Datasets overlapping selected events: ${Array.from(selectedEventTypes).join(', ')}`;
 			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({
 				dateRange: {
 					min: new Date(Math.min(...this.selectedEvents.map(e => e.startTime))),
 					max: new Date(Math.max(...this.selectedEvents.map(e => e.endTime)))
 				},
-				search: this.selectedEvents.map(e => '(date_beg__lt = ' + e.endTime.toISOString() + ' and date_end__gt = ' + e.startTime.toISOString() + ')').join(' or ')
+				search: this.selectedEvents.map(e => `(date_beg__lt = ${e.endTime.toISOString()} and date_end__gt = ${e.startTime.toISOString()})`).join(' or ')
 			});
 
 			this.$refs.overlappingDatasetsModal.show();
@@ -134,8 +137,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-.button-toolbar-spacer {
-	flex-grow: 1;
-}
-</style>
+<style scoped lang="scss"></style>

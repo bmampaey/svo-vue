@@ -23,6 +23,6 @@ Vue.prototype.$utils = {
 		}
 
 		let temp = date.toISOString();
-		return temp.substring(0, 10) + ' ' + temp.substring(11, 19);
+		return `${temp.substring(0, 10)} ${temp.substring(11, 19)}`;
 	}
 };

@@ -27,7 +27,9 @@
 			</b-table>
 
 			<b-button-toolbar key-nav>
-				<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection">Save selection</b-button>
+				<b-button :disabled="selectedMetadataEmpty" variant="primary" title="Select one or more metadata to create or update a data selection" @click="saveSelection"
+					>Save selection ({{ selectedMetadata.length }})</b-button
+				>
 				<b-button variant="primary" title="Create or update a data selection with all metadata" @click="saveAll">Save all</b-button>
 				<b-button :disabled="selectedMetadataEmpty" title="Select one or more metadata to search for overlapping data" @click="searchOverlappingDatasets">Search overlapping</b-button>
 				<span class="button-toolbar-spacer"></span>
@@ -42,7 +44,7 @@
 			</b-button-toolbar>
 		</b-overlay>
 
-		<b-modal ref="metadataDetailModal" :title="metadataDetailModalTitle" hide-footer>
+		<b-modal ref="metadataDetailModal" size="md" :title="metadataDetailModalTitle" hide-footer>
 			<metadata-detail v-if="metadataDetailModalMetadata" :metadata="metadataDetailModalMetadata"></metadata-detail>
 		</b-modal>
 	</div>
@@ -101,6 +103,7 @@ export default {
 			this.metadataPaginator.searchParams = searchFilter.getSearchParams();
 			try {
 				this.metadataPaginator.loadPage(1);
+				this.selectedMetadata = [];
 			} catch (error) {
 				console.log('TODO updateMetadataPaginator error');
 			}
@@ -131,12 +134,4 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-// TODO Should be in global
-.btn-toolbar > *:not(:last-child) {
-	margin-right: 0.5rem;
-}
-.button-toolbar-spacer {
-	flex-grow: 1;
-}
-</style>
+<style scoped lang="scss"></style>
