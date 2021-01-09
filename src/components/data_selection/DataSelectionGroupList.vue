@@ -101,7 +101,7 @@ export default {
 			try {
 				this.$SDA.data_selection_group.delete(dataSelectionGroup.resource_uri);
 				this.dataSelectionGroupList = this.dataSelectionGroupList.filter(v => v.resource_uri != dataSelectionGroup.resource_uri);
-			} catch(error) {
+			} catch (error) {
 				console.log('TODO deleteDataSelectionGroup error');
 			}
 		},
@@ -114,4 +114,3 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>

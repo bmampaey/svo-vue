@@ -42,7 +42,7 @@ export default {
 				// TODO you should not change prop
 				this.dataSelectionGroup.data_selections = this.dataSelectionGroup.data_selections.filter(v => v.resource_uri != dataSelection.resource_uri);
 				this.dataSelectionGroup.number_items -= dataSelection.number_items;
-			} catch(error) {
+			} catch (error) {
 				console.log('TODO deleteDataSelection error');
 			}
 		},
@@ -55,4 +55,3 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss"></style>
