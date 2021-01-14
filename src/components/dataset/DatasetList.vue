@@ -8,15 +8,13 @@
 				primary-key="id"
 				select-mode="single"
 				:caption="datasetTableCaption"
-				empty-text="No dataset correspond to your search criteria"
 				small
 				hover
-				show-empty
 				selectable
 				@row-selected="showDatasetDetailModal"
 			>
 				<template #cell(checkbox)="data">
-					<b-form-checkbox v-model="selectedDatasets" :value="data.item.id" size="lg"></b-form-checkbox>
+					<b-form-checkbox v-model="selectedDatasets" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 			</b-table>
 
@@ -30,17 +28,21 @@
 		<b-modal ref="datasetDetailModal" size="xl" :title="datasetDetailModalTitle" hide-footer>
 			<dataset-detail v-if="datasetDetailModalDataset" :dataset="datasetDetailModalDataset" :search-filter="searchFilter"></dataset-detail>
 		</b-modal>
+
+		<data-selection-group-save ref="dataSelectionGroupSave"></data-selection-group-save>
 	</div>
 </template>
 
 <script>
 import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
 import DatasetDetail from './DatasetDetail.vue';
 
 export default {
 	name: 'DatasetList',
 	components: {
-		DatasetDetail
+		DatasetDetail,
+		DataSelectionGroupSave
 	},
 	props: {
 		searchFilter: { type: DatasetSearchFilter, required: true }
@@ -70,7 +72,7 @@ export default {
 			];
 		},
 		datasetTableCaption: function() {
-			return this.datasetList.length > 0 ? 'Click on any row to see dataset content or refine search' : null;
+			return this.datasetList.length > 0 ? 'Click on any row to see dataset content or refine search' : 'No dataset correspond to your search criteria';
 		},
 		selectedDatasetsEmpty: function() {
 			return this.selectedDatasets.length == 0;
@@ -109,7 +111,12 @@ export default {
 			}
 		},
 		saveSelection: function() {
-			console.log('TODO save selection');
+			let dataSelections = this.selectedDatasets.map(dataset => ({
+				dataset: dataset.resource_uri,
+				number_items: dataset.metadata.number_items,
+				query_string: this.searchFilter.getSearchParams().toString()
+			}));
+			this.$refs.dataSelectionGroupSave.save(dataSelections);
 		}
 	}
 };

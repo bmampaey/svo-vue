@@ -8,10 +8,8 @@
 				primary-key="id"
 				select-mode="single"
 				:caption="dataSelectionGroupTableCaption"
-				empty-text="You have not saved any data selection yet"
 				small
 				hover
-				show-empty
 				selectable
 				@row-selected="showDataSelectionGroupDetailModal"
 			>
@@ -67,20 +65,20 @@ export default {
 			];
 		},
 		dataSelectionGroupTableCaption: function() {
-			return this.dataSelectionGroupList.length > 0 ? 'Click on any row to see data selection details' : null;
+			return this.dataSelectionGroupList.length > 0 ? 'Click on any row to see data selection details' : 'You have not saved any data selection yet';
 		}
 	},
 	activated: async function() {
 		// Refresh the dataSelectionGroupList each time the view is displayed because the User may have added or deleted dataSelectionGroup since the view was last displayed
-		await this.updatedataSelectionGroupList();
+		await this.updateDataSelectionGroupList();
 	},
 	methods: {
-		updatedataSelectionGroupList: async function() {
+		updateDataSelectionGroupList: async function() {
 			this.loading = true;
 			try {
 				this.dataSelectionGroupList = await this.$SDA.data_selection_group.getAll();
 			} catch (error) {
-				console.log('TODO updatedataSelectionGroupList error');
+				console.log('TODO updateDataSelectionGroupList error');
 			}
 			this.loading = false;
 		},

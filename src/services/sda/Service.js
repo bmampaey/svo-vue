@@ -24,9 +24,19 @@ export default class Service {
 		let response = await this.api.axios.get(this.resourceUrl, { params: searchParams });
 		return response.data;
 	}
-	// get(id) {}
-	// create(data) {}
-	// update(data) {}
+
+	async create(data) {
+		console.log('create', data);
+		if (Array.isArray(data)) {
+			let response = await this.api.axios.patch(this.resourceUrl, { objects: data });
+			return response.objects;
+		} else {
+			data = [data];
+			let response = await this.api.axios.patch(this.resourceUrl, { objects: data });
+			return response.objects[0];
+		}
+	}
+
 	async delete(resourceUri) {
 		return await this.api.axios.delete(resourceUri);
 	}

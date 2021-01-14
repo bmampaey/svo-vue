@@ -9,10 +9,8 @@
 				:caption="eventTableCaption"
 				primary-key="id"
 				select-mode="single"
-				empty-text="No event correspond to your search criteria"
 				small
 				hover
-				show-empty
 				selectable
 				@row-selected="showEventDetailModal"
 			>
@@ -84,7 +82,7 @@ export default {
 			];
 		},
 		eventTableCaption: function() {
-			return this.eventPaginator.items.length > 0 ? 'Click on any row to see the event details' : null;
+			return this.eventPaginator.items.length > 0 ? 'Click on any row to see the event details' : 'No event correspond to your search criteria';
 		},
 		selectedEventsEmpty: function() {
 			return this.selectedEvents.length == 0;

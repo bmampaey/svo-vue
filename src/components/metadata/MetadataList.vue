@@ -9,15 +9,13 @@
 				:caption="metadataTableCaption"
 				primary-key="oid"
 				select-mode="single"
-				empty-text="No metadata correspond to your search criteria"
 				small
 				hover
-				show-empty
 				selectable
 				@row-selected="showMetadataDetailModal"
 			>
 				<template #cell(checkbox)="data">
-					<b-form-checkbox v-model="selectedMetadata" :value="data.item.oid" size="lg"></b-form-checkbox>
+					<b-form-checkbox v-model="selectedMetadata" :value="data.item" size="lg"></b-form-checkbox>
 				</template>
 				<template #cell(download_button)="data">
 					<b-button :href="data.value" target="_blank" title="Download file" size="sm" variant="primary" :disabled="data.item.data_location.offline">
@@ -47,17 +45,28 @@
 		<b-modal ref="metadataDetailModal" size="md" :title="metadataDetailModalTitle" hide-footer>
 			<metadata-detail v-if="metadataDetailModalMetadata" :metadata="metadataDetailModalMetadata"></metadata-detail>
 		</b-modal>
+
+		<b-modal ref="overlappingDatasetsModal" size="xl" :title="overlappingDatasetsModalTitle" hide-footer>
+			<dataset :initial-search-filter="overlappingDatasetsModalSearchFilter"></dataset>
+		</b-modal>
+
+		<data-selection-group-save ref="dataSelectionGroupSave"></data-selection-group-save>
 	</div>
 </template>
 
 <script>
 import Paginator from '@/services/sda/Paginator';
+import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
+import Dataset from '@/components/dataset/Dataset';
 import MetadataDetail from './MetadataDetail';
 
 export default {
 	name: 'MetadataList',
 	components: {
-		MetadataDetail
+		MetadataDetail,
+		Dataset,
+		DataSelectionGroupSave
 	},
 	props: {
 		dataset: { type: Object, required: true },
@@ -69,7 +78,9 @@ export default {
 			metadataPaginator: new Paginator(this.$SDA[this.dataset.id]),
 			selectedMetadata: [],
 			metadataDetailModalTitle: this.dataset.name,
-			metadataDetailModalMetadata: null
+			metadataDetailModalMetadata: null,
+			overlappingDatasetsModalSearchFilter: new DatasetSearchFilter(),
+			overlappingDatasetsModalTitle: 'Datasets'
 		};
 	},
 	computed: {
@@ -86,7 +97,7 @@ export default {
 			];
 		},
 		metadataTableCaption: function() {
-			return this.metadataPaginator.items.length > 0 ? 'Click on any row to see data details' : null;
+			return this.metadataPaginator.items.length > 0 ? 'Click on any row to see data details' : 'No metadata correspond to your search criteria';
 		},
 		selectedMetadataEmpty: function() {
 			return this.selectedMetadata.length == 0;
@@ -121,13 +132,37 @@ export default {
 			}
 		},
 		saveSelection: function() {
-			console.log('TODO saveSelection');
+			let searchParams = new URLSearchParams();
+			this.selectedMetadata.forEach(metadata => searchParams.append('oid__in', metadata.oid));
+
+			let dataSelection = {
+				dataset: this.dataset.resource_uri,
+				number_items: this.selectedMetadata.length,
+				query_string: searchParams.toString()
+			};
+
+			this.$refs.dataSelectionGroupSave.save([dataSelection]);
 		},
 		saveAll: function() {
-			console.log('TODO saveAll');
+			let dataSelection = {
+				dataset: this.dataset.resource_uri,
+				number_items: this.dataset.metadata.number_items,
+				query_string: this.searchFilter.getSearchParams().toString()
+			};
+
+			this.$refs.dataSelectionGroupSave.save([dataSelection]);
 		},
 		searchOverlappingDatasets: function() {
-			console.log('TODO searchOverlappingDatasets');
+			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${this.dataset.name} data`;
+			this.overlappingDatasetsModalSearchFilter = new DatasetSearchFilter({
+				dateRange: {
+					min: new Date(Math.min(...this.selectedMetadata.map(m => new Date(m.date_beg)))),
+					max: new Date(Math.max(...this.selectedMetadata.map(m => new Date(m.date_end))))
+				},
+				search: this.selectedMetadata.map(m => `(date_beg__lt = ${m.date_end} and date_end__gt = ${m.date_beg})`).join(' or ')
+			});
+			console.log(this.overlappingDatasetsModalSearchFilter);
+			this.$refs.overlappingDatasetsModal.show();
 		}
 	}
 };
