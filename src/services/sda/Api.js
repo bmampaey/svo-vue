@@ -5,9 +5,9 @@ import Service from './Service';
 import User from './User';
 
 export default class Api {
-	constructor(server, apiUrl, loginUrl, timeout = 15000) {
+	constructor(server, apiUrl, authenticationUrl, timeout = 15000) {
 		this.apiUrl = apiUrl;
-		this.loginUrl = loginUrl;
+		this.authenticationUrl = authenticationUrl;
 		this.currentUser = User.getFromLocalStorage();
 		this.isSetup = false;
 
@@ -20,7 +20,6 @@ export default class Api {
 
 	setHeaders(config) {
 		if (this.currentUser) {
-			// TODO auth should be done by user.name not user.email
 			config.headers.common['Authorization'] = `ApiKey ${this.currentUser.email}:${this.currentUser.apiKey}`;
 		}
 		return config;
@@ -42,24 +41,62 @@ export default class Api {
 		}
 	}
 
-	async login(email, password) {
-		// TODO put login url in constants
-		let response = await this.axios.post(this.loginUrl, { email: email, password: password });
+	async logInUser(email, password) {
+		// TODO what in case of error
+		let authentication = {
+			username: email,
+			password: password
+		};
+		let response = await this.axios.get(this.authenticationUrl, {
+			auth: authentication
+		});
 		this.currentUser = new User(response.data.name, email, response.data.api_key);
 		this.currentUser.saveToLocalStorage();
 	}
 
-	async register(email, username, password) {
-		// TODO do proper registration
-		await this.login(email, password);
+	async registerUser(email, firstName, lastName, password) {
+		// TODO add first name and last name
+		// TODO what in case of error
+		let data = {
+			email: email,
+			first_name: firstName,
+			last_name: lastName,
+			password: password
+		};
+		let response = await this.axios.post(this.authenticationUrl, data);
+		this.currentUser = new User(response.data.name, email, response.data.api_key);
+		this.currentUser.saveToLocalStorage();
 	}
 
-	async deleteAccount() {
-		console.log('TODO deleteAccount');
+	async updateUser(firstName, lastName, oldPassword, newPassword) {
+		// TODO
+		let data = {
+			firstName: firstName,
+			lastName: lastName,
+			password: newPassword
+		};
+		let authentication = {
+			username: this.currentUser.email,
+			password: oldPassword
+		};
+		let response = await this.axios.patch(this.authenticationUrl, data, {
+			auth: authentication
+		});
+		this.currentUser = new User(response.data.name, this.currentUser.email, response.data.api_key);
+		this.currentUser.saveToLocalStorage();
 	}
 
-	logout() {
-		User.delFromLocalStorage();
+	async deleteUser(password) {
+		// TODO what in case of error
+		await this.axios.delete(this.authenticationUrl, {
+			auth: { username: this.currentUser.email, password: password }
+		});
+		User.deleteFromLocalStorage();
+		this.currentUser = null;
+	}
+
+	logOutUser() {
+		User.deleteFromLocalStorage();
 		this.currentUser = null;
 	}
 

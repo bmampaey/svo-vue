@@ -19,7 +19,7 @@ export default class User {
 		}
 	}
 
-	static delFromLocalStorage() {
+	static deleteFromLocalStorage() {
 		window.localStorage.removeItem('userName');
 		window.localStorage.removeItem('userEmail');
 		window.localStorage.removeItem('userApiKey');

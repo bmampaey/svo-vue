@@ -1,5 +1,5 @@
 <template>
-	<b-form @submit.prevent="logginUser">
+	<b-form @submit.prevent="logInUser">
 		<b-form-group label="Email" label-for="email">
 			<b-form-input id="email" v-model="email" type="email" required trim></b-form-input>
 		</b-form-group>
@@ -22,13 +22,13 @@ export default {
 		};
 	},
 	methods: {
-		/* Try to login the user into the SDA API with the email and password specified in the form
-			If successfull redirect to the Root view */
-		logginUser: async function() {
-			// TODO check what happens if password is wrong
+		/* Try to log in the user into the SDA API with the email and password specified in the form
+		If successfull redirect to the Root view */
+		logInUser: async function() {
+			// TODO check what happens if password is wrong (do same as register form and maybe use generi error instead of passwordValid)
 			try {
 				this.passwordValid = null;
-				await this.$SDA.login(this.email, this.password);
+				await this.$SDA.logInUser(this.email, this.password);
 				this.$router.push({ name: 'Root' });
 			} catch (error) {
 				this.passwordValid = false;

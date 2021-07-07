@@ -52,14 +52,16 @@ export const HEK_EVENT_DETAIL_SEARCH_PARAMS = Object.freeze({
 	ivorn: ''
 });
 
+const DEBUG = true;
+
 /* The URL of the SDA API server. All URLs in the SDA are absolute, so do not specify the API URL here */
-export const SDA_SERVER = 'http://solarnet.oma.be';
+export const SDA_SERVER = DEBUG ? 'http://localhost:8800' : 'https://solarnet2.oma.be';
 
 /* The absolute URL of the SDA API */
-export const SDA_API_URL = '/SDA/api/v1';
+export const SDA_API_URL = DEBUG ? '/api/' : '/service/api/';
 
-/* The absolute URL of the SDA API login interface */
-export const SDA_LOGIN_URL = '/SDA/api/v1/user/login/';
+/* The absolute URL of the SDA API autentication */
+export const SDA_AUTHENTICATION_URL = SDA_API_URL + 'user/';
 
 /* The default page size for paginated tables: HekEventList and MetadataList */
 export const DEFAULT_PAGE_SIZE = 10;
