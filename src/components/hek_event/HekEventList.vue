@@ -49,7 +49,7 @@
 <script>
 import Paginator from '@/services/hek/Paginator';
 import HekEventSearchFilter from '@/services/hek/EventSearchFilter';
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import Dataset from '@/components/dataset/Dataset';
 import HekEventDetail from './HekEventDetail';
 

@@ -1,4 +1,4 @@
-/* The API makes the requests to the SDA server and manages authentication */
+/* The API makes the requests to the SVO server and manages authentication */
 
 import axios from 'axios';
 import Service from './Service';

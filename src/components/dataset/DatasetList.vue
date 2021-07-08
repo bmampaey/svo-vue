@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
 import DatasetDetail from './DatasetDetail.vue';
 
@@ -96,7 +96,7 @@ export default {
 		updateDatasetList: async function(searchFilter) {
 			this.loading = true;
 			try {
-				let datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
+				let datasetList = await this.$SVO.dataset.getAll(searchFilter.getSearchParams());
 				// Discard empty datasets
 				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.estimated_count > 0);
 				this.selectedDatasets = [];

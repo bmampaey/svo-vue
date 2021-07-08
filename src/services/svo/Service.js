@@ -1,4 +1,4 @@
-/* The Service makes the requests to the SDA server for a particular resource */
+/* The Service makes the requests to the SVO server for a particular resource */
 
 export default class Service {
 	constructor(api, resourceUrl) {

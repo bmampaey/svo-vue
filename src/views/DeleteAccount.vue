@@ -17,14 +17,14 @@ export default {
 	name: 'DeleteAccount',
 	data: function() {
 		return {
-			password: null,
+			password: null
 		};
 	},
 	methods: {
 		deleteUser: async function() {
 			// TODO check what happens if password is wrong (do same as register form and maybe use generi error instead of passwordValid)
 			try {
-				await this.$SDA.deleteUser(this.password);
+				await this.$SVO.deleteUser(this.password);
 				this.$router.push({ name: 'Authentication' });
 			} catch (error) {
 				// TODO

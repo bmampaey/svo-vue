@@ -1,7 +1,7 @@
 <template>
 	<b-navbar toggleable="md" type="light" variant="light">
 		<!-- The logo -->
-		<b-navbar-brand href="http://solarnet.oma.be/">
+		<b-navbar-brand href="https://solarnet2.oma.be/">
 			<img src="@/assets/solarnet_logo.png" alt="SolarNet logo" style="max-width:100px; vertical-align: baseline;" />
 		</b-navbar-brand>
 
@@ -33,13 +33,13 @@ export default {
 	name: 'AppMenu',
 	computed: {
 		userName: function() {
-			return this.$SDA.currentUser.name;
+			return this.$SVO.currentUser.name;
 		}
 	},
 	methods: {
-		/* Log out the user from the SDA API and redirect to the Authentication view */
+		/* Log out the user from the SVO API and redirect to the Authentication view */
 		logOutUser: function() {
-			this.$SDA.logOutUser();
+			this.$SVO.logOutUser();
 			this.$router.push({ name: 'Authentication' });
 		}
 	}

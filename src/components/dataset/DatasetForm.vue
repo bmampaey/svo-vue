@@ -1,13 +1,13 @@
 <template>
 	<b-form @submit.prevent="updateSearchFilter">
 		<b-form-group label="Telescopes" label-for="telescopes">
-			<b-form-select id="telescopes" v-model="searchFilter.telescopes" :options="$SDA.telescopeOptions" multiple></b-form-select>
+			<b-form-select id="telescopes" v-model="searchFilter.telescopes" :options="$SVO.telescopeOptions" multiple></b-form-select>
 		</b-form-group>
 		<b-form-group label="Characteristics" label-for="characteristics">
-			<b-form-select id="characteristics" v-model="searchFilter.characteristics" :options="$SDA.characteristicOptions" multiple></b-form-select>
+			<b-form-select id="characteristics" v-model="searchFilter.characteristics" :options="$SVO.characteristicOptions" multiple></b-form-select>
 		</b-form-group>
 		<b-form-group label="Tags" label-for="tags">
-			<b-form-select id="tags" v-model="searchFilter.tags" :options="$SDA.tagOptions" multiple></b-form-select>
+			<b-form-select id="tags" v-model="searchFilter.tags" :options="$SVO.tagOptions" multiple></b-form-select>
 		</b-form-group>
 		<base-datetime-range v-model="searchFilter.dateRange" label="Observation date" min-label="Start" max-label="End"></base-datetime-range>
 		<base-number-range v-model="searchFilter.wavelengthRange" label="Observation wavelength" unit="nm"></base-number-range>
@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 
 export default {
 	name: 'DatasetForm',

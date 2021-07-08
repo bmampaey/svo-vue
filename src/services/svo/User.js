@@ -1,4 +1,4 @@
-/* The User manages the local storage information needed for the authentication with the SDA API */
+/* The User manages the local storage information needed for the authentication with the SVO API */
 
 export default class User {
 	constructor(name, email, apiKey) {

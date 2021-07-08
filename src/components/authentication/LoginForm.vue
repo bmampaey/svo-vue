@@ -22,13 +22,13 @@ export default {
 		};
 	},
 	methods: {
-		/* Try to log in the user into the SDA API with the email and password specified in the form
+		/* Try to log in the user into the SVO API with the email and password specified in the form
 		If successfull redirect to the Root view */
 		logInUser: async function() {
 			// TODO check what happens if password is wrong (do same as register form and maybe use generi error instead of passwordValid)
 			try {
 				this.passwordValid = null;
-				await this.$SDA.logInUser(this.email, this.password);
+				await this.$SVO.logInUser(this.email, this.password);
 				this.$router.push({ name: 'Root' });
 			} catch (error) {
 				this.passwordValid = false;

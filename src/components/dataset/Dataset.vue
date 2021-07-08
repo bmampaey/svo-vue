@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import DatasetForm from './DatasetForm';
 import DatasetList from './DatasetList';
 

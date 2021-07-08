@@ -28,11 +28,11 @@ export default {
 		};
 	},
 	methods: {
-		/* Try to register the user into the SDA API with the email and password specified in the form
+		/* Try to register the user into the SVO API with the email and password specified in the form
 		If successfull redirect to the Root view */
 		registerUser: async function() {
 			try {
-				await this.$SDA.registerUser(this.email, this.firstName, this.lastName, this.password);
+				await this.$SVO.registerUser(this.email, this.firstName, this.lastName, this.password);
 				this.$router.push({ name: 'Root' });
 			} catch (error) {
 				// TODO check what happens if request is errored

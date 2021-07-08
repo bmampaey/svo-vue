@@ -39,7 +39,7 @@ export default {
 		updateDataSelectionGroupList: async function() {
 			this.loading = true;
 			try {
-				this.dataSelectionGroupList = await this.$SDA.data_selection_group.getAll();
+				this.dataSelectionGroupList = await this.$SVO.data_selection_group.getAll();
 			} catch (error) {
 				console.log('TODO updateDataSelectionGroupList error');
 			}
@@ -54,11 +54,11 @@ export default {
 			// Check if a data selection group of that name already exists and if not create it
 			let dataSelectionGroup = this.dataSelectionGroupList.find(dataSelectionGroup => dataSelectionGroup.name == this.dataSelectionGroupName);
 			if (!dataSelectionGroup) {
-				dataSelectionGroup = this.$SDA.data_selection_group.create({ name: this.dataSelectionGroupName });
+				dataSelectionGroup = this.$SVO.data_selection_group.create({ name: this.dataSelectionGroupName });
 			}
 
 			let dataSelections = this.dataSelections.map(dataSelection => ({ ...dataSelection, data_selection_group: dataSelectionGroup.resource_uri }));
-			this.$SDA.data_selection.create(dataSelections);
+			this.$SVO.data_selection.create(dataSelections);
 		}
 	}
 };

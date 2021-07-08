@@ -4,7 +4,7 @@ import '@/plugins/bootstrap-vue';
 import '@/utils';
 import '@/components/globals';
 import '@/services/hek';
-import '@/services/sda';
+import '@/services/svo';
 import router from '@/router';
 import App from '@/App.vue';
 import Vue from 'vue';

@@ -55,8 +55,8 @@
 </template>
 
 <script>
-import Paginator from '@/services/sda/Paginator';
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import Paginator from '@/services/svo/Paginator';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
 import Dataset from '@/components/dataset/Dataset';
 import MetadataDetail from './MetadataDetail';
@@ -75,7 +75,7 @@ export default {
 	},
 	data: function() {
 		return {
-			metadataPaginator: new Paginator(this.$SDA[this.dataset.id]),
+			metadataPaginator: new Paginator(this.$SVO[this.dataset.id]),
 			selectedMetadata: [],
 			metadataDetailModalTitle: this.dataset.name,
 			metadataDetailModalMetadata: null,

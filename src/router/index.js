@@ -49,10 +49,10 @@ const router = new VueRouter({
 });
 
 router.beforeEach((to, from, next) => {
-	router.app.$SDA
+	router.app.$SVO
 		.setup()
 		.then(function() {
-			if (to.name == 'Authentication' || router.app.$SDA.currentUser) {
+			if (to.name == 'Authentication' || router.app.$SVO.currentUser) {
 				next();
 			} else {
 				next({ name: 'Authentication' });

@@ -7,7 +7,7 @@
 
 <script>
 import Dataset from '@/components/dataset/Dataset';
-import DatasetSearchFilter from '@/services/sda/DatasetSearchFilter';
+import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
 
 export default {
 	name: 'Datasets',

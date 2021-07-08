@@ -38,7 +38,7 @@ export default {
 	methods: {
 		deleteDataSelection: function(dataSelection) {
 			try {
-				this.$SDA.data_selection.delete(dataSelection.resource_uri);
+				this.$SVO.data_selection.delete(dataSelection.resource_uri);
 				// TODO you should not change prop
 				this.dataSelectionGroup.data_selections = this.dataSelectionGroup.data_selections.filter(v => v.resource_uri != dataSelection.resource_uri);
 				this.dataSelectionGroup.number_items -= dataSelection.number_items;
@@ -48,7 +48,7 @@ export default {
 		},
 		getZipDownloadUrl: function(dataSelection) {
 			// TODO make proper (redundant with data selection group)
-			return '/SDA/data_selection/data_selection/download_zip/' + dataSelection.id;
+			return '/SVO/data_selection/data_selection/download_zip/' + dataSelection.id;
 		}
 	}
 };

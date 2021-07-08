@@ -76,7 +76,7 @@ export default {
 		updateDataSelectionGroupList: async function() {
 			this.loading = true;
 			try {
-				this.dataSelectionGroupList = await this.$SDA.data_selection_group.getAll();
+				this.dataSelectionGroupList = await this.$SVO.data_selection_group.getAll();
 			} catch (error) {
 				console.log('TODO updateDataSelectionGroupList error');
 			}
@@ -97,7 +97,7 @@ export default {
 		},
 		deleteDataSelectionGroup: function(dataSelectionGroup) {
 			try {
-				this.$SDA.data_selection_group.delete(dataSelectionGroup.resource_uri);
+				this.$SVO.data_selection_group.delete(dataSelectionGroup.resource_uri);
 				this.dataSelectionGroupList = this.dataSelectionGroupList.filter(v => v.resource_uri != dataSelectionGroup.resource_uri);
 			} catch (error) {
 				console.log('TODO deleteDataSelectionGroup error');
@@ -105,7 +105,7 @@ export default {
 		},
 		getZipDownloadUrl: function(dataSelectionGroup) {
 			// TODO make proper
-			return '/SDA/data_selection/data_selection_group/download_zip/' + dataSelectionGroup.id;
+			return '/SVO/data_selection/data_selection_group/download_zip/' + dataSelectionGroup.id;
 		}
 	}
 };
