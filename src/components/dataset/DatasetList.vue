@@ -29,20 +29,20 @@
 			<dataset-detail v-if="datasetDetailModalDataset" :dataset="datasetDetailModalDataset" :search-filter="searchFilter"></dataset-detail>
 		</b-modal>
 
-		<data-selection-group-save ref="dataSelectionGroupSave"></data-selection-group-save>
+		<data-selection-save ref="dataSelectionSave"></data-selection-save>
 	</div>
 </template>
 
 <script>
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
-import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
+import DataSelectionSave from '@/components/data_selection/DataSelectionSave';
 import DatasetDetail from './DatasetDetail.vue';
 
 export default {
 	name: 'DatasetList',
 	components: {
 		DatasetDetail,
-		DataSelectionGroupSave
+		DataSelectionSave
 	},
 	props: {
 		searchFilter: { type: DatasetSearchFilter, required: true }
@@ -119,12 +119,8 @@ export default {
 			}
 		},
 		saveSelection: function() {
-			let dataSelections = this.selectedDatasets.map(dataset => ({
-				dataset: dataset.resource_uri,
-				number_items: dataset.metadata.estimated_count,
-				query_string: this.searchFilter.getSearchParams().toString()
-			}));
-			this.$refs.dataSelectionGroupSave.save(dataSelections);
+			// TODO how to save multiple dataset in 1 data_selection
+			this.$refs.dataSelectionSave.save(this.selectedDatasets[0], this.searchFilter.getSearchParams().toString());
 		}
 	}
 };

@@ -1,17 +1,17 @@
 <template>
 	<b-container fluid>
 		<app-menu></app-menu>
-		<data-selection-group class="mt-3"></data-selection-group>
+		<data-selection class="mt-3"></data-selection>
 	</b-container>
 </template>
 
 <script>
-import DataSelectionGroup from '@/components/data_selection/DataSelectionGroup';
+import DataSelection from '@/components/data_selection/DataSelection';
 
 export default {
 	name: 'DataSelections',
 	components: {
-		DataSelectionGroup
+		DataSelection
 	}
 };
 </script>

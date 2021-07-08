@@ -4,7 +4,7 @@
 			<b-card-text>Deleting your account will also delete all your data selections</b-card-text>
 			<b-form @submit.prevent="deleteUser">
 				<b-form-group label="Password" label-for="password" description="Your password is required to delete your account">
-					<b-form-input id="password" v-model="password" type="password" required :trim="false"></b-form-input>
+					<b-form-input id="password" v-model="password" type="password" required></b-form-input>
 				</b-form-group>
 				<b-button type="submit" variant="primary">Delete</b-button>
 			</b-form>

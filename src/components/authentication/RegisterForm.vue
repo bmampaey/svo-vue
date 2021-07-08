@@ -10,7 +10,7 @@
 			<b-form-input id="last-name" v-model="lastName" trim></b-form-input>
 		</b-form-group>
 		<b-form-group label="Password" label-for="password">
-			<b-form-input id="password" v-model="password" type="password" required :trim="false"></b-form-input>
+			<b-form-input id="password" v-model="password" type="password" required></b-form-input>
 		</b-form-group>
 		<b-button type="submit" variant="primary">Register</b-button>
 	</b-form>

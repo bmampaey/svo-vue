@@ -50,14 +50,14 @@
 			<dataset :initial-search-filter="overlappingDatasetsModalSearchFilter"></dataset>
 		</b-modal>
 
-		<data-selection-group-save ref="dataSelectionGroupSave"></data-selection-group-save>
+		<data-selection-save ref="dataSelectionSave"></data-selection-save>
 	</div>
 </template>
 
 <script>
 import Paginator from '@/services/svo/Paginator';
 import DatasetSearchFilter from '@/services/svo/DatasetSearchFilter';
-import DataSelectionGroupSave from '@/components/data_selection/DataSelectionGroupSave';
+import DataSelectionSave from '@/components/data_selection/DataSelectionSave';
 import Dataset from '@/components/dataset/Dataset';
 import MetadataDetail from './MetadataDetail';
 
@@ -66,7 +66,7 @@ export default {
 	components: {
 		MetadataDetail,
 		Dataset,
-		DataSelectionGroupSave
+		DataSelectionSave
 	},
 	props: {
 		dataset: { type: Object, required: true },
@@ -134,23 +134,10 @@ export default {
 		saveSelection: function() {
 			let searchParams = new URLSearchParams();
 			this.selectedMetadata.forEach(metadata => searchParams.append('oid__in', metadata.oid));
-
-			let dataSelection = {
-				dataset: this.dataset.resource_uri,
-				number_items: this.selectedMetadata.length,
-				query_string: searchParams.toString()
-			};
-
-			this.$refs.dataSelectionGroupSave.save([dataSelection]);
+			this.$refs.dataSelectionSave.save(this.dataset, searchParams.toString());
 		},
 		saveAll: function() {
-			let dataSelection = {
-				dataset: this.dataset.resource_uri,
-				number_items: this.dataset.metadata.number_items,
-				query_string: this.searchFilter.getSearchParams().toString()
-			};
-
-			this.$refs.dataSelectionGroupSave.save([dataSelection]);
+			this.$refs.dataSelectionSave.save(this.dataset, this.searchFilter.getSearchParams().toString());
 		},
 		searchOverlappingDatasets: function() {
 			this.overlappingDatasetsModalTitle = `Datasets overlapping selected ${this.dataset.name} data`;

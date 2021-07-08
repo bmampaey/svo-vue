@@ -1,15 +1,15 @@
 /* The Service makes the requests to the SVO server for a particular resource */
 
 export default class Service {
-	constructor(api, resourceUrl) {
+	constructor(api, resourceUri) {
 		this.api = api;
-		this.resourceUrl = resourceUrl;
+		this.resourceUri = resourceUri;
 	}
 
 	async getAll(searchParams = null) {
 		searchParams = new URLSearchParams(searchParams);
 		searchParams.set('limit', 0);
-		let response = await this.api.axios.get(this.resourceUrl, { params: searchParams });
+		let response = await this.api.axios.get(this.resourceUri, { params: searchParams });
 		return response.data.objects;
 	}
 
@@ -21,22 +21,22 @@ export default class Service {
 		if (offset) {
 			searchParams.set('offset', offset);
 		}
-		let response = await this.api.axios.get(this.resourceUrl, { params: searchParams });
+		let response = await this.api.axios.get(this.resourceUri, { params: searchParams });
 		return response.data;
 	}
 
 	async create(data) {
 		console.log('create', data);
-		if (Array.isArray(data)) {
-			let response = await this.api.axios.patch(this.resourceUrl, { objects: data });
-			return response.objects;
-		} else {
-			data = [data];
-			let response = await this.api.axios.patch(this.resourceUrl, { objects: data });
-			return response.objects[0];
-		}
+		let response = await this.api.axios.post(this.resourceUri, data);
+		return response.data;
 	}
-
+	
+	async update(resourceUri, data) {
+		console.log('update', data);
+		let response = await this.api.axios.patch(resourceUri, data);
+		return response.data;
+	}
+	
 	async delete(resourceUri) {
 		return await this.api.axios.delete(resourceUri);
 	}
