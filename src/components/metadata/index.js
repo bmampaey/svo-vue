@@ -1,4 +1,4 @@
 export default {
-	generic: () => import(/* webpackChunkName: "Generic" */ './Generic'),
-	aia_lev1: () => import(/* webpackChunkName: "AiaLev1" */ './AiaLev1')
+	'generic': () => import(/* webpackChunkName: "Generic" */ './Generic'),
+	'AIA level 1': () => import(/* webpackChunkName: "AiaLevel1" */ './AiaLevel1')
 };

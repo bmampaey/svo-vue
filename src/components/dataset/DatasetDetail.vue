@@ -52,7 +52,7 @@ export default {
 		},
 		/* Component to display the Metadata for the displayed dataset */
 		metadataComponent: function() {
-			return metadataComponents[this.dataset.id] || metadataComponents.generic;
+			return metadataComponents[this.dataset.name] || metadataComponents.generic;
 		}
 	}
 };

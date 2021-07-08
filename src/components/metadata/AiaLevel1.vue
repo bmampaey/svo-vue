@@ -20,10 +20,10 @@
 
 <script>
 import MetadataList from './MetadataList';
-import AiALev1SearchFilter from './AiaLev1SearchFilter';
+import AiALev1SearchFilter from './AiaLevel1SearchFilter';
 
 export default {
-	name: 'AiaLev1',
+	name: 'AiaLevel1',
 	components: {
 		MetadataList
 	},
