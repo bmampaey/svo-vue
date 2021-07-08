@@ -61,9 +61,17 @@ export default {
 			return [
 				{ key: 'checkbox', label: '' },
 				{ key: 'name', label: 'Dataset' },
-				{ key: 'metadata', label: '# Items', formatter: metadata => metadata.number_items },
-				{ key: 'instrument', label: 'Instrument' },
-				{ key: 'telescope', label: 'Telescope' },
+				{ key: 'metadata', label: 'Estimated count', formatter: metadata => metadata.estimated_count },
+				{
+					key: 'telescope',
+					label: 'Telescope',
+					formatter: telescope => telescope.name
+				},
+				{
+					key: 'instrument',
+					label: 'Instrument',
+					formatter: instrument => instrument.name
+				},
 				{
 					key: 'characteristics',
 					label: 'Characteristics',
@@ -90,7 +98,7 @@ export default {
 			try {
 				let datasetList = await this.$SDA.dataset.getAll(searchFilter.getSearchParams());
 				// Discard empty datasets
-				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.number_items > 0);
+				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.estimated_count > 0);
 				this.selectedDatasets = [];
 			} catch (error) {
 				console.log('TODO updateDatasetList error');
@@ -113,7 +121,7 @@ export default {
 		saveSelection: function() {
 			let dataSelections = this.selectedDatasets.map(dataset => ({
 				dataset: dataset.resource_uri,
-				number_items: dataset.metadata.number_items,
+				number_items: dataset.metadata.estimated_count,
 				query_string: this.searchFilter.getSearchParams().toString()
 			}));
 			this.$refs.dataSelectionGroupSave.save(dataSelections);
