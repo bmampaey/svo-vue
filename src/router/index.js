@@ -30,6 +30,11 @@ const routes = [
 		component: () => import('@/views/Authentication.vue')
 	},
 	{
+		path: '/update_account',
+		name: 'UpdateAccount',
+		component: () => import('@/views/UpdateAccount.vue')
+	},
+	{
 		path: '/delete_account',
 		name: 'DeleteAccount',
 		component: () => import('@/views/DeleteAccount.vue')
@@ -52,7 +57,7 @@ router.beforeEach((to, from, next) => {
 	router.app.$SVO
 		.setup()
 		.then(function() {
-			if (to.name == 'Authentication' || router.app.$SVO.currentUser) {
+			if (to.name == 'Authentication' || router.app.$SVO.currentUser.isAuthenticated) {
 				next();
 			} else {
 				next({ name: 'Authentication' });

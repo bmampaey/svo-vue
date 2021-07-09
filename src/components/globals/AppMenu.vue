@@ -19,9 +19,10 @@
 
 			<!-- Right aligned menu items -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item-dropdown id="app-menu-user" :text="userName" right>
-					<b-dropdown-item aria-describedby="app-menu-user" @click="logOutUser">Logout</b-dropdown-item>
-					<b-dropdown-item :to="{ name: 'DeleteAccount' }" aria-describedby="app-menu-user">Delete account</b-dropdown-item>
+				<b-nav-item-dropdown id="app-menu-user" :text="user.name" right>
+					<b-dropdown-item @click="logOutUser">Logout</b-dropdown-item>
+					<b-dropdown-item :to="{ name: 'UpdateAccount' }">Update account</b-dropdown-item>
+					<b-dropdown-item :to="{ name: 'DeleteAccount' }">Delete account</b-dropdown-item>
 				</b-nav-item-dropdown>
 			</b-navbar-nav>
 		</b-collapse>
@@ -31,10 +32,10 @@
 <script>
 export default {
 	name: 'AppMenu',
-	computed: {
-		userName: function() {
-			return this.$SVO.currentUser.name;
-		}
+	data: function() {
+		return {
+			user: this.$SVO.currentUser
+		};
 	},
 	methods: {
 		/* Log out the user from the SVO API and redirect to the Authentication view */

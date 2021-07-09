@@ -50,8 +50,11 @@ export default class Api {
 		let response = await this.axios.get(this.authenticationUrl, {
 			auth: authentication
 		});
-		this.currentUser = new User(response.data.name, email, response.data.api_key);
-		this.currentUser.saveToLocalStorage();
+		this.currentUser.update({
+			name: response.data.name,
+			email: email,
+			apiKey: response.data.api_key
+		});
 	}
 
 	async registerUser(email, firstName, lastName, password) {
@@ -64,11 +67,14 @@ export default class Api {
 			password: password
 		};
 		let response = await this.axios.post(this.authenticationUrl, data);
-		this.currentUser = new User(response.data.name, email, response.data.api_key);
-		this.currentUser.saveToLocalStorage();
+		this.currentUser.update({
+			name: response.data.name,
+			email: email,
+			apiKey: response.data.api_key
+		});
 	}
 
-	async updateUser(firstName, lastName, oldPassword, newPassword) {
+	async updateUser(firstName, lastName, newPassword, currentPassword) {
 		// TODO
 		let data = {
 			firstName: firstName,
@@ -77,13 +83,15 @@ export default class Api {
 		};
 		let authentication = {
 			username: this.currentUser.email,
-			password: oldPassword
+			password: currentPassword
 		};
 		let response = await this.axios.patch(this.authenticationUrl, data, {
 			auth: authentication
 		});
-		this.currentUser = new User(response.data.name, this.currentUser.email, response.data.api_key);
-		this.currentUser.saveToLocalStorage();
+		this.currentUser.update({
+			name: response.data.name,
+			apiKey: response.data.api_key
+		});
 	}
 
 	async deleteUser(password) {
@@ -91,13 +99,11 @@ export default class Api {
 		await this.axios.delete(this.authenticationUrl, {
 			auth: { username: this.currentUser.email, password: password }
 		});
-		User.deleteFromLocalStorage();
-		this.currentUser = null;
+		this.currentUser.delete();
 	}
 
 	logOutUser() {
-		User.deleteFromLocalStorage();
-		this.currentUser = null;
+		this.currentUser.delete();
 	}
 
 	parseError(error) {

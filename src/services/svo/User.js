@@ -1,33 +1,41 @@
 /* The User manages the local storage information needed for the authentication with the SVO API */
 
 export default class User {
-	constructor(name, email, apiKey) {
-		this.name = name;
-		this.email = email;
-		this.apiKey = apiKey;
+	constructor({ name, email, apiKey } = {}) {
+		Object.assign(this, { name, email, apiKey });
 	}
 
 	static getFromLocalStorage() {
-		let name = window.localStorage.getItem('userName');
-		let email = window.localStorage.getItem('userEmail');
-		let apiKey = window.localStorage.getItem('userApiKey');
+		return new User({
+			name: window.localStorage.getItem('userName'),
+			email: window.localStorage.getItem('userEmail'),
+			apiKey: window.localStorage.getItem('userApiKey')
+		});
+	}
 
-		if (name && email && apiKey) {
-			return new User(name, email, apiKey);
-		} else {
-			return null;
+	update({ name, email, apiKey } = {}) {
+		if (name !== undefined) {
+			this.name = name;
+			window.localStorage.setItem('userName', name);
+		}
+		if (email !== undefined) {
+			this.email = email;
+			window.localStorage.setItem('userEmail', email);
+		}
+		if (apiKey !== undefined) {
+			this.apiKey = apiKey;
+			window.localStorage.setItem('userApiKey', apiKey);
 		}
 	}
 
-	static deleteFromLocalStorage() {
+	delete() {
+		Object.assign(this, { name: null, email: null, apiKey: null });
 		window.localStorage.removeItem('userName');
 		window.localStorage.removeItem('userEmail');
 		window.localStorage.removeItem('userApiKey');
 	}
 
-	saveToLocalStorage() {
-		window.localStorage.setItem('userName', this.name);
-		window.localStorage.setItem('userEmail', this.email);
-		window.localStorage.setItem('userApiKey', this.apiKey);
+	get isAuthenticated() {
+		return this.email && this.apiKey;
 	}
 }
