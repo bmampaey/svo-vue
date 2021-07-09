@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-overlay :show="loading" rounded="sm">
+		<b-overlay :show="showOverlay" rounded="sm">
 			<b-table
 				ref="datasetTable"
 				:items="datasetList"
@@ -53,7 +53,7 @@ export default {
 			selectedDatasets: [],
 			datasetDetailModalDataset: null,
 			datasetDetailModalTitle: '',
-			loading: true
+			showOverlay: true
 		};
 	},
 	computed: {
@@ -94,7 +94,7 @@ export default {
 	},
 	methods: {
 		updateDatasetList: async function(searchFilter) {
-			this.loading = true;
+			this.showOverlay = true;
 			try {
 				let datasetList = await this.$SVO.dataset.getAll(searchFilter.getSearchParams());
 				// Discard empty datasets
@@ -103,7 +103,7 @@ export default {
 			} catch (error) {
 				console.log('TODO updateDatasetList error');
 			}
-			this.loading = false;
+			this.showOverlay = false;
 		},
 		showDatasetDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows

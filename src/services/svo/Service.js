@@ -30,13 +30,13 @@ export default class Service {
 		let response = await this.api.axios.post(this.resourceUri, data);
 		return response.data;
 	}
-	
+
 	async update(resourceUri, data) {
 		console.log('update', data);
 		let response = await this.api.axios.patch(resourceUri, data);
 		return response.data;
 	}
-	
+
 	async delete(resourceUri) {
 		return await this.api.axios.delete(resourceUri);
 	}

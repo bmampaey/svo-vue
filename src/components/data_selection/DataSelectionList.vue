@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<b-overlay :show="loading" rounded="sm">
+		<b-overlay :show="showOverlay" rounded="sm">
 			<b-table
 				ref="dataSelectionTable"
 				:items="dataSelectionList"
@@ -49,7 +49,7 @@ export default {
 			dataSelectionList: [],
 			dataSelectionDetailModalDataSelection: null,
 			dataSelectionDetailModalTitle: '',
-			loading: true
+			showOverlay: true
 		};
 	},
 	computed: {
@@ -74,13 +74,13 @@ export default {
 	},
 	methods: {
 		updateDataSelectionList: async function() {
-			this.loading = true;
+			this.showOverlay = true;
 			try {
 				this.dataSelectionList = await this.$SVO.data_selection.getAll();
 			} catch (error) {
 				console.log('TODO updateDataSelectionList error');
 			}
-			this.loading = false;
+			this.showOverlay = false;
 		},
 		showDataSelectionDetailModal: function(selectedRows) {
 			// selectedRows is always a list, but it will be empty when clearing selected rows

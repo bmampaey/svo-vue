@@ -75,7 +75,6 @@ export default class Api {
 	}
 
 	async updateUser(firstName, lastName, newPassword, currentPassword) {
-		// TODO
 		let data = {
 			firstName: firstName,
 			lastName: lastName,

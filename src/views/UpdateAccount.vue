@@ -36,7 +36,6 @@ export default {
 		updateUser: async function() {
 			// TODO check what happens if password is wrong (do same as register form and maybe use generi error instead of passwordValid)
 			try {
-				debugger;
 				await this.$SVO.updateUser(this.firstName, this.lastName, this.newPassword, this.currentPassword);
 				this.$router.push({ name: 'Authentication' });
 			} catch (error) {

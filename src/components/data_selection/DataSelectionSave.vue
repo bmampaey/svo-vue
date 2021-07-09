@@ -1,11 +1,11 @@
 <template>
 	<div>
-		<b-modal ref="dataSelectionSaveModal" size="md" title="Save data selection" ok-only ok-variant="success" @hidden="resetModal" :hide-footer="!dataSelection">
+		<b-modal ref="dataSelectionSaveModal" size="md" title="Save data selection" ok-only ok-variant="success" :hide-footer="!dataSelection" @hidden="resetModal">
 			<template v-if="!dataSelection">
 				<b-overlay :show="showOverlay" rounded="sm">
 					<b-form @submit.prevent="saveDataSelection">
 						<b-form-group label="Description" label-for="data-selection-description" description="Optional description of the data selection">
-							<b-form-textarea id="data-selection-description" v-model="description" lazy ></b-form-textarea>
+							<b-form-textarea id="data-selection-description" v-model="description" lazy></b-form-textarea>
 						</b-form-group>
 						<b-button type="submit" variant="primary">Save</b-button>
 					</b-form>
@@ -28,7 +28,7 @@ export default {
 		return {
 			showOverlay: false,
 			description: null,
-			dataSelection: null,
+			dataSelection: null
 		};
 	},
 	methods: {
@@ -49,9 +49,9 @@ export default {
 		},
 		resetModal: function() {
 			// Reset the data for the next time the modal is opened
-			this.showOverlay = false
-			this.description = null
-			this.dataSelection = null
+			this.showOverlay = false;
+			this.description = null;
+			this.dataSelection = null;
 		}
 	}
 };
