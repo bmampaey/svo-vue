@@ -1,10 +1,11 @@
 <template>
 	<b-form @submit.prevent="logInUser">
+		<b-alert :show="!!formError" variant="danger" v-text="formError"></b-alert>
 		<b-form-group label="Email" label-for="email">
 			<b-form-input id="email" v-model="email" type="email" autocomplete="email" required trim></b-form-input>
 		</b-form-group>
-		<b-form-group label="Password" label-for="password" :state="passwordValid" :invalid-feedback="passwordFeedback">
-			<b-form-input id="password" v-model="password" type="password" autocomplete="current-password" required :state="passwordValid"></b-form-input>
+		<b-form-group label="Password" label-for="password">
+			<b-form-input id="password" v-model="password" type="password" autocomplete="current-password" required></b-form-input>
 		</b-form-group>
 		<b-button type="submit" variant="primary">Login</b-button>
 	</b-form>
@@ -17,25 +18,25 @@ export default {
 		return {
 			email: null,
 			password: null,
-			passwordValid: null,
-			passwordFeedback: 'The password is invalid! If you have forgotten your password, please send an email to solsysadm@oma.be'
+			formError: null
 		};
 	},
 	methods: {
 		/* Try to log in the user into the SVO API with the email and password specified in the form
 		If successfull redirect to the Root view */
 		logInUser: async function() {
-			// TODO check what happens if password is wrong (do same as register form and maybe use generi error instead of passwordValid)
+			this.formError = null;
 			try {
-				this.passwordValid = null;
-				await this.$SVO.logInUser(this.email, this.password);
+				await this.$SVO.user.logIn(this.email, this.password);
 				this.$router.push({ name: 'Root' });
 			} catch (error) {
-				this.passwordValid = false;
+				if (error.response.status == 401) {
+					this.formError = 'The email or password is invalid. If you have forgotten your password, please contact the website administrator';
+				} else {
+					this.formError = this.$SVO.parseError(error);
+				}
 			}
 		}
 	}
 };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->

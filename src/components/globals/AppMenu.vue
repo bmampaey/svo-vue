@@ -19,7 +19,7 @@
 
 			<!-- Right aligned menu items -->
 			<b-navbar-nav class="ml-auto">
-				<b-nav-item-dropdown id="app-menu-user" :text="user.name" right>
+				<b-nav-item-dropdown id="app-menu-user" :text="accountName" right>
 					<b-dropdown-item @click="logOutUser">Logout</b-dropdown-item>
 					<b-dropdown-item :to="{ name: 'UpdateAccount' }">Update account</b-dropdown-item>
 					<b-dropdown-item :to="{ name: 'DeleteAccount' }">Delete account</b-dropdown-item>
@@ -34,14 +34,20 @@ export default {
 	name: 'AppMenu',
 	data: function() {
 		return {
-			user: this.$SVO.currentUser
+			// Make the user reactive
+			user: this.$SVO.user
 		};
 	},
 	methods: {
 		/* Log out the user from the SVO API and redirect to the Authentication view */
 		logOutUser: function() {
-			this.$SVO.logOutUser();
+			this.$SVO.user.logOut();
 			this.$router.push({ name: 'Authentication' });
+		}
+	},
+	computed: {
+		accountName: function() {
+			return this.user.fullName || 'Account';
 		}
 	}
 };

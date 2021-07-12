@@ -57,7 +57,7 @@ router.beforeEach((to, from, next) => {
 	router.app.$SVO
 		.setup()
 		.then(function() {
-			if (to.name == 'Authentication' || router.app.$SVO.currentUser.isAuthenticated) {
+			if (to.name == 'Authentication' || router.app.$SVO.user.isAuthenticated) {
 				next();
 			} else {
 				next({ name: 'Authentication' });

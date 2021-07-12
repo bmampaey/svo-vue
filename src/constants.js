@@ -60,8 +60,5 @@ export const SVO_SERVER = DEBUG ? 'http://localhost:8800' : 'https://solarnet2.o
 /* The absolute URL of the SVO API */
 export const SVO_API_URL = DEBUG ? '/api/' : '/service/api/';
 
-/* The absolute URL of the SVO API autentication */
-export const SVO_AUTHENTICATION_URL = SVO_API_URL + 'user/';
-
 /* The default page size for paginated tables: HekEventList and MetadataList */
 export const DEFAULT_PAGE_SIZE = 10;

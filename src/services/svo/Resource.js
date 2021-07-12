@@ -1,6 +1,6 @@
-/* The Service makes the requests to the SVO server for a particular resource */
+/* The Resource makes the requests to the SVO server for a particular resource */
 
-export default class Service {
+export default class Resource {
 	constructor(api, resourceUri) {
 		this.api = api;
 		this.resourceUri = resourceUri;

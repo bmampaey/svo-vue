@@ -1,121 +1,58 @@
 /* The API makes the requests to the SVO server and manages authentication */
 
 import axios from 'axios';
-import Service from './Service';
-import User from './User';
+// import Resource from './Resource';
+import UserResource from './UserResource';
 
 export default class Api {
-	constructor(server, apiUrl, authenticationUrl, timeout = 15000) {
-		this.apiUrl = apiUrl;
-		this.authenticationUrl = authenticationUrl;
-		this.currentUser = User.getFromLocalStorage();
-		this.isSetup = false;
+	#isSetup = false;
 
+	constructor(server, apiUrl, timeout = 15000) {
+		this.server = server;
+		this.apiUrl = apiUrl;
 		this.axios = axios.create({
 			baseURL: server,
 			timeout: timeout
 		});
-		this.axios.interceptors.request.use(config => this.setHeaders(config));
 	}
 
-	setHeaders(config) {
-		if (this.currentUser) {
-			config.headers.common['Authorization'] = `ApiKey ${this.currentUser.email}:${this.currentUser.apiKey}`;
+	setAuthorization(config) {
+		if (this.user.isAuthenticated) {
+			config.headers.common['Authorization'] = `ApiKey ${this.user.email}:${this.user.apiKey}`;
+			return config;
 		}
-		return config;
 	}
 
 	async setup() {
-		if (!this.isSetup) {
+		if (!this.#isSetup) {
 			let response = await this.axios.get(this.apiUrl);
-			for (const service in response.data) {
-				this[service] = new Service(this, response.data[service]['list_endpoint']);
-			}
-			let telescopes = await this.telescope.getAll();
-			let characteristics = await this.characteristic.getAll();
-			let tags = await this.tag.getAll();
-			this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
-			this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
-			this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
-			this.isSetup = true;
+			this.resourceUris = Object.fromEntries(Object.entries(response.data).map(([key, value]) => [key, value['list_endpoint']]));
+			this.user = new UserResource(this, this.resourceUris.user);
+			this.axios.interceptors.request.use(config => this.setAuthorization(config), null, { synchronous: true });
+			this.#isSetup = true;
 		}
 	}
-
-	async logInUser(email, password) {
-		// TODO what in case of error
-		let authentication = {
-			username: email,
-			password: password
-		};
-		let response = await this.axios.get(this.authenticationUrl, {
-			auth: authentication
-		});
-		this.currentUser.update({
-			name: response.data.name,
-			email: email,
-			apiKey: response.data.api_key
-		});
-	}
-
-	async registerUser(email, firstName, lastName, password) {
-		// TODO add first name and last name
-		// TODO what in case of error
-		let data = {
-			email: email,
-			first_name: firstName,
-			last_name: lastName,
-			password: password
-		};
-		let response = await this.axios.post(this.authenticationUrl, data);
-		this.currentUser.update({
-			name: response.data.name,
-			email: email,
-			apiKey: response.data.api_key
-		});
-	}
-
-	async updateUser(firstName, lastName, newPassword, currentPassword) {
-		let data = {
-			firstName: firstName,
-			lastName: lastName,
-			password: newPassword
-		};
-		let authentication = {
-			username: this.currentUser.email,
-			password: currentPassword
-		};
-		let response = await this.axios.patch(this.authenticationUrl, data, {
-			auth: authentication
-		});
-		this.currentUser.update({
-			name: response.data.name,
-			apiKey: response.data.api_key
-		});
-	}
-
-	async deleteUser(password) {
-		// TODO what in case of error
-		await this.axios.delete(this.authenticationUrl, {
-			auth: { username: this.currentUser.email, password: password }
-		});
-		this.currentUser.delete();
-	}
-
-	logOutUser() {
-		this.currentUser.delete();
-	}
+	// let telescopes = await this.telescope.getAll();
+	// let characteristics = await this.characteristic.getAll();
+	// let tags = await this.tag.getAll();
+	// this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+	// this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+	// this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
 
 	parseError(error) {
 		if (error.response) {
 			// The request was made and the server responded with a status code
 			// that falls out of the range of 2xx
-			return error.response.data;
-		} else if (error.request) {
-			// The request was made but no response was received
-			return 'No response received';
+			if (error.response.data.error) {
+				return error.response.data.error;
+			} else {
+				return error.response.data;
+			}
+			
 		} else {
-			// Something happened in setting up the request that triggered an Error
-			return error.message;
+			// The request was made but no response was received
+			// Or something happened in setting up the request that triggered an Error
+			return 'An unknown error happened, please retry or contact the site administrator';
 		}
 	}
 }
