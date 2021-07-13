@@ -38,16 +38,16 @@ export default {
 			user: this.$SVO.user
 		};
 	},
+	computed: {
+		accountName: function() {
+			return this.user.fullName || 'Account';
+		}
+	},
 	methods: {
 		/* Log out the user from the SVO API and redirect to the Authentication view */
 		logOutUser: function() {
 			this.$SVO.user.logOut();
 			this.$router.push({ name: 'Authentication' });
-		}
-	},
-	computed: {
-		accountName: function() {
-			return this.user.fullName || 'Account';
 		}
 	}
 };

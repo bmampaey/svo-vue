@@ -101,7 +101,7 @@ export default {
 				this.datasetList = datasetList.filter(dataset => dataset.metadata && dataset.metadata.estimated_count > 0);
 				this.selectedDatasets = [];
 			} catch (error) {
-				console.debug('TODO updateDatasetList error');
+				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 			this.showOverlay = false;
 		},

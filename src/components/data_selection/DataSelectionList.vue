@@ -78,7 +78,7 @@ export default {
 			try {
 				this.dataSelectionList = await this.$SVO.data_selection.getAll();
 			} catch (error) {
-				console.debug('TODO updateDataSelectionList error');
+				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 			this.showOverlay = false;
 		},

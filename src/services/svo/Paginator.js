@@ -4,8 +4,8 @@ export default class Paginator {
 	static #lastId = 0;
 	#pageNumber = 1;
 
-	constructor(service, searchParams = null, perPage = 10) {
-		this.service = service;
+	constructor(resource, searchParams = null, perPage = 10) {
+		this.resource = resource;
 		this.searchParams = searchParams;
 		this.perPage = perPage;
 		this.totalRows = 0;
@@ -24,7 +24,7 @@ export default class Paginator {
 
 	async loadPage(pageNumber) {
 		this.loading = true;
-		let data = await this.service.getPaginated(this.searchParams, this.perPage, (pageNumber - 1) * this.perPage);
+		let data = await this.resource.getPaginated(this.searchParams, this.perPage, (pageNumber - 1) * this.perPage);
 		this.items = data.objects;
 		this.perPage = data.meta.limit;
 		this.totalRows = data.meta.total_count;

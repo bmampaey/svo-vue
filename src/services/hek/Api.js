@@ -37,4 +37,15 @@ export default class Api {
 			throw Error('Could not retrieve events');
 		}
 	}
+
+	parseError(error) {
+		if (error.response) {
+			// The request was made and the server responded with a status code that falls out of the range of 2xx
+			return error.response.data;
+		} else {
+			// The request was made but no response was received
+			// or something happened in setting up the request that triggered an Error
+			return 'An error happened, please retry or contact the site administrator';
+		}
+	}
 }

@@ -63,9 +63,8 @@ router.beforeEach((to, from, next) => {
 				next({ name: 'Authentication' });
 			}
 		})
-		.catch(error => {
+		.catch(function() {
 			alert('Error contacting the server, please refresh the page or contact the administrator of the website');
-			console.debug(error);
 		});
 });
 

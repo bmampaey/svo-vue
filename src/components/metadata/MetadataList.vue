@@ -116,7 +116,7 @@ export default {
 				this.metadataPaginator.loadPage(1);
 				this.selectedMetadata = [];
 			} catch (error) {
-				console.debug('TODO updateMetadataPaginator error');
+				this.$displayErrorMessage(this.$SVO.parseError(error));
 			}
 		},
 		showMetadataDetailModal: function(selectedRows) {
@@ -148,7 +148,6 @@ export default {
 				},
 				search: this.selectedMetadata.map(m => `(date_beg__lt = ${m.date_end} and date_end__gt = ${m.date_beg})`).join(' or ')
 			});
-			console.debug(this.overlappingDatasetsModalSearchFilter);
 			this.$refs.overlappingDatasetsModal.show();
 		}
 	}

@@ -26,13 +26,11 @@ export default class Resource {
 	}
 
 	async create(data) {
-		console.debug('create', data);
 		let response = await this.axios.post(this.resourceUri, data);
 		return response.data;
 	}
 
 	async update(resourceUri, data) {
-		console.debug('update', data);
 		let response = await this.axios.patch(resourceUri, data);
 		return response.data;
 	}

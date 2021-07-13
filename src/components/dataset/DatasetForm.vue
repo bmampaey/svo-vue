@@ -37,8 +37,7 @@ export default {
 	created: async function() {
 		// Fetch and create the options of the form select in parralel
 		this.showOverlay = true;
-		let [telescope, characteristic, tag] = await Promise.allSettled([this.loadTelescopeOptions(), this.loadCharacteristicOptions(), this.loadTagOptions()]);
-		console.log(telescope, characteristic, tag);
+		await Promise.allSettled([this.loadTelescopeOptions(), this.loadCharacteristicOptions(), this.loadTagOptions()]);
 		this.showOverlay = false;
 	},
 	methods: {
@@ -47,19 +46,29 @@ export default {
 			this.$emit('input', this.searchFilter.deepCopy());
 		},
 		loadTelescopeOptions: async function() {
-			let telescopes = await this.$SVO.telescope.getAll();
-			this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+			try {
+				let telescopes = await this.$SVO.telescope.getAll();
+				this.telescopeOptions = telescopes.map(telescope => ({ value: telescope.name, text: telescope.name })).sort();
+			} catch (error) {
+				this.$displayErrorMessage(this.$SVO.parseError(error));
+			}
 		},
 		loadCharacteristicOptions: async function() {
-			let characteristics = await this.$SVO.characteristic.getAll();
-			this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+			try {
+				let characteristics = await this.$SVO.characteristic.getAll();
+				this.characteristicOptions = characteristics.map(characteristic => ({ value: characteristic.name, text: characteristic.name }));
+			} catch (error) {
+				this.$displayErrorMessage(this.$SVO.parseError(error));
+			}
 		},
 		loadTagOptions: async function() {
-			let tags = await this.$SVO.tag.getAll();
-			this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
-			throw new Error('Tag failed');
+			try {
+				let tags = await this.$SVO.tag.getAll();
+				this.tagOptions = tags.map(tag => ({ value: tag.name, text: tag.name }));
+			} catch (error) {
+				this.$displayErrorMessage(this.$SVO.parseError(error));
+			}
 		}
 	}
-
 };
 </script>

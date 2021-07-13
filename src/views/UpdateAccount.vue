@@ -36,6 +36,11 @@ export default {
 			formSuccess: null
 		};
 	},
+	activated: function() {
+		// Reset the first and last name each time the user comes back to the UpdateAccount vue
+		this.firstName = this.$SVO.user.firstName;
+		this.lastName = this.$SVO.user.lastName;
+	},
 	methods: {
 		updateUser: async function() {
 			this.formError = null;
@@ -52,11 +57,6 @@ export default {
 				}
 			}
 		}
-	},
-	activated: function() {
-		// Reset the first and last name each time the user comes back to the UpdateAccount vue
-		this.firstName = this.$SVO.user.firstName;
-		this.lastName = this.$SVO.user.lastName;
 	}
 };
 </script>

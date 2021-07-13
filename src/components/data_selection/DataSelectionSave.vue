@@ -14,15 +14,12 @@
 					Note: data selections are dynamic, if metadata corresponding to your selection is added, updated or deleted, the selection will be affected
 				</p>
 			</template>
-			<template v-else>
-				Your selection was saved successfully!
-			</template>
+			<template v-else> Your selection was saved successfully, and is available under the menu <b-link :to="{ name: 'DataSelections' }">"Data selections"</b-link> </template>
 		</b-modal>
 	</div>
 </template>
 
 <script>
-
 // TODO add error management in form
 export default {
 	name: 'DataSelectionSave',

@@ -40,11 +40,15 @@ export default class Api {
 	}
 
 	setAuthentication(config) {
+		// If the user is authenticated, set the authorization header
+		// else redirect th euser to the login page and warn that there was a problem
 		if (this.user.isAuthenticated) {
 			config.headers.common['Authorization'] = `ApiKey ${this.user.email}:${this.user.apiKey}`;
 			return config;
+		} else {
+			window.vm.$router.push({ name: 'Authentication' });
+			throw new Error('User is not authenticated');
 		}
-		// TODO howto reject if not user.isAuthenticated
 	}
 
 	parseError(error) {
@@ -59,7 +63,7 @@ export default class Api {
 		} else {
 			// The request was made but no response was received
 			// or something happened in setting up the request that triggered an Error
-			return 'An unknown error happened, please retry or contact the site administrator';
+			return 'An error happened, please retry or contact the site administrator';
 		}
 	}
 }

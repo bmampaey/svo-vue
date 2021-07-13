@@ -30,7 +30,6 @@ export default {
 				await this.$SVO.user.delete(this.password);
 				this.$router.push({ name: 'Authentication' });
 			} catch (error) {
-				console.debug('error', error);
 				if (error.response.status == 401) {
 					this.formError = 'The password is invalid. If you have forgotten your password, please contact the website administrator';
 				} else {
