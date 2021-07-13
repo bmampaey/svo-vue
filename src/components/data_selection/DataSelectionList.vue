@@ -78,7 +78,7 @@ export default {
 			try {
 				this.dataSelectionList = await this.$SVO.data_selection.getAll();
 			} catch (error) {
-				console.log('TODO updateDataSelectionList error');
+				console.debug('TODO updateDataSelectionList error');
 			}
 			this.showOverlay = false;
 		},
@@ -100,7 +100,7 @@ export default {
 				this.$SVO.data_selection.delete(dataSelection.resource_uri);
 				this.dataSelectionList = this.dataSelectionList.filter(v => v.resource_uri != dataSelection.resource_uri);
 			} catch (error) {
-				console.log('TODO deleteDataSelection error');
+				console.debug('TODO deleteDataSelection error');
 			}
 		}
 	}

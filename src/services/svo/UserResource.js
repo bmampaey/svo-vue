@@ -11,8 +11,8 @@ export default class UserResource {
 	#email = null;
 	#apiKey = null;
 
-	constructor(api, resourceUri) {
-		this.api = api;
+	constructor(axios, resourceUri) {
+		this.axios = axios;
 		this.resourceUri = resourceUri;
 	}
 
@@ -77,7 +77,7 @@ export default class UserResource {
 			username: email,
 			password: password
 		};
-		let response = await this.api.axios.get(this.resourceUri, {
+		let response = await this.axios.get(this.resourceUri, {
 			auth: authentication
 		});
 		this.parseResponseData(response.data);
@@ -98,7 +98,7 @@ export default class UserResource {
 			last_name: lastName,
 			password: password
 		};
-		let response = await this.api.axios.post(this.resourceUri, data);
+		let response = await this.axios.post(this.resourceUri, data);
 		this.parseResponseData(response.data);
 		this.email = email;
 	}
@@ -114,7 +114,7 @@ export default class UserResource {
 			username: this.email,
 			password: currentPassword
 		};
-		let response = await this.api.axios.patch(this.resourceUri, data, {
+		let response = await this.axios.patch(this.resourceUri, data, {
 			auth: authentication
 		});
 		this.parseResponseData(response.data);
@@ -125,7 +125,7 @@ export default class UserResource {
 			username: this.email,
 			password: password
 		};
-		await this.api.axios.delete(this.resourceUri, {
+		await this.axios.delete(this.resourceUri, {
 			auth: authentication
 		});
 		this.logOut();

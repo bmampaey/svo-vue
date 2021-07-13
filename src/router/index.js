@@ -65,7 +65,7 @@ router.beforeEach((to, from, next) => {
 		})
 		.catch(error => {
 			alert('Error contacting the server, please refresh the page or contact the administrator of the website');
-			console.log(error);
+			console.debug(error);
 		});
 });
 

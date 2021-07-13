@@ -101,7 +101,7 @@ export default {
 				this.eventPaginator.loadPage(1);
 				this.selectedEvents = [];
 			} catch (error) {
-				console.log('TODO updateEventPaginator error');
+				console.debug('TODO updateEventPaginator error');
 			}
 		},
 		showEventDetailModal: function(selectedRows) {
