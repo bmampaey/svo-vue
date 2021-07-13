@@ -52,7 +52,8 @@ export default {
 		},
 		/* Component to display the Metadata for the displayed dataset */
 		metadataComponent: function() {
-			return metadataComponents[this.dataset.name] || metadataComponents.generic;
+			const component = metadataComponents[this.dataset.name] || metadataComponents['generic'];
+			return () => import(/* webpackChunkName: "[request]" */ '@/components/metadata/' + component);
 		}
 	}
 };
